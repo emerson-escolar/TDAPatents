@@ -166,35 +166,6 @@ class PatentData(object):
 
     def get_merged_data(self, from_year, to_year,
                         do_transform=True, do_log=True, drop_zero=True):
-        # labels = DataLabels()
-        # labels.extra_desc = self.extra_data_desc
-        # labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
-        # if do_transform: labels.transforms_name = "trans"
-        # labels.transforms_name = "merg" + labels.transforms_name
-        # if (do_log):
-        #     labels.transforms_name = "log" + labels.transforms_name
-
-        # # prepare outputs:
-        # ans = pandas.DataFrame()
-        # years_data = np.array([])
-        # p_sizes_all = np.array([])
-        # rgb_colors_all = np.zeros((0,3))
-
-        # # compute:
-        # for year in range(from_year, to_year+1):
-        #     _, data, p_sizes, rgb_colors = self.get_accumulated_data(year, year,
-        #                                                     do_transform=do_transform,
-        #                                                     do_log=do_log,
-        #                                                     drop_zero=drop_zero)
-        #     # append indices with year data
-        #     data.index = data.index.map(lambda x : x + "_y" + str(year))
-
-        #     # append to outputs
-        #     ans = ans.append(data)
-        #     years_data = np.append(years_data, np.repeat(year,data.shape[0]))
-        #     p_sizes_all = np.append(p_sizes_all, p_sizes )
-        #     rgb_colors_all = np.append(rgb_colors_all, rgb_colors, axis=0)
-
         labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year, accum_window=1, window_shift=1, do_transform=do_transform, do_log=do_log, drop_zero=drop_zero)
 
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
