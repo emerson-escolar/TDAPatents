@@ -194,6 +194,9 @@ class PatentData(object):
 
         # compute:
         for year in range(from_year, to_year+1, window_shift):
+            if year + accum_window-1 > to_year:
+                break
+
             _, data, p_sizes, rgb_colors = self.get_accumulated_data(year,
                                                                      year + accum_window-1,
                                                             do_transform=do_transform,
