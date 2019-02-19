@@ -1,6 +1,7 @@
 import pathlib
 import numpy as np
 import kmapper as km
+import seaborn
 
 import mappertools.linkage_mapper as lk
 import mappertools.text_dump as tdump
@@ -92,3 +93,10 @@ class MapperAnalyzer(object):
         tdump.cytoscapejson_dump(graph, str(output_fname),
                                  extra_data, extra_data,
                                  extra_transforms, extra_transforms)
+
+    def do_clustermap(self,cmap="Reds"):
+        output_fname = self.get_main_folder().joinpath(self.get_data_fullname()+ "_cluster.png")
+        g = seaborn.clustermap(self.data, metric=self.metric,
+                               col_cluster=False, yticklabels=True,
+                               cmap=cmap, figsize=(20,40))
+        g.savefig(str(output_fname), dpi=75)
