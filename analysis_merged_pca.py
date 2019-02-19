@@ -106,8 +106,8 @@ def get_parser():
                                                help="accumulate over window, then merge across shifted windows.",
                                                     parents=[common_parser])
     merge_accum_parser.set_defaults(procedure="merge_accumulate")
-    merge_accum_parser.add_argument("--window", "-w", help="window size (default=5)",default=5)
-    merge_accum_parser.add_argument("--shift", "-s", help="window shift (default=5)",default=5)
+    merge_accum_parser.add_argument("--window", "-w", type=int, help="window size (default=5)",default=5)
+    merge_accum_parser.add_argument("--shift", "-s", type=int, help="window shift (default=5)",default=5)
 
     return parser
 
