@@ -1,0 +1,9 @@
+# raw data
+180901_csv
+*.csv
+*.xlsx
+
+# reports
+report*
+*.pdf
+*.png
