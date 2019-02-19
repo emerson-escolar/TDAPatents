@@ -30,6 +30,9 @@ def do_mapper(args, bigdata, verbosity):
         labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year,args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
     elif args.procedure == "merge":
         labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+    elif args.procedure == "merge_accumulate":
+        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year, args.window, args.shift, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+
 
     if is_empty_data(args, data): return
 
@@ -47,7 +50,7 @@ def do_mapper(args, bigdata, verbosity):
     more_data = {'color': rgb_colors, 'p_sizes': list_p_sizes,
                  'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
     more_transforms = {'color': color_averager, 'ave_p_size' : np.mean, 'max_p_size' : np.max}
-    if args.procedure == "merge":
+    if args.procedure == "merge" or args.procedure == "merge_accumulate":
         more_data['ave_year'] = years_data
         more_transforms['ave_year'] = np.mean
         more_data['unique_members'] = [x[:-6] for x in list(data.index)]
@@ -99,7 +102,12 @@ def get_parser():
     merge_parser.set_defaults(procedure="merge")
 
     # MERGE-ACCUMULATE
-    pass
+    merge_accum_parser = subparsers.add_parser("ma",
+                                               help="accumulate over window, then merge across shifted windows.",
+                                                    parents=[common_parser])
+    merge_accum_parser.set_defaults(procedure="merge_accumulate")
+    merge_accum_parser.add_argument("--window", "-w", help="window size (default=5)",default=5)
+    merge_accum_parser.add_argument("--shift", "-s", help="window shift (default=5)",default=5)
 
     return parser
 
