@@ -1,6 +1,7 @@
 import numpy as np
 import sklearn
 import argparse
+import sys
 
 import kmapper as km
 import sklearn.manifold as skm
@@ -59,6 +60,9 @@ def do_mapper(args, bigdata, verbosity):
     # do mapper analysis
     for cub in args.numbers:
         for overlap in args.overlaps:
+            if overlap <= 0 or overlap >= 1:
+                print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
+                continue
             proc.do_analysis(cub, overlap, more_data, more_transforms)
 
 

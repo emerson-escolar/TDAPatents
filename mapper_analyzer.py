@@ -47,24 +47,28 @@ class MapperAnalyzer(object):
     def get_data_fullname(self):
         return "{:s}_{:s}_{:s}".format(self.get_param_name(), self.labels.transforms_name, self.labels.data_name)
 
-    def get_fullname(self, cubes, overlap):
+    def get_fullname(self, cubes, overlap, heuristic=None):
         part1 = self.get_data_fullname()
 
         mapper_choices = "_n{:s}_o{:.2f}_l".format(str(cubes), overlap)
 
+        if heuristic:
+            mapper_choices += heuristic
+
         return part1 + mapper_choices
 
 
-    def do_analysis(self, n_cubes, overlap, more_data, more_transforms):
+    def do_analysis(self, n_cubes, overlap, more_data, more_transforms, heuristic='lastgap'):
         graph = self.mapper.map(self.lens, self.data.values,
-                                clusterer = lk.LinkageMapper(metric=self.metric),
-                                coverer=km.Cover(nr_cubes=n_cubes, overlap_perc=overlap))
+                                clusterer = lk.LinkageMapper(metric=self.metric,
+                                                             heuristic=heuristic),
+                                cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
-        # from main_folder, separate by n_cubes and overlaps
-        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap))
+        # from main_folder, separate by n_cubes and overlaps and heuristic
+        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap)+ "_" + heuristic)
 
         output_folder.mkdir(parents=True, exist_ok=True)
-        fullname = self.get_fullname(n_cubes, overlap)
+        fullname = self.get_fullname(n_cubes, overlap, heuristic)
 
         output_fname = output_folder.joinpath(fullname + ".html")
         self.mapper.visualize(graph, color_function=self.mapper_cf,
