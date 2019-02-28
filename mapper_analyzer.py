@@ -50,10 +50,10 @@ class MapperAnalyzer(object):
     def get_fullname(self, cubes, overlap, heuristic=None):
         part1 = self.get_data_fullname()
 
-        mapper_choices = "_n{:s}_o{:.2f}_l".format(str(cubes), overlap)
+        mapper_choices = "_n{:s}_o{:.2f}".format(str(cubes), overlap)
 
         if heuristic:
-            mapper_choices += heuristic
+            mapper_choices += ("_" + heuristic)
 
         return part1 + mapper_choices
 
