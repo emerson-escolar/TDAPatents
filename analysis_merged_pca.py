@@ -63,7 +63,7 @@ def do_mapper(args, bigdata, verbosity):
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            proc.do_analysis(cub, overlap, more_data, more_transforms)
+            proc.do_analysis(cub, overlap, more_data, more_transforms, args.heuristic)
 
 
 
@@ -80,6 +80,8 @@ def get_common_parser():
     common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
 
     common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
+
+    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap'])
 
     common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
     common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
@@ -120,6 +122,7 @@ def main():
     parser = get_parser()
     args = parser.parse_args()
 
+    print(args.heuristic)
     if args.procedure == None:
         parser.print_help()
         exit()

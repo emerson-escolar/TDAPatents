@@ -58,7 +58,7 @@ class MapperAnalyzer(object):
         return part1 + mapper_choices
 
 
-    def do_analysis(self, n_cubes, overlap, more_data, more_transforms, heuristic='lastgap'):
+    def do_analysis(self, n_cubes, overlap, more_data, more_transforms, heuristic='firstgap'):
         graph = self.mapper.map(self.lens, self.data.values,
                                 clusterer = lk.LinkageMapper(metric=self.metric,
                                                              heuristic=heuristic),
