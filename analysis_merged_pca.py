@@ -40,7 +40,7 @@ def do_mapper(args, bigdata, verbosity):
     # prepare mapper data and lens
     proc = MapperAnalyzer(data, cf,
                           labels=labels, lens= None, lens_name="pca2d", metric=args.metric,
-                          verbosity=verbosity)
+                          verbose=verbosity)
     proc.lens = skd.PCA(n_components=2).fit_transform(data)
 
     # do clustermap
@@ -81,7 +81,7 @@ def get_common_parser():
 
     common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
 
-    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap'])
+    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
 
     common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
     common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)

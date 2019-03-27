@@ -5,11 +5,12 @@ import seaborn
 
 import mappertools.linkage_mapper as lk
 import mappertools.text_dump as tdump
+import mappertools.covers as cvs
 
 
 class MapperAnalyzer(object):
     def __init__(self, data, mapper_cf, labels, lens, lens_name,
-                 metric, verbosity=0):
+                 metric, verbose=0):
         # data is pandas dataframe
         self.data = data
         self.mapper_cf = mapper_cf
@@ -19,7 +20,8 @@ class MapperAnalyzer(object):
         self.labels = labels
 
         self.metric = metric
-        self.mapper = km.KeplerMapper(verbose=verbosity)
+        self.mapper = km.KeplerMapper(verbose=verbose)
+        self.verbose = verbose
 
         ## Determine main output folder below:
         cur_path = pathlib.Path.cwd()
@@ -104,3 +106,4 @@ class MapperAnalyzer(object):
                                col_cluster=False, yticklabels=True,
                                cmap=cmap, figsize=(20,40))
         g.savefig(str(output_fname), dpi=75)
+        g.fig.clear()
