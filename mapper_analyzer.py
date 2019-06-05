@@ -63,7 +63,8 @@ class MapperAnalyzer(object):
     def do_analysis(self, n_cubes, overlap, more_data, more_transforms, heuristic='firstgap'):
         graph = self.mapper.map(self.lens, self.data.values,
                                 clusterer = lk.LinkageMapper(metric=self.metric,
-                                                             heuristic=heuristic),
+                                                             heuristic=heuristic,
+                                                             verbose=self.verbose),
                                 cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
         # from main_folder, separate by n_cubes and overlaps and heuristic
@@ -94,8 +95,8 @@ class MapperAnalyzer(object):
         extra_data = {'members': list(self.data.index)}
         extra_transforms = {}
 
-        more_data.update({col : list(self.data.loc[:,col]) for col in self.data.columns})
-        more_transforms.update({key: np.mean for key in extra_data})
+        # stuff = {col : list(self.data.loc[:,col]) for col in self.data.columns}
+        # {key: np.mean for key in stuff}
 
         extra_data.update(more_data)
         extra_transforms.update(more_transforms)
