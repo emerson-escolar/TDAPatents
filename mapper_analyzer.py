@@ -79,26 +79,30 @@ class MapperAnalyzer(object):
                               custom_tooltips=np.array(self.data.index))
 
 
-        output_fname = output_folder.joinpath(fullname + ".txt")
-        ofile = open(str(output_fname), 'w')
-        tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
-        ofile.close()
+        # output_fname = output_folder.joinpath(fullname + ".txt")
+        # ofile = open(str(output_fname), 'w')
+        # tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
+        # ofile.close()
 
-        output_fname = output_folder.joinpath(fullname+"clus_ave.txt")
-        ofile = open(str(output_fname), 'w')
-        tdump.kmapper_dump_cluster_averages(self.data, graph, ofile)
-        ofile.close()
-
+        # output_fname = output_folder.joinpath(fullname+"clus_ave.txt")
+        # ofile = open(str(output_fname), 'w')
+        # tdump.kmapper_dump_cluster_averages(self.data, graph, ofile)
+        # ofile.close()
 
         output_fname = output_folder.joinpath(fullname + ".cyjs")
+
         extra_data = {'members': list(self.data.index)}
         extra_transforms = {}
+
+        more_data.update({col : list(self.data.loc[:,col]) for col in self.data.columns})
+        more_transforms.update({key: np.mean for key in extra_data})
+
         extra_data.update(more_data)
         extra_transforms.update(more_transforms)
 
         tdump.cytoscapejson_dump(graph, str(output_fname),
                                  extra_data, extra_data,
-                                 extra_transforms, extra_transforms)
+                                 extra_transforms, extra_transforms, compute_flares=True)
 
     def do_clustermap(self,cmap="Reds"):
         output_fname = self.get_main_folder().joinpath(self.get_data_fullname()+ "_cluster.png")
