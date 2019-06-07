@@ -6,15 +6,18 @@ import seaborn
 import mappertools.linkage_mapper as lk
 import mappertools.text_dump as tdump
 import mappertools.covers as cvs
+import mappertools.features.flare_balls as flare_balls
 
 import networkx as nx
 
 
 class MapperAnalyzer(object):
-    def __init__(self, data, mapper_cf, labels, lens, lens_name,
+    def __init__(self, data, unique_members,
+                 mapper_cf, labels, lens, lens_name,
                  metric, verbose=0):
         # data is pandas dataframe
         self.data = data
+        self.unique_members = unique_members
         self.mapper_cf = mapper_cf
         self.lens = lens
 
@@ -111,6 +114,11 @@ class MapperAnalyzer(object):
         output_fname = output_folder.joinpath(fullname + ".gpickle")
         nx.write_gpickle(dataed_graph, output_fname)
 
+        output_fname = output_folder.joinpath(fullname + "_flare_stats.txt")
+        flare_k = flare_balls.compute_all_summary(dataed_graph, self.unique_members)
+        flare_k.to_csv(output_fname)
+
+        return
 
 
     def do_clustermap(self,cmap="Reds"):

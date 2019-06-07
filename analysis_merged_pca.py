@@ -37,8 +37,9 @@ def do_mapper(args, bigdata, verbosity):
 
     if is_empty_data(args, data): return
 
+    firms = list(bigdata.translator.values())
     # prepare mapper data and lens
-    proc = MapperAnalyzer(data, cf,
+    proc = MapperAnalyzer(data, firms, cf,
                           labels=labels, lens= None, lens_name="pca2d", metric=args.metric,
                           verbose=verbosity)
     proc.lens = skd.PCA(n_components=2).fit_transform(data)
@@ -64,6 +65,7 @@ def do_mapper(args, bigdata, verbosity):
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
             proc.do_analysis(cub, overlap, more_data, more_transforms, args.heuristic)
+
 
 
 

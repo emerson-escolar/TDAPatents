@@ -42,6 +42,7 @@ class PatentData(object):
                                                                            translator_func)
 
         if patent_class_translator_fname:
+            raise NotImplementedError("patent class translator not implemented")
             self.patent_class_translator = PatentData.generate_translator(patent_class_translator_fname)
         else:
             self.patent_class_translator = None
