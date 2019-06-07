@@ -7,6 +7,8 @@ import mappertools.linkage_mapper as lk
 import mappertools.text_dump as tdump
 import mappertools.covers as cvs
 
+import networkx as nx
+
 
 class MapperAnalyzer(object):
     def __init__(self, data, mapper_cf, labels, lens, lens_name,
@@ -101,9 +103,15 @@ class MapperAnalyzer(object):
         extra_data.update(more_data)
         extra_transforms.update(more_transforms)
 
-        tdump.cytoscapejson_dump(graph, str(output_fname),
-                                 extra_data, extra_data,
-                                 extra_transforms, extra_transforms, compute_flares=True)
+        dataed_graph = tdump.cytoscapejson_dump(graph, str(output_fname),
+                                                extra_data, extra_data,
+                                                extra_transforms, extra_transforms,
+                                                compute_flares=True)
+
+        output_fname = output_folder.joinpath(fullname + ".gpickle")
+        nx.write_gpickle(dataed_graph, output_fname)
+
+
 
     def do_clustermap(self,cmap="Reds"):
         output_fname = self.get_main_folder().joinpath(self.get_data_fullname()+ "_cluster.png")
