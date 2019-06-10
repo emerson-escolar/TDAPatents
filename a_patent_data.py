@@ -28,6 +28,10 @@ class DataLabels(object):
 
 
 class PatentData(object):
+    """
+    Class to handle input.
+    """
+
     def __init__(self, extra_data_desc,
                  patent_folder_name, patent_fname_format,
                  cosdis_folder_name, cosdis_fname_format,

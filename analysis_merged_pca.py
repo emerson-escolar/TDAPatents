@@ -7,66 +7,9 @@ import kmapper as km
 import sklearn.manifold as skm
 import sklearn.decomposition as skd
 
-from patent_data import PatentData
-from mapper_analyzer import MapperAnalyzer
-
-
-def color_averager(list_of_triples):
-    ans = np.mean(np.array(list_of_triples), axis=0)
-    return "rgb({:d},{:d},{:d})".format(int(ans[0]),int(ans[1]),int(ans[2]))
-
-
-def is_empty_data(args,data):
-    if (data.shape[0] == 0):
-        print("Warning: year {:d} to {:d} has no nonzero data! Skipping..".format(args.from_year,args.to_year))
-        return True
-    if (data.shape[0] == 1):
-        print("Warning: year {:d} to {:d} has only one nonzero firm data! Skipping..".format(args.from_year,args.to_year))
-        return True
-    return False
-
-
-def do_mapper(args, bigdata, verbosity):
-    if args.procedure == "accumulate":
-        labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year,args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
-    elif args.procedure == "merge":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
-    elif args.procedure == "merge_accumulate":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year, args.window, args.shift, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
-
-
-    if is_empty_data(args, data): return
-
-    firms = list(bigdata.translator.values())
-    # prepare mapper data and lens
-    proc = MapperAnalyzer(data, firms, cf,
-                          labels=labels, lens= None, lens_name="pca2d", metric=args.metric,
-                          verbose=verbosity)
-    proc.lens = skd.PCA(n_components=2).fit_transform(data)
-
-    # do clustermap
-    proc.do_clustermap()
-
-    # prepare additional data
-    list_p_sizes = list(cf.flatten())
-    more_data = {'color': rgb_colors, 'p_sizes': list_p_sizes,
-                 'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
-    more_transforms = {'color': color_averager, 'ave_p_size' : np.mean, 'max_p_size' : np.max}
-    if args.procedure == "merge" or args.procedure == "merge_accumulate":
-        more_data['ave_year'] = years_data
-        more_transforms['ave_year'] = np.mean
-        more_data['unique_members'] = [x[:-6] for x in list(data.index)]
-        more_transforms['unique_members'] = (lambda x:list(set(x)))
-
-    # do mapper analysis
-    for cub in args.numbers:
-        for overlap in args.overlaps:
-            if overlap <= 0 or overlap >= 1:
-                print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
-                continue
-            proc.do_analysis(cub, overlap,  args.heuristic, more_data, more_transforms)
-
-
+from a_patent_data import PatentData
+from a_mapper_analyzer import MapperAnalyzer
+from a_utilities import color_averager, is_empty_data
 
 
 def get_common_parser():
@@ -161,6 +104,49 @@ def main():
                              patent_class_translator_fname=class_translator)
 
     do_mapper(args, bigdata, verbosity=(2 if args.verbose else 0))
+
+
+
+
+def do_mapper(args, bigdata, verbosity):
+    if args.procedure == "accumulate":
+        labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year,args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+    elif args.procedure == "merge":
+        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+    elif args.procedure == "merge_accumulate":
+        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year, args.window, args.shift, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+
+    if is_empty_data(data, args.from_year, args.to_year): return
+
+    firms = list(bigdata.translator.values())
+    # prepare mapper data and lens
+    proc = MapperAnalyzer(data, firms, cf,
+                          labels=labels, lens= None, lens_name="pca2d", metric=args.metric,
+                          verbose=verbosity)
+    proc.lens = skd.PCA(n_components=2).fit_transform(data)
+
+    # do clustermap
+    proc.do_clustermap()
+
+    # prepare additional data
+    list_p_sizes = list(cf.flatten())
+    more_data = {'color': rgb_colors, 'p_sizes': list_p_sizes,
+                 'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
+    more_transforms = {'color': color_averager, 'ave_p_size' : np.mean, 'max_p_size' : np.max}
+    if args.procedure == "merge" or args.procedure == "merge_accumulate":
+        more_data['ave_year'] = years_data
+        more_transforms['ave_year'] = np.mean
+        more_data['unique_members'] = [x[:-6] for x in list(data.index)]
+        more_transforms['unique_members'] = (lambda x:list(set(x)))
+
+    # do mapper analysis
+    for cub in args.numbers:
+        for overlap in args.overlaps:
+            if overlap <= 0 or overlap >= 1:
+                print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
+                continue
+            proc.do_analysis(cub, overlap,  args.heuristic, more_data, more_transforms)
+
 
 
 

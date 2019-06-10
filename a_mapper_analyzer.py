@@ -12,6 +12,10 @@ import networkx as nx
 
 
 class MapperAnalyzer(object):
+    """
+    Class to handle logic of managing parameter choices and outputs.
+    """
+
     def __init__(self, data, unique_members,
                  mapper_cf, labels, lens, lens_name,
                  metric, verbose=0):
@@ -132,6 +136,7 @@ class MapperAnalyzer(object):
             flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members)
             flare_k.to_csv(output_fname)
         return
+
 
     def do_analysis(self, n_cubes, overlap, heuristic, more_data, more_transforms):
         graph, output_folder, fullname = self.do_basic_analysis(n_cubes,overlap,heuristic)
