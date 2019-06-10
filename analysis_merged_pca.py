@@ -11,6 +11,8 @@ from a_patent_data import PatentData
 from a_mapper_analyzer import MapperAnalyzer
 from a_utilities import color_averager, is_empty_data
 
+import mappertools.text_dump as tdump
+
 
 def get_common_parser():
     common_parser = argparse.ArgumentParser(add_help = False)
@@ -143,12 +145,12 @@ def do_mapper(args, bigdata, verbosity):
         more_transforms['unique_members'] = (lambda x:list(set(x)))
 
     # do mapper analysis
-    for cub in args.numbers:
+    for n_cubes in args.numbers:
         for overlap in args.overlaps:
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            graph = proc.do_basic_analysis(cub, overlap, args.heuristic)
+            graph = proc.do_basic_analysis(n_cubes, overlap, args.heuristic)
 
             nxgraph = tdump.kmapper_to_nxmapper(graph,
                                                 more_data, more_data,
@@ -156,8 +158,8 @@ def do_mapper(args, bigdata, verbosity):
                                                 counts=True, weights=True,
                                                 flares=True)
 
-            output_folder = proc.get_output_folder(n_cubes,overlap,heuristic)
-            fullname = proc.get_fullname(n_cubes, overlap, heuristic)
+            output_folder = proc.get_output_folder(n_cubes, overlap, args.heuristic)
+            fullname = proc.get_fullname(n_cubes, overlap, args.heuristic)
 
             proc.do_advanced_outputs(nxgraph, output_folder, fullname)
 
