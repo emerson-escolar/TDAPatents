@@ -104,7 +104,6 @@ class PatentData(object):
         if self.patent_class_translator:
             raw_data =raw_data.rename(columns = self.patent_class_translator)
 
-
         # drop zeros?
         orig_num_firms = raw_data.shape[0]
         if drop_zero:

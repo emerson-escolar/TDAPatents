@@ -128,7 +128,8 @@ def do_mapper(args, bigdata, verbosity):
     proc.lens = skd.PCA(n_components=2).fit_transform(data)
 
     # do clustermap
-    proc.do_clustermap()
+    if False:
+        proc.do_clustermap()
 
     # prepare additional data
     list_p_sizes = list(cf.flatten())
@@ -156,12 +157,17 @@ def do_mapper(args, bigdata, verbosity):
                                                 more_data, more_data,
                                                 more_transforms, more_transforms,
                                                 counts=True, weights=True,
-                                                flares=True)
-
+                                                flares=False)
             output_folder = proc.get_output_folder(n_cubes, overlap, args.heuristic)
             fullname = proc.get_fullname(n_cubes, overlap, args.heuristic)
 
+            if False:
+                nx.write_gpickle(nxgraph, output_folder.joinpath(fullname + ".gpickle"))
+
             proc.do_advanced_outputs(nxgraph, output_folder, fullname)
+
+
+
 
 
 
