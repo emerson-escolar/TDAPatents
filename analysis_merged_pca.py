@@ -64,7 +64,7 @@ def do_mapper(args, bigdata, verbosity):
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            proc.do_analysis(cub, overlap, more_data, more_transforms, args.heuristic)
+            proc.do_analysis(cub, overlap,  args.heuristic, more_data, more_transforms)
 
 
 

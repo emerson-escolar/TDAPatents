@@ -52,39 +52,63 @@ class MapperAnalyzer(object):
         return metric_lens
 
     def get_data_fullname(self):
-        return "{:s}_{:s}_{:s}".format(self.get_param_name(), self.labels.transforms_name, self.labels.data_name)
+        return "{:s}_{:s}_{:s}".format(self.get_param_name(),
+                                       self.labels.transforms_name,
+                                       self.labels.data_name)
+
 
     def get_fullname(self, cubes, overlap, heuristic=None):
         part1 = self.get_data_fullname()
 
         mapper_choices = "_n{:s}_o{:.2f}".format(str(cubes), overlap)
-
-        if heuristic:
-            mapper_choices += ("_" + heuristic)
+        if heuristic: mapper_choices += ("_" + heuristic)
 
         return part1 + mapper_choices
 
 
-    def do_analysis(self, n_cubes, overlap, more_data, more_transforms, heuristic='firstgap'):
+    def get_output_folder(self, n_cubes, overlap, heuristic):
+        # from main_folder, separate by n_cubes and overlaps and heuristic
+        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap)+ "_" + heuristic)
+        output_folder.mkdir(parents=True, exist_ok=True)
+        return output_folder
+
+
+    def do_basic_analysis(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
         graph = self.mapper.map(self.lens, self.data.values,
                                 clusterer = lk.LinkageMapper(metric=self.metric,
                                                              heuristic=heuristic,
                                                              verbose=self.verbose),
                                 cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
-        # from main_folder, separate by n_cubes and overlaps and heuristic
-        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap)+ "_" + heuristic)
-
-        output_folder.mkdir(parents=True, exist_ok=True)
+        output_folder = self.get_output_folder(n_cubes,overlap,heuristic)
         fullname = self.get_fullname(n_cubes, overlap, heuristic)
 
-        output_fname = output_folder.joinpath(fullname + ".html")
-        self.mapper.visualize(graph, color_function=self.mapper_cf,
-                              path_html = str(output_fname),
-                              title = fullname,
-                              custom_tooltips=np.array(self.data.index))
+        if html_output:
+            output_fname = output_folder.joinpath(fullname + ".html")
+            self.mapper.visualize(graph, color_function=self.mapper_cf,
+                                  path_html = str(output_fname),
+                                  title = fullname,
+                                  custom_tooltips=np.array(self.data.index))
+        return graph, output_folder, fullname
 
 
+    def prepare_nxgraph(self, graph, more_data, more_transforms):
+        extra_data = {'members': list(self.data.index)}
+        extra_transforms = {}
+        # stuff = {col : list(self.data.loc[:,col]) for col in self.data.columns}
+        # {key: np.mean for key in stuff}
+        extra_data.update(more_data)
+        extra_transforms.update(more_transforms)
+
+        nxgraph = tdump.kmapper_to_nxmapper(graph,
+                                            extra_data, extra_data,
+                                            extra_transforms, extra_transforms,
+                                            counts=True, weights=True,
+                                            flares=True)
+        return nxgraph
+    
+
+    def do_advanced_outputs(self, nxgraph, output_folder, fullname):
         # output_fname = output_folder.joinpath(fullname + ".txt")
         # ofile = open(str(output_fname), 'w')
         # tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
@@ -95,30 +119,26 @@ class MapperAnalyzer(object):
         # tdump.kmapper_dump_cluster_averages(self.data, graph, ofile)
         # ofile.close()
 
-        output_fname = output_folder.joinpath(fullname + ".cyjs")
+        if True:
+            output_fname = output_folder.joinpath(fullname + ".cyjs")
+            tdump.cytoscapejson_dump(nxgraph, output_fname)
 
-        extra_data = {'members': list(self.data.index)}
-        extra_transforms = {}
+        if True:
+            output_fname = output_folder.joinpath(fullname + ".gpickle")
+            nx.write_gpickle(nxgraph, output_fname)
 
-        # stuff = {col : list(self.data.loc[:,col]) for col in self.data.columns}
-        # {key: np.mean for key in stuff}
-
-        extra_data.update(more_data)
-        extra_transforms.update(more_transforms)
-
-        dataed_graph = tdump.cytoscapejson_dump(graph, str(output_fname),
-                                                extra_data, extra_data,
-                                                extra_transforms, extra_transforms,
-                                                compute_flares=True)
-
-        output_fname = output_folder.joinpath(fullname + ".gpickle")
-        nx.write_gpickle(dataed_graph, output_fname)
-
-        output_fname = output_folder.joinpath(fullname + "_flare_stats.txt")
-        flare_k = flare_balls.compute_all_summary(dataed_graph, self.unique_members)
-        flare_k.to_csv(output_fname)
-
+        if True:
+            output_fname = output_folder.joinpath(fullname + "_flare_stats.txt")
+            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members)
+            flare_k.to_csv(output_fname)
         return
+
+    def do_analysis(self, n_cubes, overlap, heuristic, more_data, more_transforms):
+        graph, output_folder, fullname = self.do_basic_analysis(n_cubes,overlap,heuristic)
+
+        nxgraph = self.prepare_nxgraph(graph, more_data, more_transforms)
+        self.do_advanced_outputs(nxgraph, output_folder, fullname)
+
 
 
     def do_clustermap(self,cmap="Reds"):
