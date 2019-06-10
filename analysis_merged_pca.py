@@ -130,9 +130,12 @@ def do_mapper(args, bigdata, verbosity):
 
     # prepare additional data
     list_p_sizes = list(cf.flatten())
-    more_data = {'color': rgb_colors, 'p_sizes': list_p_sizes,
+    more_data = {'members': list(proc.data.index),
+                 'color': rgb_colors, 'p_sizes': list_p_sizes,
                  'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
-    more_transforms = {'color': color_averager, 'ave_p_size' : np.mean, 'max_p_size' : np.max}
+    more_transforms = {'color': color_averager,
+                       'ave_p_size' : np.mean, 'max_p_size' : np.max}
+
     if args.procedure == "merge" or args.procedure == "merge_accumulate":
         more_data['ave_year'] = years_data
         more_transforms['ave_year'] = np.mean
@@ -145,8 +148,18 @@ def do_mapper(args, bigdata, verbosity):
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            proc.do_analysis(cub, overlap,  args.heuristic, more_data, more_transforms)
+            graph = proc.do_basic_analysis(cub, overlap, args.heuristic)
 
+            nxgraph = tdump.kmapper_to_nxmapper(graph,
+                                                more_data, more_data,
+                                                more_transforms, more_transforms,
+                                                counts=True, weights=True,
+                                                flares=True)
+
+            output_folder = proc.get_output_folder(n_cubes,overlap,heuristic)
+            fullname = proc.get_fullname(n_cubes, overlap, heuristic)
+
+            proc.do_advanced_outputs(nxgraph, output_folder, fullname)
 
 
 

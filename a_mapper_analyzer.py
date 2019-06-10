@@ -93,24 +93,8 @@ class MapperAnalyzer(object):
                                   path_html = str(output_fname),
                                   title = fullname,
                                   custom_tooltips=np.array(self.data.index))
-        return graph, output_folder, fullname
+        return graph
 
-
-    def prepare_nxgraph(self, graph, more_data, more_transforms):
-        extra_data = {'members': list(self.data.index)}
-        extra_transforms = {}
-        # stuff = {col : list(self.data.loc[:,col]) for col in self.data.columns}
-        # {key: np.mean for key in stuff}
-        extra_data.update(more_data)
-        extra_transforms.update(more_transforms)
-
-        nxgraph = tdump.kmapper_to_nxmapper(graph,
-                                            extra_data, extra_data,
-                                            extra_transforms, extra_transforms,
-                                            counts=True, weights=True,
-                                            flares=True)
-        return nxgraph
-    
 
     def do_advanced_outputs(self, nxgraph, output_folder, fullname):
         # output_fname = output_folder.joinpath(fullname + ".txt")
@@ -138,11 +122,7 @@ class MapperAnalyzer(object):
         return
 
 
-    def do_analysis(self, n_cubes, overlap, heuristic, more_data, more_transforms):
-        graph, output_folder, fullname = self.do_basic_analysis(n_cubes,overlap,heuristic)
 
-        nxgraph = self.prepare_nxgraph(graph, more_data, more_transforms)
-        self.do_advanced_outputs(nxgraph, output_folder, fullname)
 
 
 
