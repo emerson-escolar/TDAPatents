@@ -55,7 +55,7 @@ def summarize_stat_fixed_overlap(overlap, statistic='type'):
 
     firms = get_firms()
     data = pandas.DataFrame(index=firms)
-    for flare_file in folder.glob("*/*flare_stats.txt"):
+    for flare_file in folder.glob("*/*flare_stats.csv"):
         print(flare_file.name)
         match = pattern.match(flare_file.name)
         if match:

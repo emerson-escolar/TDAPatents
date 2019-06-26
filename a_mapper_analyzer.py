@@ -112,7 +112,7 @@ class MapperAnalyzer(object):
             tdump.cytoscapejson_dump(nxgraph, output_fname)
 
         if True:
-            output_fname = output_folder.joinpath(fullname + "_flare_stats.txt")
+            output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
             flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, verbose=self.verbose)
             flare_k.to_csv(output_fname)
         return
