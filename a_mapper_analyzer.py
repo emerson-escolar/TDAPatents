@@ -96,7 +96,7 @@ class MapperAnalyzer(object):
         return graph
 
 
-    def do_advanced_outputs(self, nxgraph, output_folder, fullname):
+    def do_advanced_outputs(self, nxgraph, output_folder, fullname, query_data='unique_members'):
         # output_fname = output_folder.joinpath(fullname + ".txt")
         # ofile = open(str(output_fname), 'w')
         # tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
@@ -113,7 +113,7 @@ class MapperAnalyzer(object):
 
         if True:
             output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
-            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, verbose=self.verbose)
+            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, query_data=query_data, verbose=self.verbose)
             flare_k.to_csv(output_fname)
         return
 

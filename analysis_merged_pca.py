@@ -139,11 +139,14 @@ def do_mapper(args, bigdata, verbosity):
     more_transforms = {'color': color_averager,
                        'ave_p_size' : np.mean, 'max_p_size' : np.max}
 
+    query_data = 'members'
     if args.procedure == "merge" or args.procedure == "merge_accumulate":
         more_data['ave_year'] = years_data
         more_transforms['ave_year'] = np.mean
         more_data['unique_members'] = [x[:-6] for x in list(data.index)]
         more_transforms['unique_members'] = (lambda x:list(set(x)))
+
+        query_data = 'unique_members'
 
     # do mapper analysis
     for n_cubes in args.numbers:
@@ -164,7 +167,7 @@ def do_mapper(args, bigdata, verbosity):
             if False:
                 nx.write_gpickle(nxgraph, output_folder.joinpath(fullname + ".gpickle"))
 
-            proc.do_advanced_outputs(nxgraph, output_folder, fullname)
+            proc.do_advanced_outputs(nxgraph, output_folder, fullname, query_data)
 
 
 
