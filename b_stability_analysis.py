@@ -61,7 +61,6 @@ def summarize_stat_fixed_overlap(overlap, statistic='type'):
         if match:
             n = int(match.group(1))
             raw = pandas.read_csv(str(flare_file),index_col=0).loc[:,statistic]
-            print(raw)
             data[n] = raw
 
     data = data.reindex(sorted(data.columns), axis=1)
@@ -78,4 +77,4 @@ if __name__ == "__main__":
 
     # summarize_stat_fixed_number(20)
     stab = summarize_stat_fixed_overlap(50)
-    stab.to_csv(str(folder.joinpath("stab_o.50.csv")))
+    stab.to_csv(str(folder.joinpath("stab_cor_pca2d_logmerg_m0_5wdw1shft_o.50.csv")))
