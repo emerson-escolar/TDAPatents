@@ -49,7 +49,7 @@ def summarize_stat_fixed_overlap(overlap, statistic='type'):
     part1 = 'cor_pca2d_logmerg_m0_5wdw1shft_y1976_to_y2005_'
     part2 = 'n([0-9]+)_'
     part3 = 'o0\.' + str(overlap) + '_'
-    part4 = 'firstgap_flare_stats\.txt'
+    part4 = 'firstgap_flare_stats\.csv'
 
     pattern = re.compile(part1+part2+part3+part4)
 
@@ -61,6 +61,7 @@ def summarize_stat_fixed_overlap(overlap, statistic='type'):
         if match:
             n = int(match.group(1))
             raw = pandas.read_csv(str(flare_file),index_col=0).loc[:,statistic]
+            print(raw)
             data[n] = raw
 
     data = data.reindex(sorted(data.columns), axis=1)
@@ -72,8 +73,8 @@ def summarize_stat_fixed_overlap(overlap, statistic='type'):
 
 
 if __name__ == "__main__":
-    # summarize_stat_fixed_number(20, 'k_C')
-    # summarize_stat_fixed_overlap(50, 'k_C')
+    # summarize_stat_fixed_number(20, 'k_index')
+    # summarize_stat_fixed_overlap(50, 'k_index')
 
     # summarize_stat_fixed_number(20)
     stab = summarize_stat_fixed_overlap(50)
