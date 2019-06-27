@@ -113,7 +113,7 @@ class MapperAnalyzer(object):
 
         if True:
             output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
-            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, query_data=query_data, verbose=self.verbose)
+            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, query_data=query_data, verbose=self.verbose, keep_missing=True)
             flare_k.to_csv(output_fname)
         return
 

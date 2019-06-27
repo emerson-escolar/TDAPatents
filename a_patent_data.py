@@ -2,6 +2,8 @@ import pathlib
 import numpy as np
 import pandas
 
+import collections
+
 # This file contains functions to facilitate extraction of data from data package 180901_csv.
 # Format of data is assumed to be as given in those files.
 # Using files with different format may (most likely) cause these functions to fail spectacularly.
@@ -64,7 +66,7 @@ class PatentData(object):
         ## industry column is currently ignored.
 
         dict_data = pandas.read_csv(fname,dtype=str).values
-        translator = {func(item[0]) : item[1].replace(" ", "_") for item in dict_data}
+        translator = collections.OrderedDict([(func(item[0]), item[1].replace(" ", "_")) for item in dict_data])
 
         raw_colors = {}
         for item in dict_data:
