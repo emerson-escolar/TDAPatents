@@ -95,7 +95,7 @@ class PatentData(object):
         return 1-C
 
 
-    def get_data(self, year, do_transform=True, do_log=True, drop_zero=True):
+    def get_data(self, year, do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc + "_y{:d}".format(year)
@@ -129,6 +129,12 @@ class PatentData(object):
             data = np.log(data + 1)
             p_sizes = np.log(p_sizes + 1)
 
+        # sum to one?
+        # if sum_to_one:
+        if sum_to_one:
+            labels.transforms_name = "sumone" + labels.transforms_name
+            data = data.div(data.sum(axis=1).replace(to_replace=0, value=1), axis=0)
+
         # rgb colors
         rgb_colors = [self.raw_colors[x] for x in list(data.index)]
 
@@ -142,7 +148,7 @@ class PatentData(object):
         return labels, data, p_sizes, rgb_colors
 
     def get_accumulated_data(self, from_year, to_year,
-                             do_transform=True, do_log=True, drop_zero=True):
+                             do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year,to_year)
@@ -153,8 +159,9 @@ class PatentData(object):
         ans = pandas.DataFrame()
         for year in range(from_year, to_year+1):
             # do not take log before summing!
+            # also do not normalize to one!
             _, data, _, _ = self.get_data(year, do_transform=do_transform,
-                                          do_log=False, drop_zero=drop_zero)
+                                          do_log=False, sum_to_one=False, drop_zero=drop_zero)
             ans = ans.add(data,axis='index',fill_value=0)
 
         p_sizes = PatentData.extract_sums(ans)
@@ -162,6 +169,10 @@ class PatentData(object):
             labels.transforms_name = "log" + labels.transforms_name
             ans = np.log(ans + 1)
             p_sizes = np.log(p_sizes + 1)
+
+        if sum_to_one:
+            labels.transforms_name = "sumone" + labels.transforms_name
+            ans = ans.div(ans.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
         rgb_colors = [self.raw_colors[x] for x in list(ans.index)]
 
@@ -171,15 +182,16 @@ class PatentData(object):
 
 
     def get_merged_data(self, from_year, to_year,
-                        do_transform=True, do_log=True, drop_zero=True):
-        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year, accum_window=1, window_shift=1, do_transform=do_transform, do_log=do_log, drop_zero=drop_zero)
+                        do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
+        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year, accum_window=1, window_shift=1, do_transform=do_transform, do_log=do_log, sum_to_one=sum_to_one, drop_zero=drop_zero)
 
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
         return labels, ans, p_sizes_all, years_data, rgb_colors_all
 
     def get_merged_accumulated_data(self, from_year, to_year, accum_window, window_shift,
-                                    do_transform=True, do_log=True, drop_zero=True):
+                                    do_transform=True, do_log=True, sum_to_one=False,
+                                    drop_zero=True):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc
@@ -191,6 +203,8 @@ class PatentData(object):
         labels.transforms_name = "merg" + labels.transforms_name
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
+        if sum_to_one:
+            labels.transforms_name = "sumone" + labels.transforms_name
 
         # prepare outputs:
         ans = pandas.DataFrame()
@@ -205,9 +219,10 @@ class PatentData(object):
 
             _, data, p_sizes, rgb_colors = self.get_accumulated_data(year,
                                                                      year + accum_window-1,
-                                                            do_transform=do_transform,
-                                                            do_log=do_log,
-                                                            drop_zero=drop_zero)
+                                                                     do_transform=do_transform,
+                                                                     do_log=do_log,
+                                                                     sum_to_one=sum_to_one,
+                                                                     drop_zero=drop_zero)
             # append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
 

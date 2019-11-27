@@ -7,6 +7,8 @@ import kmapper as km
 import sklearn.manifold as skm
 import sklearn.decomposition as skd
 
+import scipy.spatial.distance
+
 from a_patent_data import PatentData
 from a_mapper_analyzer import MapperAnalyzer
 from a_utilities import color_averager, is_empty_data
@@ -19,10 +21,14 @@ def get_common_parser():
     common_parser.add_argument("--verbose", "-v", action="store_true", help="verbose.")
 
     common_parser.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
+
     common_parser.add_argument("--log", "-l", action="store_true", help="do log.")
     common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
+    common_parser.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
+
+
     common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
-    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation'])
+    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock'])
 
     common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
 
@@ -32,6 +38,8 @@ def get_common_parser():
 
     common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
     common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
+
+    common_parser.add_argument("--mds", help="use 2D MDS instead, as filter function.", action="store_true")
 
     return common_parser
 
@@ -112,20 +120,45 @@ def main():
 
 def do_mapper(args, bigdata, verbosity):
     if args.procedure == "accumulate":
-        labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year,args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+        labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year, args.to_year,
+                                                                 do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
+                                                                 drop_zero=(not args.keep_zeros))
     elif args.procedure == "merge":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year,
+                                                                       do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
+                                                                       drop_zero=(not args.keep_zeros))
     elif args.procedure == "merge_accumulate":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year, args.window, args.shift, do_log=args.log, do_transform=args.cos_trans, drop_zero=(not args.keep_zeros))
+        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
+                                                                                   args.window, args.shift,
+                                                                                   do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
+                                                                                   drop_zero=(not args.keep_zeros))
 
     if is_empty_data(data, args.from_year, args.to_year): return
 
+    if args.sum_to_one:
+        summed = data.sum(axis=1)
+        assert np.allclose(summed.loc[summed!=0],1)
+
     firms = list(bigdata.translator.values())
     # prepare mapper data and lens
+    if args.mds == True:
+        lens_name = "mds2d"
+    else:
+        lens_name = "pca2d"
+
     proc = MapperAnalyzer(data, firms, cf,
-                          labels=labels, lens= None, lens_name="pca2d", metric=args.metric,
+                          labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                           verbose=verbosity)
-    proc.lens = skd.PCA(n_components=2).fit_transform(data)
+
+    if args.mds:
+        X = scipy.spatial.distance.pdist(data, metric=args.metric)
+        dists = scipy.spatial.distance.squareform(X)
+        proc.lens = skm.MDS(n_components=2, dissimilarity="precomputed").fit_transform(dists)
+    else:
+        proc.lens = skd.PCA(n_components=2).fit_transform(data)
+
+    if True:
+        proc.plot_lens(np.array(rgb_colors)/255.)
 
     # do clustermap
     if False:

@@ -8,6 +8,8 @@ import mappertools.text_dump as tdump
 import mappertools.covers as cvs
 import mappertools.features.flare_balls as flare_balls
 
+import matplotlib.pyplot as plt
+
 import networkx as nx
 
 
@@ -129,3 +131,20 @@ class MapperAnalyzer(object):
                                cmap=cmap, figsize=(20,40))
         g.savefig(str(output_fname), dpi=75)
         g.fig.clear()
+
+
+    def plot_lens(self, rgb_colors=None, overwrite=False):
+        main_folder = self.get_main_folder()
+        name = "{:s}_{:s}_{:s}.png".format(self.labels.transforms_name,
+                                           self.labels.data_name,
+                                           self.lens_name)
+        output_fname = main_folder.joinpath(name)
+
+        if not overwrite and output_fname.exists():
+            print("{} exists! Skipping lens plot".format(str(output_fname)))
+
+
+        if self.lens.shape[1] == 2:
+            plt.figure(figsize=(8,8))
+            plt.scatter(self.lens[:,0], self.lens[:,1],c=rgb_colors)
+            plt.savefig(str(output_fname))
