@@ -39,7 +39,10 @@ def get_common_parser():
     common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
     common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
 
-    common_parser.add_argument("--mds", help="use 2D MDS instead, as filter function.", action="store_true")
+    common_parser.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
+
+    common_parser.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
+    common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
 
     return common_parser
 
@@ -142,9 +145,9 @@ def do_mapper(args, bigdata, verbosity):
     firms = list(bigdata.translator.values())
     # prepare mapper data and lens
     if args.mds == True:
-        lens_name = "mds2d"
+        lens_name = "mds{}d".format(args.dimension)
     else:
-        lens_name = "pca2d"
+        lens_name = "pca{}d".format(args.dimension)
 
     proc = MapperAnalyzer(data, firms, cf,
                           labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
@@ -153,12 +156,12 @@ def do_mapper(args, bigdata, verbosity):
     if args.mds:
         X = scipy.spatial.distance.pdist(data, metric=args.metric)
         dists = scipy.spatial.distance.squareform(X)
-        proc.lens = skm.MDS(n_components=2, dissimilarity="precomputed").fit_transform(dists)
+        proc.lens = skm.MDS(n_components=args.dimension, dissimilarity="precomputed").fit_transform(dists)
     else:
-        proc.lens = skd.PCA(n_components=2).fit_transform(data)
+        proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)
 
     if True:
-        proc.plot_lens(np.array(rgb_colors)/255.)
+        proc.plot_lens(np.array(rgb_colors)/255., show=args.interactive)
 
     # do clustermap
     if False:

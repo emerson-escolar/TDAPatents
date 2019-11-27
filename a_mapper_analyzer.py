@@ -9,6 +9,7 @@ import mappertools.covers as cvs
 import mappertools.features.flare_balls as flare_balls
 
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 import networkx as nx
 
@@ -133,7 +134,7 @@ class MapperAnalyzer(object):
         g.fig.clear()
 
 
-    def plot_lens(self, rgb_colors=None, overwrite=False):
+    def plot_lens(self, rgb_colors=None, show=False, overwrite=False):
         main_folder = self.get_main_folder()
         name = "{:s}_{:s}_{:s}.png".format(self.labels.transforms_name,
                                            self.labels.data_name,
@@ -148,3 +149,14 @@ class MapperAnalyzer(object):
             plt.figure(figsize=(8,8))
             plt.scatter(self.lens[:,0], self.lens[:,1],c=rgb_colors)
             plt.savefig(str(output_fname))
+            if show:
+                plt.show()
+
+        elif self.lens.shape[1] == 3:
+            fig = plt.figure()
+            ax = fig.gca(projection='3d')
+            ax.set_aspect("equal")
+            ax.scatter(self.lens[:,0], self.lens[:,1], self.lens[:,2], c=rgb_colors)
+            plt.savefig(str(output_fname))
+            if show:
+                plt.show()
