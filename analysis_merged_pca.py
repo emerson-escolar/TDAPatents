@@ -28,7 +28,7 @@ def get_common_parser():
 
 
     common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
-    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock'])
+    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine'])
 
     common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
 
@@ -122,6 +122,7 @@ def main():
 
 
 def do_mapper(args, bigdata, verbosity):
+    years_data = None
     if args.procedure == "accumulate":
         labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year, args.to_year,
                                                                  do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
@@ -149,9 +150,14 @@ def do_mapper(args, bigdata, verbosity):
     else:
         lens_name = "pca{}d".format(args.dimension)
 
-    proc = MapperAnalyzer(data, firms, cf,
-                          labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
-                          verbose=verbosity)
+    if years_data is not None:
+        proc = MapperAnalyzer(data, firms, years_data,
+                              labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
+                              verbose=verbosity)
+    else:
+        proc = MapperAnalyzer(data, firms, cf,
+                              labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
+                              verbose=verbosity)
 
     if args.mds:
         X = scipy.spatial.distance.pdist(data, metric=args.metric)

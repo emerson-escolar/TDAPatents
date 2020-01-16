@@ -14,6 +14,28 @@ from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
 
 
+
+# pl_jet = [[0.0, 'rgb(0, 0, 127)'],
+#           [0.1, 'rgb(0, 0, 241)'],
+#           [0.2, 'rgb(0, 76, 255)'],
+#           [0.3, 'rgb(0, 176, 255)'],
+#           [0.4, 'rgb(41, 255, 205)'],
+#           [0.5, 'rgb(124, 255, 121)'],
+#           [0.6, 'rgb(205, 255, 41)'],
+#           [0.7, 'rgb(255, 196, 0)'],
+#           [0.8, 'rgb(255, 103, 0)'],
+#           [0.9, 'rgb(241, 7, 0)'],
+#           [1.0, 'rgb(127, 0, 0)']]
+import turbo_colormap as turbo
+
+pl_turbo = []
+for i in np.linspace(0,1, num=11, endpoint=True):
+    f_color = turbo.interpolate(turbo.turbo_colormap_data, i)
+    pl_turbo.append([i, "rgb({:.0f},{:.0f},{:.0f})".format(f_color[0]*255, f_color[1]*255, f_color[2]*255)])
+
+km.kmapper.colorscale_default = pl_turbo
+km.visuals.colorscale_default = pl_turbo
+
 class MapperAnalyzer(object):
     """
     Class to handle logic of managing parameter choices and outputs.
@@ -84,7 +106,8 @@ class MapperAnalyzer(object):
         graph = self.mapper.map(self.lens, self.data.values,
                                 clusterer = lk.LinkageMapper(metric=self.metric,
                                                              heuristic=heuristic,
-                                                             verbose=self.verbose),
+                                                             verbose=self.verbose,
+                                                             bins="doane"),
                                 cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
         output_folder = self.get_output_folder(n_cubes,overlap,heuristic)
