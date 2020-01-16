@@ -88,10 +88,11 @@ class PatentData(object):
 
     def get_transform(self, year):
         fname = self.cosdis_data_locator.get_fname_subbed((year,))
-        C = pandas.read_csv(fname, index_col=[0]).fillna(1).values
-        d = C.shape[0]
-        for i in range(d):
-            C[i][i] = 0
+        C = pandas.read_csv(fname, index_col=[0]).fillna(1)
+        for i in range(C.shape[0]):
+            C.iat[i,i] = 0
+        # ASSUME rows and columns are in the same order:
+        C.columns = C.index
         return 1-C
 
 
@@ -114,7 +115,7 @@ class PatentData(object):
         # transforms?
         if do_transform:
             labels.transforms_name = "trans"
-            M = self.get_transform(year)
+            M = self.get_transform(year).loc[raw_data.columns, raw_data.columns]
             data = raw_data.dot(M)
             data.columns = raw_data.columns
         else:
