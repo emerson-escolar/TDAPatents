@@ -85,34 +85,41 @@ def main():
         parser.print_help()
         exit()
 
+    data_name = "D0"
+    base_folder = "180901_csv/"
+
+    if False:
+        data_name = "D1"
+        base_folder = "200110_csv/"
+
     # class_translator = "180901_csv/patent_classes.csv"
     class_translator = None
 
     if args.mode == 0:
-        bigdata = PatentData(extra_data_desc="m0",
-                             patent_folder_name="180901_csv/reshape_wide_byyear_mode0",
+        bigdata = PatentData(extra_data_desc=data_name+"m0",
+                             patent_folder_name=base_folder + "reshape_wide_byyear_mode0",
                              patent_fname_format="reshape_wide_year{:d}_mode0.csv",
-                             cosdis_folder_name="180901_csv/cosine_distance_byyear",
+                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname="180901_csv/190204_firm_rank_name_industry.csv",
+                             translator_fname=base_folder + "firm_rank_name_industry.csv",
                              translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              patent_class_translator_fname=class_translator)
     elif args.mode == 1:
-        bigdata = PatentData(extra_data_desc="m1",
-                             patent_folder_name="180901_csv/reshape_wide_byyear_mode1",
+        bigdata = PatentData(extra_data_desc=data_name+"m1",
+                             patent_folder_name=base_folder + "reshape_wide_byyear_mode1",
                              patent_fname_format="reshape_wide_year{:d}_mode1.csv",
-                             cosdis_folder_name="180901_csv/cosine_distance_byyear",
+                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname="180901_csv/190204_firm_rank_name_industry.csv",
+                             translator_fname=base_folder + "firm_rank_name_industry.csv",
                              translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              patent_class_translator_fname=class_translator)
     elif args.mode == 2:
-        bigdata = PatentData(extra_data_desc="allm",
-                             patent_folder_name="180901_csv/reshape_wide_byyear_allmodes",
+        bigdata = PatentData(extra_data_desc=data_name+"allm",
+                             patent_folder_name=base_folder + "reshape_wide_byyear_allmodes",
                              patent_fname_format="reshape_wide_year{:d}_allmodes.csv",
-                             cosdis_folder_name="180901_csv/cosine_distance_byyear",
+                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname="180901_csv/190204_firm_rank_name_industry.csv",
+                             translator_fname=base_folder + "firm_rank_name_industry.csv",
                              translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              patent_class_translator_fname=class_translator)
 
