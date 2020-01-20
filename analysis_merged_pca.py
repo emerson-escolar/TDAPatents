@@ -28,7 +28,7 @@ def get_common_parser():
 
 
     common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
-    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine'])
+    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
 
     common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
 
@@ -167,8 +167,12 @@ def do_mapper(args, bigdata, verbosity):
                               verbose=verbosity)
 
     if args.mds:
-        X = scipy.spatial.distance.pdist(data, metric=args.metric)
-        dists = scipy.spatial.distance.squareform(X)
+        if proc.metric == "precomputed":
+            dists = proc.distance_matrix
+        else:
+            X = scipy.spatial.distance.pdist(data, metric=args.metric)
+            dists = scipy.spatial.distance.squareform(X)
+
         proc.lens = skm.MDS(n_components=args.dimension, dissimilarity="precomputed").fit_transform(dists)
     else:
         proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)

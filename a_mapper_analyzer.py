@@ -6,6 +6,7 @@ import seaborn
 import mappertools.linkage_mapper as lk
 import mappertools.text_dump as tdump
 import mappertools.covers as cvs
+import mappertools.distances as mdists
 import mappertools.features.flare_balls as flare_balls
 
 import matplotlib.pyplot as plt
@@ -13,6 +14,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 import networkx as nx
 
+import scipy.spatial.distance
 
 
 # pl_jet = [[0.0, 'rgb(0, 0, 127)'],
@@ -53,7 +55,10 @@ class MapperAnalyzer(object):
         self.lens_name = lens_name
         self.labels = labels
 
+        self.metric_name = metric
         self.metric = metric
+        self.__handle_custom_metric()
+
         self.mapper = km.KeplerMapper(verbose=verbose)
         self.verbose = verbose
 
@@ -63,7 +68,7 @@ class MapperAnalyzer(object):
         if ts_output == True:
             # otherwise, do not specify data_name in main folder, so its shared
             # over different years to which we apply the same metric, lens, and transforms
-            metric_lens_transforms = "{:s}_{:s}_{:s}".format(self.metric[:3],
+            metric_lens_transforms = "{:s}_{:s}_{:s}".format(self.metric_name[:3],
                                                              self.lens_name,
                                                              self.labels.transforms_name)
             self.main_folder = cur_path.joinpath(metric_lens_transforms)
@@ -72,12 +77,17 @@ class MapperAnalyzer(object):
             self.main_folder = self.main_folder.joinpath(labels.extra_desc)
         self.main_folder.mkdir(parents=True, exist_ok=True)
 
+    def __handle_custom_metric(self):
+        if self.metric == "bloom":
+            self.metric_name = self.metric
+            self.distance_matrix = mdists.flipped_bloom_mahalanobis_distance(self.data)
+            self.metric = "precomputed"
 
     def get_main_folder(self):
         return self.main_folder
 
     def get_param_name(self):
-        metric_lens = "{:s}_{:s}".format(self.metric[:3], self.lens_name)
+        metric_lens = "{:s}_{:s}".format(self.metric_name[:3], self.lens_name)
         return metric_lens
 
     def get_data_fullname(self):
@@ -103,12 +113,21 @@ class MapperAnalyzer(object):
 
 
     def do_basic_analysis(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
-        graph = self.mapper.map(self.lens, self.data.values,
-                                clusterer = lk.LinkageMapper(metric=self.metric,
-                                                             heuristic=heuristic,
-                                                             verbose=self.verbose,
-                                                             bins="doane"),
-                                cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
+        if self.metric == "precomputed":
+            graph = self.mapper.map(self.lens, X = self.distance_matrix,
+                                    precomputed = True,
+                                    clusterer = lk.LinkageMapper(metric=self.metric,
+                                                                 heuristic=heuristic,
+                                                                 verbose=self.verbose,
+                                                                 bins="doane"),
+                                    cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
+        else:
+            graph = self.mapper.map(self.lens, self.data.values,
+                                    clusterer = lk.LinkageMapper(metric=self.metric,
+                                                                 heuristic=heuristic,
+                                                                 verbose=self.verbose,
+                                                                 bins="doane"),
+                                    cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
         output_folder = self.get_output_folder(n_cubes,overlap,heuristic)
         fullname = self.get_fullname(n_cubes, overlap, heuristic)
@@ -145,14 +164,18 @@ class MapperAnalyzer(object):
 
 
 
-
-
-
     def do_clustermap(self,cmap="Reds"):
         output_fname = self.get_main_folder().joinpath(self.get_data_fullname()+ "_cluster.png")
-        g = seaborn.clustermap(self.data, metric=self.metric,
-                               col_cluster=False, yticklabels=True,
-                               cmap=cmap, figsize=(20,40))
+
+        if self.metric == "precomputed":
+            g = seaborn.clustermap(scipy.spatial.distance.squareform(self.distance_matrix, force='tovector'),
+                                   metric=self.metric,
+                                   col_cluster=False, yticklabels=True,
+                                   cmap=cmap, figsize=(20,40))
+        else:
+            g = seaborn.clustermap(self.data, metric=self.metric,
+                                   col_cluster=False, yticklabels=True,
+                                   cmap=cmap, figsize=(20,40))
         g.savefig(str(output_fname), dpi=75)
         g.fig.clear()
 
