@@ -103,6 +103,7 @@ class PatentData(object):
 
         # find and read data
         fname = self.patent_data_locator.get_fname_subbed((year,))
+        print(fname)
         raw_data = pandas.read_csv(fname, index_col=[0]).T.rename(index=self.translator)
         if self.patent_class_translator:
             raw_data =raw_data.rename(columns = self.patent_class_translator)

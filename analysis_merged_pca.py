@@ -88,7 +88,7 @@ def main():
     data_name = "D0"
     base_folder = "180901_csv/"
 
-    if False:
+    if True:
         data_name = "D1"
         base_folder = "200110_csv/"
 
