@@ -26,6 +26,7 @@ def get_common_parser():
     common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
     common_parser.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
 
+    common_parser.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
 
     common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
     common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
@@ -85,12 +86,14 @@ def main():
         parser.print_help()
         exit()
 
-    data_name = "D0"
-    base_folder = "180901_csv/"
-
-    if True:
+    if args.data == 0:
+        data_name = "D0"
+        base_folder = "180901_csv/"
+    elif args.data == 1:
         data_name = "D1"
         base_folder = "200110_csv/"
+    else:
+        exit()
 
     # class_translator = "180901_csv/patent_classes.csv"
     class_translator = None
