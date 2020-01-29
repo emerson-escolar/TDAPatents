@@ -80,7 +80,7 @@ class MapperAnalyzer(object):
     def __handle_custom_metric(self):
         if self.metric == "bloom":
             self.metric_name = self.metric
-            self.distance_matrix = mdists.flipped_bloom_mahalanobis_distance(self.data)
+            self.distance_matrix = mdists.flipped_bloom_mahalanobis_dissimilarity(self.data)
             self.metric = "precomputed"
 
     def get_main_folder(self):
