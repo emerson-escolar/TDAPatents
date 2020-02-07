@@ -215,7 +215,7 @@ def do_mapper(args, bigdata, verbosity):
                                                 more_data, more_data,
                                                 more_transforms, more_transforms,
                                                 counts=True, weights=True,
-                                                flares=False)
+                                                cen_flares=False)
             output_folder = proc.get_output_folder(n_cubes, overlap, args.heuristic)
             fullname = proc.get_fullname(n_cubes, overlap, args.heuristic)
 
