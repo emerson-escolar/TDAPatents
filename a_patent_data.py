@@ -55,7 +55,7 @@ class PatentData(object):
 
     @staticmethod
     def generate_translators(fname, func=(lambda x:int(x))):
-        ## assume names (190204_firm_rank_name_industry.csv) are given in the ff format:
+        ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
         ## rank_tgt_unique | firm_name | industry | computer | pharma
         ## 1               | Name One  |          |    1     |
