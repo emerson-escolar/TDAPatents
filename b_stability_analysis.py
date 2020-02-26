@@ -107,5 +107,5 @@ if __name__ == "__main__":
     # stab = summarize_stat_fixed_number(15)
     # stab.to_csv(str(folder.joinpath("stab_cor_pca2d_logmerg_m0_5wdw1shft_n15.csv")))
 
-    #do_both_fixed_overlap(50)
+    do_both_fixed_overlap(50)
     do_both_fixed_number(20)
