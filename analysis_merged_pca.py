@@ -132,17 +132,17 @@ def do_mapper(args, bigdata, verbosity):
     years_data = None
     if args.procedure == "accumulate":
         labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year, args.to_year,
-                                                                 do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
-                                                                 drop_zero=(not args.keep_zeros))
+                                                                 drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                 do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge":
         labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year,
-                                                                       do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
-                                                                       drop_zero=(not args.keep_zeros))
+                                                                       drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                       do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge_accumulate":
         labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
                                                                                    args.window, args.shift,
-                                                                                   do_log=args.log, do_transform=args.cos_trans, sum_to_one=args.sum_to_one,
-                                                                                   drop_zero=(not args.keep_zeros))
+                                                                                   drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                                   do_log=args.log, sum_to_one=args.sum_to_one)
 
     if is_empty_data(data, args.from_year, args.to_year): return
 

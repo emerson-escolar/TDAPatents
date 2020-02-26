@@ -100,7 +100,8 @@ class PatentData(object):
         return 1-C
 
 
-    def get_data(self, year, do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
+    def get_data(self, year, drop_zero=True, do_transform=True,
+                 do_log=True, sum_to_one=False):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc + "_y{:d}".format(year)
@@ -154,8 +155,8 @@ class PatentData(object):
 
         return labels, data, p_sizes, rgb_colors
 
-    def get_accumulated_data(self, from_year, to_year,
-                             do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
+    def get_accumulated_data(self, from_year, to_year, drop_zero=True, do_transform=True,
+                             do_log=True, sum_to_one=False):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year,to_year)
@@ -169,8 +170,8 @@ class PatentData(object):
         for year in range(from_year, to_year+1):
             # do not take log before summing!
             # also do not normalize to one!
-            _, data, _, _ = self.get_data(year, do_transform=do_transform,
-                                          do_log=False, sum_to_one=False, drop_zero=drop_zero)
+            _, data, _, _ = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform,
+                                          do_log=False, sum_to_one=False)
             ans = ans.add(data,axis='index',fill_value=0)
 
         p_sizes = PatentData.extract_sums(ans)
@@ -190,17 +191,20 @@ class PatentData(object):
 
 
 
-    def get_merged_data(self, from_year, to_year,
-                        do_transform=True, do_log=True, sum_to_one=False, drop_zero=True):
-        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year, accum_window=1, window_shift=1, do_transform=do_transform, do_log=do_log, sum_to_one=sum_to_one, drop_zero=drop_zero)
+    def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True,
+                        do_log=True, sum_to_one=False):
+        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year,
+                                                                                               accum_window=1, window_shift=1,
+                                                                                               drop_zero=drop_zero, do_transform=do_transform,
+                                                                                               do_log=do_log, sum_to_one=sum_to_one)
 
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
         return labels, ans, p_sizes_all, years_data, rgb_colors_all
 
     def get_merged_accumulated_data(self, from_year, to_year, accum_window, window_shift,
-                                    do_transform=True, do_log=True, sum_to_one=False,
-                                    drop_zero=True):
+                                    drop_zero=True, do_transform=True,
+                                    do_log=True, sum_to_one=False):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc
@@ -227,12 +231,9 @@ class PatentData(object):
             if year + accum_window-1 > to_year:
                 break
 
-            _, data, p_sizes, rgb_colors = self.get_accumulated_data(year,
-                                                                     year + accum_window-1,
-                                                                     do_transform=do_transform,
-                                                                     do_log=do_log,
-                                                                     sum_to_one=sum_to_one,
-                                                                     drop_zero=drop_zero)
+            _, data, p_sizes, rgb_colors = self.get_accumulated_data(year, year + accum_window-1,
+                                                                     drop_zero=drop_zero, do_transform=do_transform,
+                                                                     do_log=do_log, sum_to_one=sum_to_one)
             # append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
 
