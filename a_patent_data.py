@@ -37,8 +37,9 @@ class PatentData(object):
     def __init__(self, extra_data_desc,
                  patent_folder_name, patent_fname_format,
                  cosdis_folder_name, cosdis_fname_format,
-                 translator_fname, translator_func=(lambda x:int(x)),
-                 patent_class_translator_fname = None):
+                 firm_translator_fname,
+                 firm_translator_func=(lambda x:int(x)),
+                 class_translator_fname = None):
         self.extra_data_desc = extra_data_desc
 
         self.cosdis_data_locator = None
@@ -48,17 +49,17 @@ class PatentData(object):
 
         self.patent_data_locator = DataLocator(patent_folder_name,
                                                patent_fname_format)
-        self.translator, self.raw_colors = PatentData.generate_translators(translator_fname,
-                                                                           translator_func)
+        self.firm_translator, self.raw_colors = PatentData.generate_firm_translator(firm_translator_fname,
+                                                                                    firm_translator_func)
 
-        if patent_class_translator_fname:
+        if class_translator_fname:
             raise NotImplementedError("patent class translator not implemented")
-            self.patent_class_translator = PatentData.generate_translator(patent_class_translator_fname)
+            self.class_translator = PatentData.generate_class_translator(class_translator_fname)
         else:
-            self.patent_class_translator = None
+            self.class_translator = None
 
     @staticmethod
-    def generate_translators(fname, func=(lambda x:int(x))):
+    def generate_firm_translator(fname, func=(lambda x:int(x))):
         ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
         ## rank_tgt_unique | firm_name | industry | computer | pharma
@@ -111,9 +112,10 @@ class PatentData(object):
         # find and read data
         fname = self.patent_data_locator.get_fname_subbed((year,))
         print(fname)
-        raw_data = pandas.read_csv(fname, index_col=[0]).T.rename(index=self.translator)
-        if self.patent_class_translator:
-            raw_data =raw_data.rename(columns = self.patent_class_translator)
+        raw_data = pandas.read_csv(fname, index_col=[0]).T.rename(index=self.firm_translator)
+
+        if self.class_translator:
+            raw_data =raw_data.rename(columns = self.class_translator)
 
         # drop zeros?
         orig_num_firms = raw_data.shape[0]

@@ -94,8 +94,9 @@ def main():
     else:
         exit()
 
-    # class_translator = "180901_csv/patent_classes.csv"
+    # class_translator = base_folder + "patent_classes.csv"
     class_translator = None
+
 
     if args.mode == 0:
         bigdata = PatentData(extra_data_desc=data_name+"m0",
@@ -103,27 +104,27 @@ def main():
                              patent_fname_format="reshape_wide_year{:d}_mode0.csv",
                              cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname=base_folder + "firm_rank_name_industry.csv",
-                             translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             patent_class_translator_fname=class_translator)
+                             firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
+                             firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
+                             class_translator_fname=class_translator)
     elif args.mode == 1:
         bigdata = PatentData(extra_data_desc=data_name+"m1",
                              patent_folder_name=base_folder + "reshape_wide_byyear_mode1",
                              patent_fname_format="reshape_wide_year{:d}_mode1.csv",
                              cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname=base_folder + "firm_rank_name_industry.csv",
-                             translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             patent_class_translator_fname=class_translator)
+                             firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
+                             firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
+                             class_translator_fname=class_translator)
     elif args.mode == 2:
         bigdata = PatentData(extra_data_desc=data_name+"allm",
                              patent_folder_name=base_folder + "reshape_wide_byyear_allmodes",
                              patent_fname_format="reshape_wide_year{:d}_allmodes.csv",
                              cosdis_folder_name=base_folder + "cosine_distance_byyear",
                              cosdis_fname_format="cosine_distance_year{:d}.csv",
-                             translator_fname=base_folder + "firm_rank_name_industry.csv",
-                             translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             patent_class_translator_fname=class_translator)
+                             firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
+                             firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
+                             class_translator_fname=class_translator)
 
     do_mapper(args, bigdata, verbosity=(2 if args.verbose else 0))
 
@@ -152,7 +153,7 @@ def do_mapper(args, bigdata, verbosity):
         summed = data.sum(axis=1)
         assert np.allclose(summed.loc[summed!=0],1)
 
-    firms = list(bigdata.translator.values())
+    firms = list(bigdata.firm_translator.values())
     # prepare mapper data and lens
     if args.mds == True:
         lens_name = "mds{}d".format(args.dimension)
