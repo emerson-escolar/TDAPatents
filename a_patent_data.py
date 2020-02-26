@@ -40,8 +40,12 @@ class PatentData(object):
                  translator_fname, translator_func=(lambda x:int(x)),
                  patent_class_translator_fname = None):
         self.extra_data_desc = extra_data_desc
-        self.cosdis_data_locator = DataLocator(cosdis_folder_name,
-                                               cosdis_fname_format)
+
+        self.cosdis_data_locator = None
+        if cosdis_folder_name is not None:
+            self.cosdis_data_locator = DataLocator(cosdis_folder_name,
+                                                   cosdis_fname_format)
+
         self.patent_data_locator = DataLocator(patent_folder_name,
                                                patent_fname_format)
         self.translator, self.raw_colors = PatentData.generate_translators(translator_fname,
@@ -87,6 +91,9 @@ class PatentData(object):
 
 
     def get_transform(self, year):
+        # if self.cosdis_data_locator is None:
+        #     return 1
+
         fname = self.cosdis_data_locator.get_fname_subbed((year,))
         C = pandas.read_csv(fname, index_col=[0]).fillna(1)
         for i in range(C.shape[0]):
@@ -114,7 +121,7 @@ class PatentData(object):
             raw_data = raw_data.loc[(raw_data != 0).any(axis=1), :]
 
         # transforms?
-        if do_transform:
+        if do_transform and self.cosdis_data_locator is not None:
             labels.transforms_name = "trans"
             M = self.get_transform(year).loc[raw_data.columns, raw_data.columns]
             data = raw_data.dot(M)
@@ -154,7 +161,9 @@ class PatentData(object):
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year,to_year)
-        if do_transform: labels.transforms_name = "trans"
+
+        if do_transform and self.cosdis_data_locator is not None:
+            labels.transforms_name = "trans"
         labels.transforms_name = "accum" + labels.transforms_name
 
         # read data
@@ -201,7 +210,8 @@ class PatentData(object):
         labels.data_name += "_y{:d}_to_y{:d}".format(from_year, to_year)
 
 
-        if do_transform: labels.transforms_name = "trans"
+        if do_transform and self.cosdis_data_locator is not None:
+            labels.transforms_name = "trans"
         labels.transforms_name = "merg" + labels.transforms_name
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
