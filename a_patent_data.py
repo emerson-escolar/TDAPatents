@@ -43,25 +43,29 @@ class PatentData(object):
                  firm_translator_func=(lambda x:int(x)),
                  class_translator_fname = None):
         self.extra_data_desc = extra_data_desc
+        self.patent_data_locator = DataLocator(patent_folder_name, patent_fname_format)
+
+        # Translators (used for row and column label renaming)
+        self.generate_firm_translator(firm_translator_fname, firm_translator_func)
+        self.generate_class_translator(class_translator_fname)
+
         self.cosdis_data_locator = None
 
-        self.patent_data_locator = DataLocator(patent_folder_name, patent_fname_format)
-        self.firm_translator, self.raw_colors = PatentData.generate_firm_translator(firm_translator_fname,
-                                                                                    firm_translator_func)
-
-        if class_translator_fname:
-            raise NotImplementedError("patent class translator not implemented")
-            self.class_translator = PatentData.generate_class_translator(class_translator_fname)
-        else:
-            self.class_translator = None
 
     def init_transform(self, cosdis_folder_name, cosdis_fname_format):
         if cosdis_folder_name is not None:
-            self.cosdis_data_locator = DataLocator(cosdis_folder_name,
-                                                   cosdis_fname_format)
+            self.cosdis_data_locator = DataLocator(cosdis_folder_name, cosdis_fname_format)
 
-    @staticmethod
-    def generate_firm_translator(fname, func=(lambda x:int(x))):
+
+    def generate_class_translator(self, fname):
+        if fname is None:
+            self.class_translator = None
+            return
+
+        dict_data = pandas.read_csv(fname, dtype=str).values
+        self.class_translator = collections.OrderedDict([(int(item[0]), item[0] + "_" + item[1].replace(" ", "_")) for item in dict_data])
+
+    def generate_firm_translator(self, fname, func=(lambda x:int(x))):
         ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
         ## rank_tgt_unique | firm_name | industry | computer | pharma
@@ -84,7 +88,8 @@ class PatentData(object):
             else:
                 raw_colors[item[1].replace(" ", "_")] = (0,0,255)
 
-        return translator, raw_colors
+        self.firm_translator = translator
+        self.raw_colors = raw_colors
 
 
     def get_transform(self, year):
@@ -112,9 +117,6 @@ class PatentData(object):
         fname = self.patent_data_locator.get_fname_subbed((year,))
         raw_data = pandas.read_csv(fname, index_col=[0]).T.rename(index=self.firm_translator)
 
-        if self.class_translator:
-            raw_data =raw_data.rename(columns = self.class_translator)
-
         # Drop zeros?
         orig_num_firms = raw_data.shape[0]
         if drop_zero:
@@ -128,6 +130,9 @@ class PatentData(object):
             data.columns = raw_data.columns
         else:
             data = raw_data
+
+        if self.class_translator:
+            data.rename(columns = self.class_translator, inplace=True)
 
         p_sizes = sum_columns(data)
 

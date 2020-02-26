@@ -94,8 +94,8 @@ def main():
     else:
         exit()
 
-    # class_translator = base_folder + "patent_classes.csv"
-    class_translator = None
+    class_translator = base_folder + "patent_classes.csv"
+    # class_translator = None
 
 
     if args.mode == 0:
@@ -143,7 +143,7 @@ def do_mapper(args, bigdata, verbosity):
                                                                                    args.window, args.shift,
                                                                                    drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
                                                                                    do_log=args.log, sum_to_one=args.sum_to_one)
-
+    print(data.columns.values)
     if is_empty_data(data, args.from_year, args.to_year): return
 
     if args.sum_to_one:
