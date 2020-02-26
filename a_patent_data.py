@@ -36,19 +36,13 @@ class PatentData(object):
 
     def __init__(self, extra_data_desc,
                  patent_folder_name, patent_fname_format,
-                 cosdis_folder_name, cosdis_fname_format,
                  firm_translator_fname,
                  firm_translator_func=(lambda x:int(x)),
                  class_translator_fname = None):
         self.extra_data_desc = extra_data_desc
-
         self.cosdis_data_locator = None
-        if cosdis_folder_name is not None:
-            self.cosdis_data_locator = DataLocator(cosdis_folder_name,
-                                                   cosdis_fname_format)
 
-        self.patent_data_locator = DataLocator(patent_folder_name,
-                                               patent_fname_format)
+        self.patent_data_locator = DataLocator(patent_folder_name, patent_fname_format)
         self.firm_translator, self.raw_colors = PatentData.generate_firm_translator(firm_translator_fname,
                                                                                     firm_translator_func)
 
@@ -57,6 +51,11 @@ class PatentData(object):
             self.class_translator = PatentData.generate_class_translator(class_translator_fname)
         else:
             self.class_translator = None
+
+    def init_transform(self, cosdis_folder_name, cosdis_fname_format):
+        if cosdis_folder_name is not None:
+            self.cosdis_data_locator = DataLocator(cosdis_folder_name,
+                                                   cosdis_fname_format)
 
     @staticmethod
     def generate_firm_translator(fname, func=(lambda x:int(x))):
@@ -92,9 +91,6 @@ class PatentData(object):
 
 
     def get_transform(self, year):
-        # if self.cosdis_data_locator is None:
-        #     return 1
-
         fname = self.cosdis_data_locator.get_fname_subbed((year,))
         C = pandas.read_csv(fname, index_col=[0]).fillna(1)
         for i in range(C.shape[0]):

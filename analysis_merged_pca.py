@@ -102,8 +102,6 @@ def main():
         bigdata = PatentData(extra_data_desc=data_name+"m0",
                              patent_folder_name=base_folder + "reshape_wide_byyear_mode0",
                              patent_fname_format="reshape_wide_year{:d}_mode0.csv",
-                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
-                             cosdis_fname_format="cosine_distance_year{:d}.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              class_translator_fname=class_translator)
@@ -111,8 +109,6 @@ def main():
         bigdata = PatentData(extra_data_desc=data_name+"m1",
                              patent_folder_name=base_folder + "reshape_wide_byyear_mode1",
                              patent_fname_format="reshape_wide_year{:d}_mode1.csv",
-                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
-                             cosdis_fname_format="cosine_distance_year{:d}.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              class_translator_fname=class_translator)
@@ -120,11 +116,12 @@ def main():
         bigdata = PatentData(extra_data_desc=data_name+"allm",
                              patent_folder_name=base_folder + "reshape_wide_byyear_allmodes",
                              patent_fname_format="reshape_wide_year{:d}_allmodes.csv",
-                             cosdis_folder_name=base_folder + "cosine_distance_byyear",
-                             cosdis_fname_format="cosine_distance_year{:d}.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
                              class_translator_fname=class_translator)
+
+    bigdata.init_transform(cosdis_folder_name = (base_folder + "cosine_distance_byyear"),
+                           cosdis_fname_format = "cosine_distance_year{:d}.csv")
 
     do_mapper(args, bigdata, verbosity=(2 if args.verbose else 0))
 
