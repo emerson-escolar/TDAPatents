@@ -97,26 +97,30 @@ class PatentData(object):
         return 1-C
 
 
-    def get_data(self, year, drop_zero=True, do_transform=True,
+    def get_data(self, year,
+                 drop_zero=True, do_transform=True,
                  do_log=True, sum_to_one=False):
+        """
+        Get data corresponding to year.
+        """
+
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc + "_y{:d}".format(year)
 
-        # find and read data
+        # Find and read data.
         fname = self.patent_data_locator.get_fname_subbed((year,))
-        print(fname)
         raw_data = pandas.read_csv(fname, index_col=[0]).T.rename(index=self.firm_translator)
 
         if self.class_translator:
             raw_data =raw_data.rename(columns = self.class_translator)
 
-        # drop zeros?
+        # Drop zeros?
         orig_num_firms = raw_data.shape[0]
         if drop_zero:
             raw_data = raw_data.loc[(raw_data != 0).any(axis=1), :]
 
-        # transforms?
+        # Transforms?
         if do_transform and self.cosdis_data_locator is not None:
             labels.transforms_name = "trans"
             M = self.get_transform(year).loc[raw_data.columns, raw_data.columns]
@@ -127,14 +131,13 @@ class PatentData(object):
 
         p_sizes = sum_columns(data)
 
-        # log transform?
+        # Log transform?
         if do_log:
             labels.transforms_name = "log" + labels.transforms_name
             data = np.log(data + 1)
             p_sizes = np.log(p_sizes + 1)
 
-        # sum to one?
-        # if sum_to_one:
+        # Sum to one?
         if sum_to_one:
             labels.transforms_name = "sumone" + labels.transforms_name
             data = data.div(data.sum(axis=1).replace(to_replace=0, value=1), axis=0)
@@ -151,8 +154,14 @@ class PatentData(object):
 
         return labels, data, p_sizes, rgb_colors
 
-    def get_accumulated_data(self, from_year, to_year, drop_zero=True, do_transform=True,
+    def get_accumulated_data(self, from_year, to_year,
+                             drop_zero=True, do_transform=True,
                              do_log=True, sum_to_one=False):
+        """
+        Get accumulated data.
+        Adds up data between from_year and to_year, inclusive.
+        """
+
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year,to_year)
@@ -161,7 +170,7 @@ class PatentData(object):
             labels.transforms_name = "trans"
         labels.transforms_name = "accum" + labels.transforms_name
 
-        # read data
+        # Read data
         ans = pandas.DataFrame()
         for year in range(from_year, to_year+1):
             # do not take log before summing!
@@ -185,22 +194,17 @@ class PatentData(object):
         return labels, ans, p_sizes, rgb_colors
 
 
-
-
-    def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True,
-                        do_log=True, sum_to_one=False):
-        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year,
-                                                                                               accum_window=1, window_shift=1,
-                                                                                               drop_zero=drop_zero, do_transform=do_transform,
-                                                                                               do_log=do_log, sum_to_one=sum_to_one)
-
-        labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
-
-        return labels, ans, p_sizes_all, years_data, rgb_colors_all
-
     def get_merged_accumulated_data(self, from_year, to_year, accum_window, window_shift,
                                     drop_zero=True, do_transform=True,
                                     do_log=True, sum_to_one=False):
+        """
+        Merges accumulated data.
+
+        Moving window sum (accumulation) of data between from_year and to_year inclusive.
+        Window is of size accum_window and moves by window_shift.
+        """
+
+
         labels = DataLabels()
         labels.extra_desc = self.extra_data_desc
         labels.data_name = self.extra_data_desc
@@ -239,5 +243,16 @@ class PatentData(object):
             p_sizes_all = np.append(p_sizes_all, p_sizes )
             rgb_colors_all = np.append(rgb_colors_all, rgb_colors, axis=0)
 
+
+        return labels, ans, p_sizes_all, years_data, rgb_colors_all
+
+
+    def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True,
+                        do_log=True, sum_to_one=False):
+        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year,
+                                                                                               accum_window=1, window_shift=1,
+                                                                                               drop_zero=drop_zero, do_transform=do_transform,
+                                                                                               do_log=do_log, sum_to_one=sum_to_one)
+        labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
         return labels, ans, p_sizes_all, years_data, rgb_colors_all
