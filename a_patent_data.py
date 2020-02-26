@@ -28,6 +28,9 @@ class DataLabels(object):
         self.transforms_name = ""
         self.mode_name = ""
 
+def sum_columns(raw_data):
+    return np.sum(raw_data.values, axis=1, keepdims=True)
+
 
 class PatentData(object):
     """
@@ -84,12 +87,6 @@ class PatentData(object):
         return translator, raw_colors
 
 
-    @staticmethod
-    def extract_sums(raw_data):
-        sums = np.sum(raw_data.values, axis=1, keepdims=True)
-        return sums
-
-
     def get_transform(self, year):
         fname = self.cosdis_data_locator.get_fname_subbed((year,))
         C = pandas.read_csv(fname, index_col=[0]).fillna(1)
@@ -128,8 +125,7 @@ class PatentData(object):
         else:
             data = raw_data
 
-        # patent sizes
-        p_sizes = PatentData.extract_sums(data)
+        p_sizes = sum_columns(data)
 
         # log transform?
         if do_log:
@@ -174,7 +170,7 @@ class PatentData(object):
                                           do_log=False, sum_to_one=False)
             ans = ans.add(data,axis='index',fill_value=0)
 
-        p_sizes = PatentData.extract_sums(ans)
+        p_sizes = sum_columns(ans)
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
             ans = np.log(ans + 1)
