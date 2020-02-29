@@ -45,6 +45,9 @@ def get_common_parser():
     common_parser.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
     common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
 
+
+    common_parser.add_argument("--char_limit", help="limit number of characters to use for firms and patent classes", type=int, default=None)
+
     return common_parser
 
 
@@ -104,21 +107,24 @@ def main():
                              patent_fname_format="reshape_wide_year{:d}_mode0.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             class_translator_fname=class_translator)
+                             class_translator_fname=class_translator,
+                             char_limit=args.char_limit)
     elif args.mode == 1:
         bigdata = PatentData(extra_data_desc=data_name+"m1",
                              patent_folder_name=base_folder + "reshape_wide_byyear_mode1",
                              patent_fname_format="reshape_wide_year{:d}_mode1.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             class_translator_fname=class_translator)
+                             class_translator_fname=class_translator,
+                             char_limit=args.char_limit)
     elif args.mode == 2:
         bigdata = PatentData(extra_data_desc=data_name+"allm",
                              patent_folder_name=base_folder + "reshape_wide_byyear_allmodes",
                              patent_fname_format="reshape_wide_year{:d}_allmodes.csv",
                              firm_translator_fname=base_folder + "firm_rank_name_industry.csv",
                              firm_translator_func=(lambda x: ("firm_rank_{:s}").format(x)),
-                             class_translator_fname=class_translator)
+                             class_translator_fname=class_translator,
+                             char_limit=args.char_limit)
 
     bigdata.init_transform(cosdis_folder_name = (base_folder + "cosine_distance_byyear"),
                            cosdis_fname_format = "cosine_distance_year{:d}.csv")

@@ -31,6 +31,9 @@ class DataLabels(object):
 def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)
 
+def str_truncate(data, char_limit):
+    return data[:char_limit] if len(data) > char_limit else data
+
 
 class PatentData(object):
     """
@@ -41,13 +44,14 @@ class PatentData(object):
                  patent_folder_name, patent_fname_format,
                  firm_translator_fname,
                  firm_translator_func=(lambda x:int(x)),
-                 class_translator_fname = None):
+                 class_translator_fname=None,
+                 char_limit=None):
         self.extra_data_desc = extra_data_desc
         self.patent_data_locator = DataLocator(patent_folder_name, patent_fname_format)
 
         # Translators (used for row and column label renaming)
-        self.generate_firm_translator(firm_translator_fname, firm_translator_func)
-        self.generate_class_translator(class_translator_fname)
+        self.generate_firm_translator(firm_translator_fname, firm_translator_func, char_limit)
+        self.generate_class_translator(class_translator_fname, char_limit)
 
         self.cosdis_data_locator = None
 
@@ -57,15 +61,17 @@ class PatentData(object):
             self.cosdis_data_locator = DataLocator(cosdis_folder_name, cosdis_fname_format)
 
 
-    def generate_class_translator(self, fname):
+    def generate_class_translator(self, fname, char_limit=None):
         if fname is None:
             self.class_translator = None
             return
 
         dict_data = pandas.read_csv(fname, dtype=str).values
-        self.class_translator = collections.OrderedDict([(int(item[0]), item[0] + "_" + item[1].replace(" ", "_")) for item in dict_data])
 
-    def generate_firm_translator(self, fname, func=(lambda x:int(x))):
+        name_func = lambda item : str_truncate((item[0] + "_" + item[1].replace(" ", "_")), char_limit)
+        self.class_translator = collections.OrderedDict([(int(item[0]), name_func(item)) for item in dict_data])
+
+    def generate_firm_translator(self, fname, func=(lambda x:int(x)), char_limit=None):
         ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
         ## rank_tgt_unique | firm_name | industry | computer | pharma
@@ -77,16 +83,18 @@ class PatentData(object):
         ## industry column is currently ignored.
 
         dict_data = pandas.read_csv(fname,dtype=str).values
-        translator = collections.OrderedDict([(func(item[0]), item[1].replace(" ", "_")) for item in dict_data])
+        print(dict_data)
+        name_func = lambda item : str_truncate(item[1].replace(" ", "_"), char_limit)
+        translator = collections.OrderedDict([(func(item[0]), name_func(item))  for item in dict_data])
 
         raw_colors = {}
         for item in dict_data:
             if item[3] == "1":
-                raw_colors[item[1].replace(" ", "_")] = (255,0,0)
+                raw_colors[name_func(item)] = (255,0,0)
             elif item[4] == "1":
-                raw_colors[item[1].replace(" ", "_")] = (0,255,0)
+                raw_colors[name_func(item)] = (0,255,0)
             else:
-                raw_colors[item[1].replace(" ", "_")] = (0,0,255)
+                raw_colors[name_func(item)] = (0,0,255)
 
         self.firm_translator = translator
         self.raw_colors = raw_colors
