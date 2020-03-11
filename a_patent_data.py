@@ -111,7 +111,7 @@ class PatentData(object):
 
 
     def get_data(self, year,
-                 drop_zero=True, do_transform=True,
+                 drop_zero=True, do_transform=True, do_transpose=False,
                  do_log=True, sum_to_one=False):
         """
         Get data corresponding to year.
@@ -142,6 +142,10 @@ class PatentData(object):
         if self.class_translator:
             data.rename(columns = self.class_translator, inplace=True)
 
+        if do_transpose:
+            labels.transforms_name = "TENCHI" + labels.transforms_name
+            data = data.T
+
         p_sizes = sum_columns(data)
 
         # Log transform?
@@ -168,7 +172,7 @@ class PatentData(object):
         return labels, data, p_sizes, rgb_colors
 
     def get_accumulated_data(self, from_year, to_year,
-                             drop_zero=True, do_transform=True,
+                             drop_zero=True, do_transform=True, do_transpose=False,
                              do_log=True, sum_to_one=False):
         """
         Get accumulated data.
@@ -188,9 +192,12 @@ class PatentData(object):
         for year in range(from_year, to_year+1):
             # do not take log before summing!
             # also do not normalize to one!
-            _, data, _, _ = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform,
+            _, data, _, _ = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                           do_log=False, sum_to_one=False)
             ans = ans.add(data,axis='index',fill_value=0)
+
+        if do_transpose:
+            labels.transforms_name = "TENCHI" + labels.transforms_name
 
         p_sizes = sum_columns(ans)
         if (do_log):
@@ -208,7 +215,7 @@ class PatentData(object):
 
 
     def get_merged_accumulated_data(self, from_year, to_year, accum_window, window_shift,
-                                    drop_zero=True, do_transform=True,
+                                    drop_zero=True, do_transform=True, do_transpose=False,
                                     do_log=True, sum_to_one=False):
         """
         Merges accumulated data.
@@ -228,6 +235,8 @@ class PatentData(object):
         if do_transform and self.cosdis_data_locator is not None:
             labels.transforms_name = "trans"
         labels.transforms_name = "merg" + labels.transforms_name
+        if do_transpose:
+            labels.transforms_name = "TENCHI" + labels.transforms_name
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
         if sum_to_one:
@@ -245,7 +254,7 @@ class PatentData(object):
                 break
 
             _, data, p_sizes, rgb_colors = self.get_accumulated_data(year, year + accum_window-1,
-                                                                     drop_zero=drop_zero, do_transform=do_transform,
+                                                                     drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                                                      do_log=do_log, sum_to_one=sum_to_one)
             # append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
@@ -260,11 +269,11 @@ class PatentData(object):
         return labels, ans, p_sizes_all, years_data, rgb_colors_all
 
 
-    def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True,
+    def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True, do_transpose=False,
                         do_log=True, sum_to_one=False):
         labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year,
                                                                                                accum_window=1, window_shift=1,
-                                                                                               drop_zero=drop_zero, do_transform=do_transform,
+                                                                                               drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                                                                                do_log=do_log, sum_to_one=sum_to_one)
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
