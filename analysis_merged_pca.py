@@ -152,14 +152,17 @@ def do_mapper(args, bigdata, verbosity):
                                                                                    args.window, args.shift,
                                                                                    drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                                    do_log=args.log, sum_to_one=args.sum_to_one)
-    print(data.columns.values)
+
     if is_empty_data(data, args.from_year, args.to_year): return
 
     if args.sum_to_one:
         summed = data.sum(axis=1)
         assert np.allclose(summed.loc[summed!=0],1)
 
-    firms = list(bigdata.firm_translator.values())
+    unique_firms = list(bigdata.firm_translator.values())
+    unique_patents = list(bigdata.class_translator.values())
+    unique_members = unique_patents if args.transpose else unique_firms
+
     # prepare mapper data and lens
     if args.mds == True:
         lens_name = "mds{}d".format(args.dimension)
@@ -167,11 +170,11 @@ def do_mapper(args, bigdata, verbosity):
         lens_name = "pca{}d".format(args.dimension)
 
     if years_data is not None:
-        proc = MapperAnalyzer(data, firms, years_data,
+        proc = MapperAnalyzer(data, unique_members, years_data,
                               labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                               verbose=verbosity)
     else:
-        proc = MapperAnalyzer(data, firms, cf,
+        proc = MapperAnalyzer(data, unique_members, cf,
                               labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                               verbose=verbosity)
 
