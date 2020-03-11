@@ -132,6 +132,8 @@ class PatentData(object):
 
         # Drop zeros?
         orig_num_firms = raw_data.shape[0]
+        orig_num_patents = raw_data.shape[1]
+        orig_num = orig_num_patents if do_transpose else orig_num_firms
         if drop_zero:
             raw_data = raw_data.loc[(raw_data != 0).any(axis=1), :]
             raw_data = raw_data.loc[:, (raw_data != 0).any(axis=0)]
@@ -173,9 +175,9 @@ class PatentData(object):
 
         # report
         if drop_zero:
-            print("Processed {:s} {:s}. {:d} out of {:d} firms nonzero".format(labels.transforms_name, labels.data_name, data.shape[0], orig_num_firms))
+            print("Processed {:s} {:s}. {:d} out of {:d} entities nonzero".format(labels.transforms_name, labels.data_name, data.shape[0], orig_num))
         else:
-            print("Processed {:s} {:s}. {:d} firms, zeros retained".format(labels.transforms_name, labels.data_name, orig_num_firms))
+            print("Processed {:s} {:s}. {:d} entities, zeros retained".format(labels.transforms_name, labels.data_name, orig_num))
 
 
         return labels, data, p_sizes, rgb_colors
