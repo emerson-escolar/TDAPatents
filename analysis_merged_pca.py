@@ -20,13 +20,16 @@ def get_common_parser():
     common_parser = argparse.ArgumentParser(add_help = False)
     common_parser.add_argument("--verbose", "-v", action="store_true", help="verbose.")
 
+    common_parser.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
+
     common_parser.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
+    common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
+    common_parser.add_argument("--transpose", action="store_true", help="do transpose.")
 
     common_parser.add_argument("--log", "-l", action="store_true", help="do log.")
-    common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
     common_parser.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
 
-    common_parser.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
+
 
     common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
     common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
@@ -138,16 +141,16 @@ def do_mapper(args, bigdata, verbosity):
     years_data = None
     if args.procedure == "accumulate":
         labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year, args.to_year,
-                                                                 drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                 drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                  do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge":
         labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year,
-                                                                       drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                       drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                        do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge_accumulate":
         labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
                                                                                    args.window, args.shift,
-                                                                                   drop_zero=(not args.keep_zeros), do_transform=args.cos_trans,
+                                                                                   drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                                    do_log=args.log, sum_to_one=args.sum_to_one)
     print(data.columns.values)
     if is_empty_data(data, args.from_year, args.to_year): return
