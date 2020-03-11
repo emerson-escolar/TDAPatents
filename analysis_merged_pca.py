@@ -196,6 +196,10 @@ def do_mapper(args, bigdata, verbosity):
     if False:
         proc.do_clustermap()
 
+    # dump data
+    if True:
+        proc.dump_data_parquet()
+
     # prepare additional data
     list_p_sizes = list(cf.flatten())
     more_data = {'members': list(proc.data.index),

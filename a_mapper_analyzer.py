@@ -206,3 +206,15 @@ class MapperAnalyzer(object):
             plt.savefig(str(output_fname))
             if show:
                 plt.show()
+
+
+    def dump_data_parquet(self, overwrite=False):
+        main_folder = self.get_main_folder()
+        name = "{:s}_{:s}.parquet".format(self.labels.transforms_name,
+                                           self.labels.data_name)
+        output_fname = main_folder.joinpath(name)
+
+        if not overwrite and output_fname.exists():
+            print("{} exists! Skipping annotated data dump.".format(str(output_fname)))
+
+        self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
