@@ -203,7 +203,7 @@ class PatentData(object):
             # also do not normalize to one!
             _, data, _, _ = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                           do_log=False, sum_to_one=False)
-            ans = ans.add(data,axis='index',fill_value=0)
+            ans = ans.add(data,axis='index',fill_value=0).fillna(0)
 
         if do_transpose:
             labels.transforms_name = "TENCHI" + labels.transforms_name
