@@ -32,7 +32,7 @@ def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)
 
 def str_truncate(data, char_limit):
-    return data[:char_limit] if len(data) > char_limit else data
+    return data if (char_limit is None or len(data) <= char_limit) else data[:char_limit]
 
 
 class PatentData(object):
