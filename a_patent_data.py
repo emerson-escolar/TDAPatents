@@ -71,6 +71,11 @@ class PatentData(object):
         name_func = lambda item : str_truncate((item[0] + "_" + item[1].replace(" ", "_")), char_limit)
         self.class_translator = collections.OrderedDict([(int(item[0]), name_func(item)) for item in dict_data])
 
+        raw_colors = {}
+        for item in dict_data:
+            raw_colors[name_func(item)] = (0,0,0)
+        self.patent_raw_colors = raw_colors
+
     def generate_firm_translator(self, fname, func=(lambda x:int(x)), char_limit=None):
         ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
@@ -83,7 +88,7 @@ class PatentData(object):
         ## industry column is currently ignored.
 
         dict_data = pandas.read_csv(fname,dtype=str).values
-        print(dict_data)
+        # print(dict_data)
         name_func = lambda item : str_truncate(item[1].replace(" ", "_"), char_limit)
         translator = collections.OrderedDict([(func(item[0]), name_func(item))  for item in dict_data])
 
@@ -97,7 +102,7 @@ class PatentData(object):
                 raw_colors[name_func(item)] = (0,0,255)
 
         self.firm_translator = translator
-        self.raw_colors = raw_colors
+        self.firm_raw_colors = raw_colors
 
 
     def get_transform(self, year):
@@ -129,6 +134,7 @@ class PatentData(object):
         orig_num_firms = raw_data.shape[0]
         if drop_zero:
             raw_data = raw_data.loc[(raw_data != 0).any(axis=1), :]
+            raw_data = raw_data.loc[:, (raw_data != 0).any(axis=0)]
 
         # Transforms?
         if do_transform and self.cosdis_data_locator is not None:
@@ -160,7 +166,10 @@ class PatentData(object):
             data = data.div(data.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
         # rgb colors
-        rgb_colors = [self.raw_colors[x] for x in list(data.index)]
+        if do_transpose:
+            rgb_colors = [self.patent_raw_colors[x] for x in list(data.index)]
+        else:
+            rgb_colors = [self.firm_raw_colors[x] for x in list(data.index)]
 
         # report
         if drop_zero:
@@ -209,7 +218,10 @@ class PatentData(object):
             labels.transforms_name = "sumone" + labels.transforms_name
             ans = ans.div(ans.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
-        rgb_colors = [self.raw_colors[x] for x in list(ans.index)]
+        if do_transpose:
+            rgb_colors = [self.patent_raw_colors[x] for x in list(ans.index)]
+        else:
+            rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
 
         return labels, ans, p_sizes, rgb_colors
 
@@ -260,7 +272,7 @@ class PatentData(object):
             data.index = data.index.map(lambda x : x + "_y" + str(year))
 
             # append to outputs
-            ans = ans.append(data)
+            ans = ans.append(data).fillna(0)
             years_data = np.append(years_data, np.repeat(year,data.shape[0]))
             p_sizes_all = np.append(p_sizes_all, p_sizes )
             rgb_colors_all = np.append(rgb_colors_all, rgb_colors, axis=0)
