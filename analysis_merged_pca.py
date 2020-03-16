@@ -40,14 +40,20 @@ def get_common_parser():
     # Mapper parameters
     common_parser.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
     common_parser.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
-    common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
 
     common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
     common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
     common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
 
+    # output choices
+    common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
+    common_parser.add_argument("--clustermap", action="store_true", help="Do clustermap.")
+    common_parser.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
+
+
     # Other choices
     common_parser.add_argument("--char_limit", help="limit number of characters to use for firms and patent classes", type=int, default=None)
+    common_parser.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
 
     return common_parser
 
@@ -187,18 +193,18 @@ def do_mapper(args, bigdata, verbosity):
     else:
         proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)
 
-    if True:
-        proc.plot_lens(np.array(rgb_colors)/255., show=args.interactive)
 
-    # do clustermap
-    if False:
-        proc.do_clustermap()
+    # Other outputs
+    if True: proc.plot_lens(np.array(rgb_colors)/255., show=args.interactive)
+    if args.clustermap: proc.do_clustermap()
+    if not args.no_dump_raw: proc.dump_data_parquet()
 
-    # dump data
-    if True:
-        proc.dump_data_parquet()
 
-    # prepare additional data
+    # Early end
+    if args.no_mapper:
+        exit()
+
+    # Additional data
     list_p_sizes = list(cf.flatten())
     more_data = {'members': list(proc.data.index),
                  'color': rgb_colors, 'p_sizes': list_p_sizes,
