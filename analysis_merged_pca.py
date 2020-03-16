@@ -13,7 +13,7 @@ from a_patent_data import PatentData
 from a_mapper_analyzer import MapperAnalyzer
 from a_utilities import color_averager, is_empty_data
 
-import mappertools.text_dump as tdump
+import mappertools.outputs.text_dump as tdump
 
 
 def get_common_parser():

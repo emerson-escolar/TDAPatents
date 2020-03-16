@@ -3,10 +3,10 @@ import numpy as np
 import kmapper as km
 import seaborn
 
-import mappertools.linkage_mapper as lk
-import mappertools.text_dump as tdump
-import mappertools.covers as cvs
-import mappertools.distances as mdists
+import mappertools.mapper.covers as cvs
+import mappertools.mapper.distances as mdists
+import mappertools.mapper.linkage_mapper as lk
+import mappertools.outputs.text_dump as tdump
 import mappertools.features.flare_balls as flare_balls
 
 import matplotlib.pyplot as plt
@@ -201,7 +201,7 @@ class MapperAnalyzer(object):
         elif self.lens.shape[1] == 3:
             fig = plt.figure()
             ax = fig.gca(projection='3d')
-            ax.set_aspect("equal")
+            # ax.set_aspect("equal")
             ax.scatter(self.lens[:,0], self.lens[:,1], self.lens[:,2], c=rgb_colors)
             plt.savefig(str(output_fname))
             if show:
