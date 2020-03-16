@@ -116,17 +116,17 @@ class MapperAnalyzer(object):
         if self.metric == "precomputed":
             graph = self.mapper.map(self.lens, X = self.distance_matrix,
                                     precomputed = True,
-                                    clusterer = lk.LinkageMapper(metric=self.metric,
-                                                                 heuristic=heuristic,
-                                                                 verbose=self.verbose,
-                                                                 bins="doane"),
+                                    clusterer = lk.HeuristicHierarchical(metric=self.metric,
+                                                                         heuristic=heuristic,
+                                                                         verbose=self.verbose,
+                                                                         bins="doane"),
                                     cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
         else:
             graph = self.mapper.map(self.lens, self.data.values,
-                                    clusterer = lk.LinkageMapper(metric=self.metric,
-                                                                 heuristic=heuristic,
-                                                                 verbose=self.verbose,
-                                                                 bins="doane"),
+                                    clusterer = lk.HeuristicHierarchical(metric=self.metric,
+                                                                         heuristic=heuristic,
+                                                                         verbose=self.verbose,
+                                                                         bins="doane"),
                                     cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
         output_folder = self.get_output_folder(n_cubes,overlap,heuristic)
