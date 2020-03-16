@@ -20,8 +20,14 @@ def get_common_parser():
     common_parser = argparse.ArgumentParser(add_help = False)
     common_parser.add_argument("--verbose", "-v", action="store_true", help="verbose.")
 
+    # Data choice
     common_parser.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
+    common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
 
+    common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
+    common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
+
+    # Processing
     common_parser.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
     common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
     common_parser.add_argument("--transpose", action="store_true", help="do transpose.")
@@ -29,26 +35,18 @@ def get_common_parser():
     common_parser.add_argument("--log", "-l", action="store_true", help="do log.")
     common_parser.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
 
-
-
-    common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
     common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
 
-    common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
-
-    common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
-
-    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
-
-    common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
-    common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
-
+    # Mapper parameters
     common_parser.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
-
     common_parser.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
     common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
 
+    common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
+    common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
+    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
 
+    # Other choices
     common_parser.add_argument("--char_limit", help="limit number of characters to use for firms and patent classes", type=int, default=None)
 
     return common_parser
@@ -216,6 +214,8 @@ def do_mapper(args, bigdata, verbosity):
         more_transforms['unique_members'] = (lambda x:list(set(x)))
 
         query_data = 'unique_members'
+
+    # end additional data
 
     # do mapper analysis
     for n_cubes in args.numbers:
