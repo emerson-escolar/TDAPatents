@@ -15,7 +15,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
 
 import scipy.spatial.distance
-
+import scipy.cluster.hierarchy
 
 # pl_jet = [[0.0, 'rgb(0, 0, 127)'],
 #           [0.1, 'rgb(0, 0, 241)'],
@@ -164,14 +164,18 @@ class MapperAnalyzer(object):
 
 
 
-    def do_clustermap(self,cmap="Reds"):
+    def do_clustermap(self, cmap="Reds", overwrite=False):
         output_fname = self.get_main_folder().joinpath(self.get_data_fullname()+ "_cluster.png")
 
+        if not overwrite and output_fname.exists():
+            print("{} exists! Skipping clustermap plot".format(str(output_fname)))
+            return
+
         if self.metric == "precomputed":
-            g = seaborn.clustermap(scipy.spatial.distance.squareform(self.distance_matrix, force='tovector'),
-                                   metric=self.metric,
-                                   col_cluster=False, yticklabels=True,
-                                   cmap=cmap, figsize=(20,40))
+            g = seaborn.clustermap(self.data,
+                                   col_cluster=False,
+                                   row_linkage = scipy.cluster.hierarchy.linkage(scipy.spatial.distance.squareform(self.distance_matrix, force='tovector'),metric="precomputed"),
+                                   yticklabels=True, cmap=cmap, figsize=(20,40))
         else:
             g = seaborn.clustermap(self.data, metric=self.metric,
                                    col_cluster=False, yticklabels=True,
@@ -187,25 +191,29 @@ class MapperAnalyzer(object):
                                            self.lens_name)
         output_fname = main_folder.joinpath(name)
 
+        allow_writing = True
         if not overwrite and output_fname.exists():
             print("{} exists! Skipping lens plot".format(str(output_fname)))
+            allow_writing = False
 
+        if not show and not allow_writing:
+            return
 
         if self.lens.shape[1] == 2:
             plt.figure(figsize=(8,8))
             plt.scatter(self.lens[:,0], self.lens[:,1],c=rgb_colors)
-            plt.savefig(str(output_fname))
-            if show:
-                plt.show()
+
+            if allow_writing: plt.savefig(str(output_fname))
+            if show: plt.show()
 
         elif self.lens.shape[1] == 3:
             fig = plt.figure()
             ax = fig.gca(projection='3d')
             # ax.set_aspect("equal")
             ax.scatter(self.lens[:,0], self.lens[:,1], self.lens[:,2], c=rgb_colors)
-            plt.savefig(str(output_fname))
-            if show:
-                plt.show()
+
+            if allow_writing: plt.savefig(str(output_fname))
+            if show: plt.show()
 
 
     def dump_data_parquet(self, overwrite=False):
@@ -216,5 +224,6 @@ class MapperAnalyzer(object):
 
         if not overwrite and output_fname.exists():
             print("{} exists! Skipping annotated data dump.".format(str(output_fname)))
+            return
 
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
