@@ -8,6 +8,7 @@ import mappertools.mapper.distances as mdists
 import mappertools.mapper.linkage_mapper as lk
 import mappertools.outputs.text_dump as tdump
 import mappertools.features.flare_balls as flare_balls
+import mappertools.mapper.clustering as mclust
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -227,3 +228,10 @@ class MapperAnalyzer(object):
             return
 
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
+
+    def get_kMedoids(self, k):
+        prefix = "k{}Med".format(k)
+        if self.metric != "precomputed":
+            return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.data)
+        else:
+            return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.distance_matrix)

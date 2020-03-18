@@ -49,6 +49,7 @@ def get_common_parser():
     common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
     common_parser.add_argument("--clustermap", action="store_true", help="Do clustermap.")
     common_parser.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
+    common_parser.add_argument("--kmedoids", help="number(s) of k-Medoids to compute and append to cyjs output.", type=int, nargs="+", default=None)
 
 
     # Other choices
@@ -221,6 +222,10 @@ def do_mapper(args, bigdata, verbosity):
 
         query_data = 'unique_members'
 
+    if args.kmedoids:
+        for k in args.kmedoids:
+            kMed = proc.get_kMedoids(k)
+            more_data[kMed.prefix] = kMed.labels_
     # end additional data
 
     # do mapper analysis
