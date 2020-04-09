@@ -32,7 +32,7 @@ def get_common_parser():
     group_processing = common_parser.add_argument_group("Processing")
     group_processing.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
     group_processing.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
-    group_processing.add_argument("--transpose", action="store_true", help="do transpose.")
+    group_processing.add_argument("--transpose", action="store_true", help="do transpose. When enabled, consider patent classes, instead of firms, as entities/points.")
 
     group_processing.add_argument("--log", "-l", action="store_true", help="do log.")
     group_processing.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
