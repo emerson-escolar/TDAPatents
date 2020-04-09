@@ -21,40 +21,42 @@ def get_common_parser():
     common_parser.add_argument("--verbose", "-v", action="store_true", help="verbose.")
 
     # Data choice
-    common_parser.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
-    common_parser.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
+    group_data_choice = common_parser.add_argument_group("Data choice")
+    group_data_choice.add_argument("--data", help="data choice: 0 (folder 180901_csv) or 1 (folder 200110_csv) (default: 1).", type=int, default=1, choices=[0,1])
+    group_data_choice.add_argument("--mode", "-m", help="mode choice: 0 or 1 or 2 (default: 0; both modes: 2).", type=int, default=0, choices=[0,1,2])
 
-    common_parser.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
-    common_parser.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
+    group_data_choice.add_argument("--from_year", "-f", help="starting year to do analysis.", type=int,default=1976)
+    group_data_choice.add_argument("--to_year", "-g", help="ending year (inclusive) to do analysis.", type=int,default=2005)
 
     # Processing
-    common_parser.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
-    common_parser.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
-    common_parser.add_argument("--transpose", action="store_true", help="do transpose.")
+    group_processing = common_parser.add_argument_group("Processing")
+    group_processing.add_argument("--keep_zeros", "-z", action="store_true", help="preserve zeros columns in data. Do not use. Otherwise, drop zero columns.")
+    group_processing.add_argument("--cos_trans", "-c", action="store_true", help="use cosine distances to transform data.")
+    group_processing.add_argument("--transpose", action="store_true", help="do transpose.")
 
-    common_parser.add_argument("--log", "-l", action="store_true", help="do log.")
-    common_parser.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
+    group_processing.add_argument("--log", "-l", action="store_true", help="do log.")
+    group_processing.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
 
-    common_parser.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
+    group_processing.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
 
     # Mapper parameters
-    common_parser.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
-    common_parser.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
+    group_mapper_params = common_parser.add_argument_group("Mapper parameters")
+    group_mapper_params.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
+    group_mapper_params.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
 
-    common_parser.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
-    common_parser.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
-    common_parser.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
+    group_mapper_params.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
+    group_mapper_params.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
+    group_mapper_params.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
 
     # output choices
-    common_parser.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
-    common_parser.add_argument("--clustermap", action="store_true", help="Do clustermap.")
-    common_parser.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
-    common_parser.add_argument("--kmedoids", help="number(s) of k-Medoids to compute and append to cyjs output.", type=int, nargs="+", default=None)
+    group_output = common_parser.add_argument_group("Output options")
+    group_output.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
+    group_output.add_argument("--clustermap", action="store_true", help="Do clustermap.")
+    group_output.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
+    group_output.add_argument("--kmedoids", help="number(s) of k-Medoids to compute and append to cyjs output.", type=int, nargs="+", default=None)
 
-
-    # Other choices
-    common_parser.add_argument("--char_limit", help="limit number of characters to use for firms and patent classes", type=int, default=None)
-    common_parser.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
+    group_output.add_argument("--char_limit", help="limit chars for firms and patent class names", type=int, default=None)
+    group_output.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
 
     return common_parser
 
@@ -78,12 +80,16 @@ def get_parser():
     merge_parser.set_defaults(procedure="merge")
 
     # MERGE-ACCUMULATE
+    common_parser_copy = get_common_parser()
+    matching_groups = (g for g in common_parser_copy._action_groups if g.title == 'Data choice')
+    group = next(matching_groups, None) or common_parser_copy
+    group.add_argument("--window", "-w", type=int, help="window size (default=5)",default=5)
+    group.add_argument("--shift", "-s", type=int, help="window shift (default=5)",default=5)
+
     merge_accum_parser = subparsers.add_parser("ma",
                                                help="accumulate over window, then merge across shifted windows.",
-                                                    parents=[common_parser])
+                                               parents=[common_parser_copy])
     merge_accum_parser.set_defaults(procedure="merge_accumulate")
-    merge_accum_parser.add_argument("--window", "-w", type=int, help="window size (default=5)",default=5)
-    merge_accum_parser.add_argument("--shift", "-s", type=int, help="window shift (default=5)",default=5)
 
     return parser
 
