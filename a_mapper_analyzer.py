@@ -235,3 +235,8 @@ class MapperAnalyzer(object):
             return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.data)
         else:
             return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.distance_matrix)
+
+    def get_kMeans(self, k):
+        prefix = "k{}Means".format(k)
+
+        return mclust.kMedoids(metric="euclidean", heuristic=k, prefix=prefix).fit(self.data)

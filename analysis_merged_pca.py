@@ -53,7 +53,7 @@ def get_common_parser():
     group_output.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
     group_output.add_argument("--clustermap", action="store_true", help="Do clustermap.")
     group_output.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
-    group_output.add_argument("--kmedoids", help="number(s) of k-Medoids to compute and append to cyjs output.", type=int, nargs="+", default=None)
+    group_output.add_argument("--kclusters", help="number(s) of k-Medoids and k-Means to compute and append to cyjs output. Note that k-Means ignores --metric and always computes with Euclidean distances.", type=int, nargs="+", default=None)
 
     group_output.add_argument("--char_limit", help="limit chars for firms and patent class names", type=int, default=None)
     group_output.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
@@ -228,10 +228,13 @@ def do_mapper(args, bigdata, verbosity):
 
         query_data = 'unique_members'
 
-    if args.kmedoids:
-        for k in args.kmedoids:
+    if args.kclusters:
+        for k in args.kclusters:
             kMed = proc.get_kMedoids(k)
             more_data[kMed.prefix] = kMed.labels_
+
+            kMean = proc.get_kMeans(k)
+            more_data[kMean.prefix] = kMean.labels_
     # end additional data
 
     # do mapper analysis
