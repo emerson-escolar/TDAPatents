@@ -206,6 +206,8 @@ def do_mapper(args, bigdata, verbosity):
     if args.clustermap: proc.do_clustermap()
     if not args.no_dump_raw: proc.dump_data_parquet()
 
+    if args.kclusters:
+        kClusters = proc.dataframe_kClusters(args.kclusters, dump=True)
 
     # Early end
     if args.no_mapper:
@@ -229,12 +231,8 @@ def do_mapper(args, bigdata, verbosity):
         query_data = 'unique_members'
 
     if args.kclusters:
-        for k in args.kclusters:
-            kMed = proc.get_kMedoids(k)
-            more_data[kMed.prefix] = kMed.labels_
-
-            kMean = proc.get_kMeans(k)
-            more_data[kMean.prefix] = kMean.labels_
+        for col in kClusters.columns:
+            more_data[col] = kClusters[col].to_list()
     # end additional data
 
     # do mapper analysis

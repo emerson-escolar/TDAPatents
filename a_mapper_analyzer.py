@@ -15,6 +15,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 import networkx as nx
 
+import pandas
 import scipy.spatial.distance
 import scipy.cluster.hierarchy
 
@@ -240,3 +241,24 @@ class MapperAnalyzer(object):
         prefix = "k{}Means".format(k)
 
         return mclust.kMedoids(metric="euclidean", heuristic=k, prefix=prefix).fit(self.data)
+
+
+    def dataframe_kClusters(self, k_list, dump=False):
+        ans = pandas.DataFrame()
+        for k in k_list:
+            clus = self.get_kMedoids(k)
+            ans[clus.prefix] = clus.labels_
+
+            clus = self.get_kMeans(k)
+            ans[clus.prefix] = clus.labels_
+
+        ans.index = self.data.index
+
+        if dump:
+            main_folder = self.get_main_folder()
+            name = "{:s}_{:s}_kclusters.csv".format(self.labels.transforms_name,
+                                                    self.labels.data_name)
+            output_fname = main_folder.joinpath(name)
+            ans.to_csv(output_fname)
+
+        return ans
