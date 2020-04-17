@@ -230,26 +230,21 @@ class MapperAnalyzer(object):
 
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
 
-    def get_kMedoids(self, k):
-        prefix = "k{}Med".format(k)
-        if self.metric != "precomputed":
-            return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.data)
-        else:
-            return mclust.kMedoids(metric=self.metric, heuristic=k, prefix=prefix).fit(self.distance_matrix)
-
-    def get_kMeans(self, k):
-        prefix = "k{}Means".format(k)
-
-        return mclust.kMedoids(metric="euclidean", heuristic=k, prefix=prefix).fit(self.data)
-
 
     def dataframe_kClusters(self, k_list, dump=False):
         ans = pandas.DataFrame()
+
+        # precompute distance matrix for kMedoids
+        if self.metric != "precomputed":
+            distance_matrix = scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(data, metric=self.metric))
+        else:
+            distance_matrix = self.distance_matrix
+
         for k in k_list:
-            clus = self.get_kMedoids(k)
+            clus = mclust.kMedoids(metric="precomputed", heuristic=k, prefix="k{}Med".format(k)).fit(distance_matrix)
             ans[clus.prefix] = clus.labels_
 
-            clus = self.get_kMeans(k)
+            clus = mclust.kMeans(metric="euclidean", heuristic=k, prefix="k{}Means".format(k)).fit(self.data)
             ans[clus.prefix] = clus.labels_
 
         ans.index = self.data.index
