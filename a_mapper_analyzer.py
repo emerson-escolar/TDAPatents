@@ -236,7 +236,7 @@ class MapperAnalyzer(object):
 
         # precompute distance matrix for kMedoids
         if self.metric != "precomputed":
-            distance_matrix = scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(data, metric=self.metric))
+            distance_matrix = scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(self.data, metric=self.metric))
         else:
             distance_matrix = self.distance_matrix
 
