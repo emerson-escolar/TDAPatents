@@ -62,8 +62,15 @@ class MapperAnalyzer(object):
         self.mapper = km.KeplerMapper(verbose=verbose)
         self.verbose = verbose
 
+        self.main_folder = None
+
+    def initialize(self, base_path=None):
         ## Determine main output folder below:
-        cur_path = pathlib.Path.cwd()
+        if base_path is None:
+            cur_path = pathlib.Path.cwd()
+        else:
+            cur_path = pathlib.Path(base_path)
+
         ts_output = True
         if ts_output == True:
             # otherwise, do not specify data_name in main folder, so its shared
@@ -74,8 +81,9 @@ class MapperAnalyzer(object):
             self.main_folder = cur_path.joinpath(metric_lens_transforms)
 
             # further subdivide by mode..
-            self.main_folder = self.main_folder.joinpath(labels.extra_desc)
+            self.main_folder = self.main_folder.joinpath(self.labels.extra_desc)
         self.main_folder.mkdir(parents=True, exist_ok=True)
+
 
     def __handle_custom_metric(self):
         if self.metric == "bloom":
@@ -84,7 +92,11 @@ class MapperAnalyzer(object):
             self.metric = "precomputed"
 
     def get_main_folder(self):
+        if self.main_folder is None:
+            raise RuntimeError("MapperAnalyzer not initialized!")
+
         return self.main_folder
+
 
     def get_param_name(self):
         metric_lens = "{:s}_{:s}".format(self.metric_name[:3], self.lens_name)

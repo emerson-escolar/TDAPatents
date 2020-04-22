@@ -189,6 +189,8 @@ def do_mapper(args, bigdata, verbosity):
     else:
         proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)
 
+    # initialize analyzer
+    proc.initialize()
 
     # Other outputs
     if True: proc.plot_lens(np.array(labels.rgb_colors)/255., show=args.interactive)
