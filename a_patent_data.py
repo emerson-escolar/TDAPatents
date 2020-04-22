@@ -299,4 +299,4 @@ class PatentData(object):
 
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
-        return labels, ans, years_data
+        return labels, ans

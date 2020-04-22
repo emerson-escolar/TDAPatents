@@ -179,14 +179,11 @@ def do_mapper(args, bigdata, verbosity):
     else:
         lens_name = "pca{}d".format(args.dimension)
 
-    if labels.years_data is not None:
-        proc = MapperAnalyzer(data, unique_members, labels.years_data,
-                              labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
-                              verbose=verbosity)
-    else:
-        proc = MapperAnalyzer(data, unique_members, labels.p_sizes,
-                              labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
-                              verbose=verbosity)
+
+    proc = MapperAnalyzer(data, unique_members,
+                          labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
+                          verbose=verbosity)
+
 
     if args.mds:
         if proc.metric == "precomputed":

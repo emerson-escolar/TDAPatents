@@ -46,12 +46,11 @@ class MapperAnalyzer(object):
     """
 
     def __init__(self, data, unique_members,
-                 mapper_cf, labels, lens, lens_name,
+                 labels, lens, lens_name,
                  metric, verbose=0):
         # data is pandas dataframe
         self.data = data
         self.unique_members = unique_members
-        self.mapper_cf = mapper_cf
         self.lens = lens
 
         self.lens_name = lens_name
@@ -113,6 +112,12 @@ class MapperAnalyzer(object):
         output_folder.mkdir(parents=True, exist_ok=True)
         return output_folder
 
+    def get_mapper_colorfunction(self):
+        if self.labels.years_data is not None:
+            return self.labels.years_data
+        else:
+            return self.labels.p_sizes
+
 
     def do_basic_analysis(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
         if self.metric == "precomputed":
@@ -136,7 +141,7 @@ class MapperAnalyzer(object):
 
         if html_output:
             output_fname = output_folder.joinpath(fullname + ".html")
-            self.mapper.visualize(graph, color_function=self.mapper_cf,
+            self.mapper.visualize(graph, color_function= self.get_mapper_colorfunction(),
                                   path_html = str(output_fname),
                                   title = fullname,
                                   custom_tooltips=np.array(self.data.index))
