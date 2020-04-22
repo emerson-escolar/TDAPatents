@@ -235,7 +235,7 @@ class MapperAnalyzer(object):
 
 
     def dataframe_kClusters(self, k_list, dump_summary=False, dump_aggregates=False):
-        ans = pandas.DataFrame()
+        ans = pandas.DataFrame(index = self.data.index)
 
         # precompute distance matrix for kMedoids
         if self.metric != "precomputed":
@@ -246,7 +246,6 @@ class MapperAnalyzer(object):
         for k in k_list:
             ans = self.__do_kMedoids(k, distance_matrix, ans, dump=dump_aggregates)
             ans = self.__do_kMeans(k, ans, dump=dump_aggregates)
-        ans.index = self.data.index
 
         if dump_summary:
             name = "{:s}_{:s}_kclusters.csv".format(self.labels.transforms_name,
@@ -266,7 +265,7 @@ class MapperAnalyzer(object):
         if dump:
             name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
             output_fname = self.get_main_folder().joinpath(name)
-            mclust.unique_entity_counts_by_cluster(clus.labels_,
+            mclust.unique_entity_counts_by_cluster(ans[clus.prefix],
                                                    unique_names=self.labels.intemporal_index,
                                                    cluster_totals=True).to_csv(output_fname)
 
@@ -280,7 +279,7 @@ class MapperAnalyzer(object):
         if dump:
             name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
             output_fname = self.get_main_folder().joinpath(name)
-            mclust.unique_entity_counts_by_cluster(clus.labels_,
+            mclust.unique_entity_counts_by_cluster(ans[clus.prefix],
                                                    unique_names=self.labels.intemporal_index,
                                                    cluster_totals=True).to_csv(output_fname)
 
