@@ -266,6 +266,9 @@ class MapperAnalyzer(object):
         if dump:
             name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
             output_fname = self.get_main_folder().joinpath(name)
+            mclust.unique_entity_counts_by_cluster(clus.labels_,
+                                                   unique_names=self.labels.intemporal_index,
+                                                   cluster_totals=True).to_csv(output_fname)
 
         return ans
 
@@ -277,5 +280,8 @@ class MapperAnalyzer(object):
         if dump:
             name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
             output_fname = self.get_main_folder().joinpath(name)
+            mclust.unique_entity_counts_by_cluster(clus.labels_,
+                                                   unique_names=self.labels.intemporal_index,
+                                                   cluster_totals=True).to_csv(output_fname)
 
         return ans
