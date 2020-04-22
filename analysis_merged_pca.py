@@ -207,7 +207,7 @@ def do_mapper(args, bigdata, verbosity):
     if not args.no_dump_raw: proc.dump_data_parquet()
 
     if args.kclusters:
-        kClusters = proc.dataframe_kClusters(args.kclusters, dump=True)
+        kClusters = proc.dataframe_kClusters(args.kclusters, dump_summary=True, dump_aggregates=True)
 
     # Early end
     if args.no_mapper:

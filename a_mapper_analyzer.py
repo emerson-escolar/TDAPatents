@@ -231,7 +231,7 @@ class MapperAnalyzer(object):
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
 
 
-    def dataframe_kClusters(self, k_list, dump=False):
+    def dataframe_kClusters(self, k_list, dump_summary=False, dump_aggregates=False):
         ans = pandas.DataFrame()
 
         # precompute distance matrix for kMedoids
@@ -241,19 +241,38 @@ class MapperAnalyzer(object):
             distance_matrix = self.distance_matrix
 
         for k in k_list:
-            clus = mclust.kMedoids(metric="precomputed", heuristic=k, prefix="k{}Med".format(k)).fit(distance_matrix)
-            ans[clus.prefix] = clus.labels_
-
-            clus = mclust.kMeans(metric="euclidean", heuristic=k, prefix="k{}Means".format(k)).fit(self.data)
-            ans[clus.prefix] = clus.labels_
-
+            ans = self.__do_kMedoids(k, distance_matrix, ans, dump=dump_aggregates)
+            ans = self.__do_kMeans(k, ans, dump=dump_aggregates)
         ans.index = self.data.index
 
-        if dump:
-            main_folder = self.get_main_folder()
+        if dump_summary:
             name = "{:s}_{:s}_kclusters.csv".format(self.labels.transforms_name,
                                                     self.labels.data_name)
-            output_fname = main_folder.joinpath(name)
+            output_fname = self.get_main_folder().joinpath(name)
             ans.to_csv(output_fname)
+
+        return ans
+
+
+    def __do_kMedoids(self, k, distance_matrix, ans, dump=False):
+        prefix = "k{}Med".format(k)
+
+        clus = mclust.kMedoids(metric="precomputed", heuristic=k, prefix=prefix).fit(distance_matrix)
+        ans[clus.prefix] = clus.labels_
+
+        if dump:
+            name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
+            output_fname = self.get_main_folder().joinpath(name)
+
+        return ans
+
+    def __do_kMeans(self, k, ans, dump=False):
+        prefix = "k{}Means".format(k)
+        clus = mclust.kMeans(metric="euclidean", heuristic=k, prefix=prefix).fit(self.data)
+        ans[clus.prefix] = clus.labels_
+
+        if dump:
+            name = "{:s}_{:s}_{:s}.csv".format(self.labels.transforms_name, self.labels.data_name, prefix)
+            output_fname = self.get_main_folder().joinpath(name)
 
         return ans
