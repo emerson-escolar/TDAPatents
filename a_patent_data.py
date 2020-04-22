@@ -119,6 +119,15 @@ class PatentData(object):
         return 1-C
 
 
+    def get_unique_firms(self):
+        unique_firms = list(self.firm_translator.values())
+        return unique_firms
+
+    def get_unique_patents(self):
+        unique_patents = list(self.class_translator.values())
+        return unique_patents
+
+
     def get_data(self, year,
                  drop_zero=True, do_transform=True, do_transpose=False,
                  do_log=True, sum_to_one=False):
