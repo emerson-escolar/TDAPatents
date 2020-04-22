@@ -58,6 +58,8 @@ def get_common_parser():
     group_output.add_argument("--char_limit", help="limit chars for firms and patent class names", type=int, default=None)
     group_output.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
 
+    group_output.add_argument("--output", "-o", help="output base folder.", type=str)
+
     return common_parser
 
 
@@ -190,7 +192,7 @@ def do_mapper(args, bigdata, verbosity):
         proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)
 
     # initialize analyzer
-    proc.initialize()
+    proc.initialize(base_path=args.output)
 
     # Other outputs
     if True: proc.plot_lens(np.array(labels.rgb_colors)/255., show=args.interactive)
