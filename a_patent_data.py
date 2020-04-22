@@ -270,6 +270,7 @@ class PatentData(object):
         # prepare outputs:
         ans = pandas.DataFrame()
         years_data = np.array([])
+        intemporal_index = pandas.Index([])
         p_sizes_all = np.array([])
         rgb_colors_all = np.zeros((0,3))
 
@@ -281,6 +282,8 @@ class PatentData(object):
             year_labels, data  = self.get_accumulated_data(year, year + accum_window-1,
                                                            drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                                            do_log=do_log, sum_to_one=sum_to_one)
+
+            intemporal_index = intemporal_index.append(data.index)
             # append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
 
@@ -295,6 +298,7 @@ class PatentData(object):
         labels.p_sizes = p_sizes_all
         labels.rgb_colors = rgb_colors_all
         labels.years_data = years_data
+        labels.intemporal_index = intemporal_index
 
         return labels, ans
 
