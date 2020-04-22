@@ -169,21 +169,15 @@ def do_mapper(args, bigdata, verbosity):
         summed = data.sum(axis=1)
         assert np.allclose(summed.loc[summed!=0],1)
 
-
-
     # prepare mapper data and lens
     if args.mds == True:
         lens_name = "mds{}d".format(args.dimension)
     else:
         lens_name = "pca{}d".format(args.dimension)
 
-
-    unique_members = bigdata.get_unique_patents() if args.transpose else bigdata.get_unique_firms()
-
-    proc = MapperAnalyzer(data, unique_members,
-                          labels=labels, lens= None, lens_name=lens_name, metric=args.metric,
+    proc = MapperAnalyzer(data, labels=labels,
+                          lens= None, lens_name=lens_name, metric=args.metric,
                           verbose=verbosity)
-
 
     if args.mds:
         if proc.metric == "precomputed":
@@ -216,14 +210,15 @@ def do_mapper(args, bigdata, verbosity):
     more_transforms = {'color': color_averager,
                        'ave_p_size' : np.mean, 'max_p_size' : np.max}
 
-    query_data = 'members'
-    if args.procedure == "merge" or args.procedure == "merge_accumulate":
+    if labels.years_data is not None:
         more_data['ave_year'] = labels.years_data
         more_transforms['ave_year'] = np.mean
-        more_data['unique_members'] = [x[:-6] for x in list(data.index)]
-        more_transforms['unique_members'] = (lambda x:list(set(x)))
 
-        query_data = 'unique_members'
+    flare_query_string = "members"
+    if labels.intemporal_index is not None:
+        more_data['unique_members'] = list(labels.intemporal_index)
+        more_transforms['unique_members'] = (lambda x:list(set(x)))
+        flare_query_string = "unique_members"
 
     if args.kclusters:
         for col in kClusters.columns:
@@ -246,13 +241,12 @@ def do_mapper(args, bigdata, verbosity):
             output_folder = proc.get_output_folder(n_cubes, overlap, args.heuristic)
             fullname = proc.get_fullname(n_cubes, overlap, args.heuristic)
 
-            if False:
-                nx.write_gpickle(nxgraph, output_folder.joinpath(fullname + ".gpickle"))
+            # Output cyjs
+            output_fname = output_folder.joinpath(fullname + ".cyjs")
+            tdump.cytoscapejson_dump(nxgraph, output_fname)
 
-            proc.do_advanced_outputs(nxgraph, output_folder, fullname, query_data)
-
-
-
+            # Output flares
+            proc.do_flare_csv(nxgraph, output_folder, fullname, flare_query_string)
 
 
 

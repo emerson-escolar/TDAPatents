@@ -45,16 +45,15 @@ class MapperAnalyzer(object):
     Class to handle logic of managing parameter choices and outputs.
     """
 
-    def __init__(self, data, unique_members,
-                 labels, lens, lens_name,
+    def __init__(self, data, labels,
+                 lens, lens_name,
                  metric, verbose=0):
         # data is pandas dataframe
         self.data = data
-        self.unique_members = unique_members
-        self.lens = lens
-
-        self.lens_name = lens_name
         self.labels = labels
+
+        self.lens = lens
+        self.lens_name = lens_name
 
         self.metric_name = metric
         self.metric = metric
@@ -148,25 +147,24 @@ class MapperAnalyzer(object):
         return graph
 
 
-    def do_advanced_outputs(self, nxgraph, output_folder, fullname, query_data='unique_members'):
-        # output_fname = output_folder.joinpath(fullname + ".txt")
-        # ofile = open(str(output_fname), 'w')
-        # tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
-        # ofile.close()
+    # def do_advanced_outputs(self, nxgraph, output_folder, fullname):
+    #     output_fname = output_folder.joinpath(fullname + ".txt")
+    #     ofile = open(str(output_fname), 'w')
+    #     tdump.kmapper_text_dump(graph, ofile, list(self.data.index))
+    #     ofile.close()
 
-        # output_fname = output_folder.joinpath(fullname+"clus_ave.txt")
-        # ofile = open(str(output_fname), 'w')
-        # tdump.kmapper_dump_cluster_averages(self.data, graph, ofile)
-        # ofile.close()
+    #     output_fname = output_folder.joinpath(fullname+"clus_ave.txt")
+    #     ofile = open(str(output_fname), 'w')
+    #     tdump.kmapper_dump_cluster_averages(self.data, graph, ofile)
+    #     ofile.close()
+    #     pass
 
-        if True:
-            output_fname = output_folder.joinpath(fullname + ".cyjs")
-            tdump.cytoscapejson_dump(nxgraph, output_fname)
+    def do_flare_csv(self, nxgraph, output_folder, fullname, flare_query_string):
+        output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
+        flare_k = flare_balls.compute_all_summary(nxgraph, entities=self.labels.unique_members,
+                                                  query_data=flare_query_string, verbose=self.verbose, keep_missing=True)
+        flare_k.to_csv(output_fname)
 
-        if True:
-            output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
-            flare_k = flare_balls.compute_all_summary(nxgraph, self.unique_members, query_data=query_data, verbose=self.verbose, keep_missing=True)
-            flare_k.to_csv(output_fname)
         return
 
 

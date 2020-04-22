@@ -30,7 +30,11 @@ class DataLabels(object):
 
         self.p_sizes = None
         self.rgb_colors = None
+        self.unique_members = None
+
         self.years_data = None
+        self.intemporal_index = None
+
 
 def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)
@@ -191,6 +195,7 @@ class PatentData(object):
         else:
             print("Processed {:s} {:s}. {:d} entities, zeros retained".format(labels.transforms_name, labels.data_name, orig_num))
 
+        labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
         return labels, data
 
     def get_accumulated_data(self, from_year, to_year,
@@ -236,6 +241,7 @@ class PatentData(object):
         else:
             labels.rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
 
+        labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
         return labels, ans
 
 
@@ -299,6 +305,7 @@ class PatentData(object):
         labels.rgb_colors = rgb_colors_all
         labels.years_data = years_data
         labels.intemporal_index = intemporal_index
+        labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
 
         return labels, ans
 
