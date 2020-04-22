@@ -149,20 +149,19 @@ def main():
 
 
 def do_mapper(args, bigdata, verbosity):
-    years_data = None
     if args.procedure == "accumulate":
         labels,data = bigdata.get_accumulated_data(args.from_year, args.to_year,
                                                                  drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                  do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge":
-        labels,data,years_data = bigdata.get_merged_data(args.from_year, args.to_year,
-                                                                       drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
-                                                                       do_log=args.log, sum_to_one=args.sum_to_one)
+        labels,data = bigdata.get_merged_data(args.from_year, args.to_year,
+                                              drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
+                                              do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge_accumulate":
-        labels,data,years_data = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
-                                                                                   args.window, args.shift,
-                                                                                   drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
-                                                                                   do_log=args.log, sum_to_one=args.sum_to_one)
+        labels,data = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
+                                                          args.window, args.shift,
+                                                          drop_zero=(not args.keep_zeros),do_transform=args.cos_trans,do_transpose=args.transpose,
+                                                          do_log=args.log, sum_to_one=args.sum_to_one)
 
     if is_empty_data(data, args.from_year, args.to_year): return
 
@@ -180,8 +179,8 @@ def do_mapper(args, bigdata, verbosity):
     else:
         lens_name = "pca{}d".format(args.dimension)
 
-    if years_data is not None:
-        proc = MapperAnalyzer(data, unique_members, years_data,
+    if labels.years_data is not None:
+        proc = MapperAnalyzer(data, unique_members, labels.years_data,
                               labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                               verbose=verbosity)
     else:
@@ -223,7 +222,7 @@ def do_mapper(args, bigdata, verbosity):
 
     query_data = 'members'
     if args.procedure == "merge" or args.procedure == "merge_accumulate":
-        more_data['ave_year'] = years_data
+        more_data['ave_year'] = labels.years_data
         more_transforms['ave_year'] = np.mean
         more_data['unique_members'] = [x[:-6] for x in list(data.index)]
         more_transforms['unique_members'] = (lambda x:list(set(x)))

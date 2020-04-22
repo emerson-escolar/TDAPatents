@@ -30,6 +30,7 @@ class DataLabels(object):
 
         self.p_sizes = None
         self.rgb_colors = None
+        self.years_data = None
 
 def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)
@@ -284,16 +285,18 @@ class PatentData(object):
 
         labels.p_sizes = p_sizes_all
         labels.rgb_colors = rgb_colors_all
+        labels.years_data = years_data
 
-        return labels, ans, years_data
+        return labels, ans
 
 
     def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True, do_transpose=False,
                         do_log=True, sum_to_one=False):
-        labels, ans, years_data = self.get_merged_accumulated_data(from_year, to_year,
-                                                                   accum_window=1, window_shift=1,
-                                                                   drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
-                                                                   do_log=do_log, sum_to_one=sum_to_one)
+        labels, ans = self.get_merged_accumulated_data(from_year, to_year,
+                                                       accum_window=1, window_shift=1,
+                                                       drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
+                                                       do_log=do_log, sum_to_one=sum_to_one)
+
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
         return labels, ans, years_data
