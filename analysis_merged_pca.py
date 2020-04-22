@@ -151,8 +151,8 @@ def main():
 def do_mapper(args, bigdata, verbosity):
     if args.procedure == "accumulate":
         labels,data = bigdata.get_accumulated_data(args.from_year, args.to_year,
-                                                                 drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
-                                                                 do_log=args.log, sum_to_one=args.sum_to_one)
+                                                   drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
+                                                   do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge":
         labels,data = bigdata.get_merged_data(args.from_year, args.to_year,
                                               drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
@@ -169,9 +169,7 @@ def do_mapper(args, bigdata, verbosity):
         summed = data.sum(axis=1)
         assert np.allclose(summed.loc[summed!=0],1)
 
-    unique_firms = list(bigdata.firm_translator.values())
-    unique_patents = list(bigdata.class_translator.values())
-    unique_members = unique_patents if args.transpose else unique_firms
+
 
     # prepare mapper data and lens
     if args.mds == True:
@@ -180,8 +178,10 @@ def do_mapper(args, bigdata, verbosity):
         lens_name = "pca{}d".format(args.dimension)
 
 
+    unique_members = bigdata.get_unique_patents() if args.transpose else bigdata.get_unique_firms()
+
     proc = MapperAnalyzer(data, unique_members,
-                          labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
+                          labels=labels, lens= None, lens_name=lens_name, metric=args.metric,
                           verbose=verbosity)
 
 
@@ -191,7 +191,6 @@ def do_mapper(args, bigdata, verbosity):
         else:
             X = scipy.spatial.distance.pdist(data, metric=args.metric)
             dists = scipy.spatial.distance.squareform(X)
-
         proc.lens = skm.MDS(n_components=args.dimension, dissimilarity="precomputed").fit_transform(dists)
     else:
         proc.lens = skd.PCA(n_components=args.dimension).fit_transform(data)
