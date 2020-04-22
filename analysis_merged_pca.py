@@ -151,15 +151,15 @@ def main():
 def do_mapper(args, bigdata, verbosity):
     years_data = None
     if args.procedure == "accumulate":
-        labels,data,cf,rgb_colors = bigdata.get_accumulated_data(args.from_year, args.to_year,
+        labels,data = bigdata.get_accumulated_data(args.from_year, args.to_year,
                                                                  drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                  do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_data(args.from_year, args.to_year,
+        labels,data,years_data = bigdata.get_merged_data(args.from_year, args.to_year,
                                                                        drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                        do_log=args.log, sum_to_one=args.sum_to_one)
     elif args.procedure == "merge_accumulate":
-        labels,data,cf,years_data,rgb_colors = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
+        labels,data,years_data = bigdata.get_merged_accumulated_data(args.from_year, args.to_year,
                                                                                    args.window, args.shift,
                                                                                    drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
                                                                                    do_log=args.log, sum_to_one=args.sum_to_one)
@@ -185,7 +185,7 @@ def do_mapper(args, bigdata, verbosity):
                               labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                               verbose=verbosity)
     else:
-        proc = MapperAnalyzer(data, unique_members, cf,
+        proc = MapperAnalyzer(data, unique_members, labels.p_sizes,
                               labels=labels, lens= None, lens_name=lens_name,metric=args.metric,
                               verbose=verbosity)
 
@@ -202,7 +202,7 @@ def do_mapper(args, bigdata, verbosity):
 
 
     # Other outputs
-    if True: proc.plot_lens(np.array(rgb_colors)/255., show=args.interactive)
+    if True: proc.plot_lens(np.array(labels.rgb_colors)/255., show=args.interactive)
     if args.clustermap: proc.do_clustermap()
     if not args.no_dump_raw: proc.dump_data_parquet()
 
@@ -214,9 +214,9 @@ def do_mapper(args, bigdata, verbosity):
         exit()
 
     # Additional data
-    list_p_sizes = list(cf.flatten())
+    list_p_sizes = list(labels.p_sizes.flatten())
     more_data = {'members': list(proc.data.index),
-                 'color': rgb_colors, 'p_sizes': list_p_sizes,
+                 'color': labels.rgb_colors, 'p_sizes': list_p_sizes,
                  'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
     more_transforms = {'color': color_averager,
                        'ave_p_size' : np.mean, 'max_p_size' : np.max}

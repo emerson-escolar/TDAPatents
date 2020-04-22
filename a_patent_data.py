@@ -28,6 +28,9 @@ class DataLabels(object):
         self.transforms_name = ""
         self.mode_name = ""
 
+        self.p_sizes = None
+        self.rgb_colors = None
+
 def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)
 
@@ -154,13 +157,12 @@ class PatentData(object):
             labels.transforms_name = "TENCHI" + labels.transforms_name
             data = data.T
 
-        p_sizes = sum_columns(data)
-
+        labels.p_sizes = sum_columns(data)
         # Log transform?
         if do_log:
             labels.transforms_name = "log" + labels.transforms_name
             data = np.log(data + 1)
-            p_sizes = np.log(p_sizes + 1)
+            labels.p_sizes = np.log(labels.p_sizes + 1)
 
         # Sum to one?
         if sum_to_one:
@@ -169,9 +171,9 @@ class PatentData(object):
 
         # rgb colors
         if do_transpose:
-            rgb_colors = [self.patent_raw_colors[x] for x in list(data.index)]
+            labels.rgb_colors = [self.patent_raw_colors[x] for x in list(data.index)]
         else:
-            rgb_colors = [self.firm_raw_colors[x] for x in list(data.index)]
+            labels.rgb_colors = [self.firm_raw_colors[x] for x in list(data.index)]
 
         # report
         if drop_zero:
@@ -179,8 +181,7 @@ class PatentData(object):
         else:
             print("Processed {:s} {:s}. {:d} entities, zeros retained".format(labels.transforms_name, labels.data_name, orig_num))
 
-
-        return labels, data, p_sizes, rgb_colors
+        return labels, data
 
     def get_accumulated_data(self, from_year, to_year,
                              drop_zero=True, do_transform=True, do_transpose=False,
@@ -203,29 +204,29 @@ class PatentData(object):
         for year in range(from_year, to_year+1):
             # do not take log before summing!
             # also do not normalize to one!
-            _, data, _, _ = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
+            _, data = self.get_data(year, drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
                                           do_log=False, sum_to_one=False)
             ans = ans.add(data,axis='index',fill_value=0).fillna(0)
 
         if do_transpose:
             labels.transforms_name = "TENCHI" + labels.transforms_name
 
-        p_sizes = sum_columns(ans)
+        labels.p_sizes = sum_columns(ans)
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
             ans = np.log(ans + 1)
-            p_sizes = np.log(p_sizes + 1)
+            labels.p_sizes = np.log(labels.p_sizes + 1)
 
         if sum_to_one:
             labels.transforms_name = "sumone" + labels.transforms_name
             ans = ans.div(ans.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
         if do_transpose:
-            rgb_colors = [self.patent_raw_colors[x] for x in list(ans.index)]
+            labels.rgb_colors = [self.patent_raw_colors[x] for x in list(ans.index)]
         else:
-            rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
+            labels.rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
 
-        return labels, ans, p_sizes, rgb_colors
+        return labels, ans
 
 
     def get_merged_accumulated_data(self, from_year, to_year, accum_window, window_shift,
@@ -267,28 +268,32 @@ class PatentData(object):
             if year + accum_window-1 > to_year:
                 break
 
-            _, data, p_sizes, rgb_colors = self.get_accumulated_data(year, year + accum_window-1,
-                                                                     drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
-                                                                     do_log=do_log, sum_to_one=sum_to_one)
+            year_labels, data  = self.get_accumulated_data(year, year + accum_window-1,
+                                                           drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
+                                                           do_log=do_log, sum_to_one=sum_to_one)
             # append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
 
             # append to outputs
             ans = ans.append(data).fillna(0)
             years_data = np.append(years_data, np.repeat(year,data.shape[0]))
-            p_sizes_all = np.append(p_sizes_all, p_sizes )
-            rgb_colors_all = np.append(rgb_colors_all, rgb_colors, axis=0)
+
+            p_sizes_all = np.append(p_sizes_all, year_labels.p_sizes)
+            rgb_colors_all = np.append(rgb_colors_all, year_labels.rgb_colors, axis=0)
 
 
-        return labels, ans, p_sizes_all, years_data, rgb_colors_all
+        labels.p_sizes = p_sizes_all
+        labels.rgb_colors = rgb_colors_all
+
+        return labels, ans, years_data
 
 
     def get_merged_data(self, from_year, to_year, drop_zero=True, do_transform=True, do_transpose=False,
                         do_log=True, sum_to_one=False):
-        labels, ans, p_sizes_all, years_data, rgb_colors_all= self.get_merged_accumulated_data(from_year, to_year,
-                                                                                               accum_window=1, window_shift=1,
-                                                                                               drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
-                                                                                               do_log=do_log, sum_to_one=sum_to_one)
+        labels, ans, years_data = self.get_merged_accumulated_data(from_year, to_year,
+                                                                   accum_window=1, window_shift=1,
+                                                                   drop_zero=drop_zero, do_transform=do_transform, do_transpose=do_transpose,
+                                                                   do_log=do_log, sum_to_one=sum_to_one)
         labels.data_name = self.extra_data_desc+"_y{:d}_to_y{:d}".format(from_year, to_year)
 
-        return labels, ans, p_sizes_all, years_data, rgb_colors_all
+        return labels, ans, years_data
