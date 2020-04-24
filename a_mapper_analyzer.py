@@ -260,7 +260,7 @@ class MapperAnalyzer(object):
             ans = self.__do_kMeans(k, ans, dump=dump_aggregates)
 
         if dump_summary:
-            name = "{:s}_{:s}_{:s}_kclusters.csv".format(self.labels.metric_name,
+            name = "{:s}_{:s}_{:s}_kclusters.csv".format(self.metric_name,
                                                          self.labels.transforms_name,
                                                          self.labels.data_name)
             output_fname = self.get_main_folder().joinpath(name)
@@ -276,7 +276,7 @@ class MapperAnalyzer(object):
         ans[clus.prefix] = clus.labels_
 
         if dump:
-            name = "{:s}_{:s}_{:s}_{:s}.csv".format(self.labels.metric_name,
+            name = "{:s}_{:s}_{:s}_{:s}.csv".format(self.metric_name,
                                                     self.labels.transforms_name,
                                                     self.labels.data_name,
                                                     prefix)
@@ -293,7 +293,7 @@ class MapperAnalyzer(object):
         ans[clus.prefix] = clus.labels_
 
         if dump:
-            name = "{:s}_{:s}_{:s}_{:s}.csv".format(self.labels.metric_name,
+            name = "{:s}_{:s}_{:s}_{:s}.csv".format(self.metric_name,
                                                     self.labels.transforms_name,
                                                     self.labels.data_name,
                                                     prefix)
