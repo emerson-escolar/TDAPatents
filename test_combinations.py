@@ -9,8 +9,6 @@ constant_options = ["--from_year", "1981",
                     "--kclusters", "6", "21",
                     "-o", "test_folder"]
 
-
-
 @pytest.mark.parametrize(("data","mode"), [(1,0),
                                            pytest.param(1,2, marks=pytest.mark.comprehensive),
                                            pytest.param(0,0, marks=pytest.mark.comprehensive),
@@ -24,8 +22,6 @@ constant_options = ["--from_year", "1981",
 def test_all(program_mode, data, mode,
              cos_trans, transpose, log, sum_to_one,
              metric):
-    assert True
-    return
     args = [program_mode,
             "--data", str(data),
             "--mode", str(mode),
