@@ -96,9 +96,9 @@ def get_parser():
     return parser
 
 
-def main():
+def main(raw_args):
     parser = get_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(raw_args)
 
     if args.procedure == None:
         parser.print_help()
@@ -255,4 +255,4 @@ def do_mapper(args, bigdata, verbosity):
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
