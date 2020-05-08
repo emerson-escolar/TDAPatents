@@ -281,11 +281,18 @@ class MapperAnalyzer(object):
                                                     self.labels.data_name,
                                                     prefix)
             output_fname = self.get_main_folder().joinpath(name)
-            mclust.unique_entity_counts_by_cluster(ans[clus.prefix],
-                                                   unique_names=self.labels.intemporal_index,
-                                                   cluster_totals=True).to_csv(output_fname)
+
+            agg, years_agg, leaders_agg = self.__do_labels_aggregation(ans[clus.prefix])
+            with open(output_fname, 'w') as f:
+                agg.to_csv(f)
+                f.write("\n")
+            with open(output_fname, 'a') as f:
+                years_agg.to_csv(f)
+                f.write("\n")
+                leaders_agg.to_csv(f)
 
         return ans
+
 
     def __do_kMeans(self, k, ans, dump=False):
         prefix = "k{}Means".format(k)
@@ -298,8 +305,42 @@ class MapperAnalyzer(object):
                                                     self.labels.data_name,
                                                     prefix)
             output_fname = self.get_main_folder().joinpath(name)
-            mclust.unique_entity_counts_by_cluster(ans[clus.prefix],
-                                                   unique_names=self.labels.intemporal_index,
-                                                   cluster_totals=True).to_csv(output_fname)
+
+            agg, years_agg, leaders_agg = self.__do_labels_aggregation(ans[clus.prefix])
+            with open(output_fname, 'w') as f:
+                agg.to_csv(f)
+                f.write("\n")
+            with open(output_fname, 'a') as f:
+                years_agg.to_csv(f)
+                f.write("\n")
+                leaders_agg.to_csv(f)
 
         return ans
+
+
+    def __do_labels_aggregation(self, labels):
+        agg = mclust.unique_entity_counts_by_cluster(labels,
+                                                     unique_names=self.labels.intemporal_index,
+                                                     cluster_totals=False)
+        total_firm_years = agg.sum().rename('TOTAL_FIRMYEARS')
+        unique_firms = agg.astype(bool).sum(axis=0).rename('UNIQUE_FIRMS')
+
+        leaders_agg = pandas.concat((pandas.Series([x + '__({})'.format(num)
+                                                    for num,x in sorted(zip(agg.loc[:,col_name], agg.index), reverse=True)
+                                                    if num != 0])
+                                     for col_name in agg.columns), axis=1)
+        leaders_agg.columns = agg.columns
+
+
+        years_agg = mclust.unique_entity_counts_by_cluster(labels, unique_names=self.labels.years_data)
+        total_years = years_agg.sum().rename('TOTAL_YEARS')
+        unique_years = years_agg.astype(bool).sum(axis=0).rename('UNIQUE_YEARS')
+
+        years = np.array([[int(y) for y in years_agg.index]])
+        mean_years = (years @ years_agg / total_years)
+        mean_years.index = ['MEAN_YEARS']
+
+        agg = agg.append(total_firm_years).append(unique_firms)
+
+        years_agg = years_agg.append(unique_years).append(mean_years, )
+        return agg, years_agg, leaders_agg
