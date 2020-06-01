@@ -251,7 +251,7 @@ class MapperAnalyzer(object):
                 return
 
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
-        self.data.to_json(str(labels_fname))
+        self.labels.to_json(str(labels_fname))
 
 
     def dataframe_kClusters(self, k_list, dump_summary=False, dump_aggregates=False):
