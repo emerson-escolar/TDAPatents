@@ -36,12 +36,16 @@ class DataLabels(object):
         self.years_data = None   # numpy.array or None
         self.intemporal_index = None  # pandas.Index or None
 
-    def to_json(self, fname):
+    def to_json_fname(self, fname):
         with open(fname, "w") as outfile:
-            json.dump(self, outfile, cls=DataLabelsEncoder)
+            self.to_json(outfile)
+
+    def to_json(self, fp):
+        json.dump(self, fp, cls=DataLabelsEncoder)
+
 
     @classmethod
-    def from_json(cls, fname):
+    def from_json_fname(cls, fname):
         with open(fname, "r") as infile:
             return json.load(infile, object_hook=decode_data_labels)
 
