@@ -197,7 +197,7 @@ def do_mapper(args, bigdata, verbosity):
     # Other outputs
     if True: proc.plot_lens(np.array(labels.rgb_colors)/255., show=args.interactive)
     if args.clustermap: proc.do_clustermap()
-    if not args.no_dump_raw: proc.dump_data_parquet()
+    if not args.no_dump_raw: proc.dump_data()
 
     if args.kclusters:
         kClusters = proc.dataframe_kClusters(args.kclusters, dump_summary=True, dump_aggregates=True)

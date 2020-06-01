@@ -35,6 +35,9 @@ class DataLabels(object):
         self.years_data = None
         self.intemporal_index = None
 
+    def to_json(self, fname):
+        pass
+
 
 def sum_columns(raw_data):
     return np.sum(raw_data.values, axis=1, keepdims=True)

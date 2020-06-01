@@ -233,17 +233,25 @@ class MapperAnalyzer(object):
             if show: plt.show()
 
 
-    def dump_data_parquet(self, overwrite=False):
+    def dump_data(self, overwrite=False):
         main_folder = self.get_main_folder()
         name = "{:s}_{:s}.parquet".format(self.labels.transforms_name,
-                                           self.labels.data_name)
+                                          self.labels.data_name)
         output_fname = main_folder.joinpath(name)
 
-        if not overwrite and output_fname.exists():
-            print("{} exists! Skipping annotated data dump.".format(str(output_fname)))
-            return
+        name = "{:s}_{:s}_labels.json".format(self.labels.transforms_name, self.labels.data_name)
+        labels_fname = main_folder.joinpath(name)
+
+        if not overwrite:
+            if output_fname.exists():
+                print("{} exists! Skipping annotated data dump.".format(str(output_fname)))
+                return
+            if labels_fname.exists():
+                print("{} exists! Skipping annotated data dump.".format(str(labels_fname)))
+                return
 
         self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
+        self.data.to_json(str(labels_fname))
 
 
     def dataframe_kClusters(self, k_list, dump_summary=False, dump_aggregates=False):
