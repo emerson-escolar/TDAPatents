@@ -300,6 +300,7 @@ class PatentData(object):
             labels.rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
 
         labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
+        labels.years_data = np.repeat(from_year, ans.shape[0])
         return labels, ans
 
 
@@ -353,7 +354,7 @@ class PatentData(object):
 
             # append to outputs
             ans = ans.append(data).fillna(0)
-            years_data = np.append(years_data, np.repeat(year,data.shape[0]))
+            years_data = np.append(years_data, year_labels.years_data)
 
             p_sizes_all = np.append(p_sizes_all, year_labels.p_sizes)
             rgb_colors_all = np.append(rgb_colors_all, year_labels.rgb_colors, axis=0)
