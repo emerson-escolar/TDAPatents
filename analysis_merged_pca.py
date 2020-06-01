@@ -96,14 +96,8 @@ def get_parser():
     return parser
 
 
-def main(raw_args):
-    parser = get_parser()
-    args = parser.parse_args(raw_args)
 
-    if args.procedure == None:
-        parser.print_help()
-        exit()
-
+def get_labels_and_data(args):
     if args.data == 0:
         data_name = "D0"
         base_folder = "180901_csv/"
@@ -115,7 +109,6 @@ def main(raw_args):
 
     class_translator = base_folder + "patent_classes.csv"
     # class_translator = None
-
 
     if args.mode == 0:
         bigdata = PatentData(extra_data_desc=data_name+"m0",
@@ -145,12 +138,6 @@ def main(raw_args):
     bigdata.init_transform(cosdis_folder_name = (base_folder + "cosine_distance_byyear"),
                            cosdis_fname_format = "cosine_distance_year{:d}.csv")
 
-    do_mapper(args, bigdata, verbosity=(2 if args.verbose else 0))
-
-
-
-
-def do_mapper(args, bigdata, verbosity):
     if args.procedure == "accumulate":
         labels,data = bigdata.get_accumulated_data(args.from_year, args.to_year,
                                                    drop_zero=(not args.keep_zeros), do_transform=args.cos_trans, do_transpose=args.transpose,
@@ -165,6 +152,10 @@ def do_mapper(args, bigdata, verbosity):
                                                           drop_zero=(not args.keep_zeros),do_transform=args.cos_trans,do_transpose=args.transpose,
                                                           do_log=args.log, sum_to_one=args.sum_to_one)
 
+    return labels, data
+
+
+def do_mapper(args, labels, data, verbosity):
     if is_empty_data(data, args.from_year, args.to_year): return
 
     if args.sum_to_one:
@@ -252,7 +243,16 @@ def do_mapper(args, bigdata, verbosity):
             # Output flares
             proc.do_flare_csv(nxgraph, output_folder, fullname, flare_query_string)
 
+def main(raw_args):
+    parser = get_parser()
+    args = parser.parse_args(raw_args)
 
+    if args.procedure == None:
+        parser.print_help()
+        exit()
+
+    labels, data = get_labels_and_data(args)
+    do_mapper(args, labels, data, verbosity=(2 if args.verbose else 0))
 
 if __name__ == "__main__":
     main(sys.argv[1:])
