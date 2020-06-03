@@ -10,7 +10,7 @@ import sklearn.decomposition as skd
 import scipy.spatial.distance
 
 from a_patent_data import PatentData
-from a_mapper_analyzer import MapperAnalyzer
+from a_analyzer import Analyzer
 from a_utilities import color_averager, is_empty_data
 
 import mappertools.outputs.text_dump as tdump
@@ -168,7 +168,7 @@ def do_mapper(args, labels, data, verbosity):
     else:
         lens_name = "pca{}d".format(args.dimension)
 
-    proc = MapperAnalyzer(data, labels=labels,
+    proc = Analyzer(data, labels=labels,
                           lens= None, lens_name=lens_name, metric=args.metric,
                           verbose=verbosity)
 

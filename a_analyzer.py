@@ -40,9 +40,9 @@ for i in np.linspace(0,1, num=11, endpoint=True):
 km.kmapper.colorscale_default = pl_turbo
 km.visuals.colorscale_default = pl_turbo
 
-class MapperAnalyzer(object):
+class Analyzer(object):
     """
-    Class to handle logic of managing parameter choices and outputs.
+    Class to handle parameter choices and outputs for various analyses.
     """
 
     def __init__(self, data, labels,
@@ -93,7 +93,7 @@ class MapperAnalyzer(object):
 
     def get_main_folder(self):
         if self.main_folder is None:
-            raise RuntimeError("MapperAnalyzer not initialized!")
+            raise RuntimeError("Analyzer not initialized!")
 
         return self.main_folder
 
