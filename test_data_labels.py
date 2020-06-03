@@ -1,9 +1,8 @@
-import a_patent_data
+from a_data_labels import DataLabels
 import analysis_merged_pca
 import tempfile
 import pytest
 import numpy
-
 
 @pytest.mark.parametrize(("data","mode"), [(1,0),
                                            pytest.param(1,2, marks=pytest.mark.comprehensive),
@@ -41,7 +40,7 @@ def test_json_dump(program_mode, data, mode,
     print(str(fname))
     labels.to_json_fname(fname)
 
-    loaded_labels = a_patent_data.DataLabels.from_json_fname(fname)
+    loaded_labels = DataLabels.from_json_fname(fname)
 
     assert labels.extra_desc == loaded_labels.extra_desc
     assert labels.data_name == loaded_labels.data_name
