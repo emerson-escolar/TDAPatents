@@ -130,7 +130,7 @@ class Analyzer(object):
             return self.labels.p_sizes
 
 
-    def do_basic_analysis(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
+    def compute_mapper_graph(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
         if self.metric == "precomputed":
             graph = self.mapper.map(self.lens, X = self.distance_matrix,
                                     precomputed = True,

@@ -226,7 +226,7 @@ def do_mapper(args, labels, data, verbosity):
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            graph = proc.do_basic_analysis(n_cubes, overlap, args.heuristic)
+            graph = proc.compute_mapper_graph(n_cubes, overlap, args.heuristic)
 
             nxgraph = tdump.kmapper_to_nxmapper(graph,
                                                 more_data, more_data,
