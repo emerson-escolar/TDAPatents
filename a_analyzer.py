@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 import networkx as nx
+import networkx.algorithms.centrality as nxc
 
 import pandas
 import scipy.spatial.distance
@@ -182,17 +183,49 @@ class Analyzer(object):
 
     #     return
 
-    def do_derived_stats_csv(self, nxgraph, output_folder, fullname, flare_query_string):
+    def do_derived_stats_csv(self, nxgraph, output_folder, fullname, query_string):
+        """
+        query_string is the node attribute key containing 'unique members' (names of entities) of each node.
+        """
+
         output_fname = output_folder.joinpath(fullname + "_derived_stats.csv")
         derived_stats = flare_balls.compute_all_summary(nxgraph, entities=self.labels.unique_members,
-                                                        query_data=flare_query_string, verbose=self.verbose, keep_missing=True)
+                                                        query_data=query_string, verbose=self.verbose, keep_missing=True)
 
+        # centralities
 
+        centrality_functions = [nxc.degree_centrality, nxc.harmonic_centrality, nxc.closeness_centrality]
+        aggregation_functions = [np.mean, np.min, np.max]
 
+        centrality_names = [ cen_fun.__name__ for cen_fun in centrality_functions ]
+        centrality_dicts = [ cen_fun(nxgraph) for cen_fun in centrality_functions ]
 
+        columns = []
+        for cen_name in centrality_names:
+            columns.append(cen_name)
+            for agg_fun in aggregation_functions:
+                columns.append(cen_name + "_" + agg_fun.__name__)
 
+        cen = pandas.DataFrame(index=derived_stats.index, columns=columns)
 
-        flare_k.to_csv(output_fname)
+        for firm in self.labels.unique_members:
+            firm_nodes = list(flare_balls.get_nodes_containing_entity(nxgraph, firm, query_data=query_string))
+
+            for cen_name, cen_dict in zip(centrality_names, centrality_dicts):
+                firm_centralities = [cen_dict[node] for node in firm_nodes]
+
+                # as-is output
+                cen.loc[firm, cen_name] = firm_centralities
+
+                if len(firm_centralities) == 0:
+                    continue
+
+                for agg_fun in aggregation_functions:
+                    key = cen_name + "_" + agg_fun.__name__
+                    cen.loc[firm, key] = agg_fun(firm_centralities)
+
+        derived_stats = derived_stats.join(cen, how="outer")
+        derived_stats.to_csv(output_fname)
 
         return
 
