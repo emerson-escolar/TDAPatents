@@ -240,8 +240,8 @@ def do_mapper(args, labels, data, verbosity):
             output_fname = output_folder.joinpath(fullname + ".cyjs")
             tdump.cytoscapejson_dump(nxgraph, output_fname)
 
-            # Output flares
-            proc.do_flare_csv(nxgraph, output_folder, fullname, flare_query_string)
+            # Output flares & other stats for each firm.
+            proc.do_derived_stats_csv(nxgraph, output_folder, fullname, flare_query_string)
 
 def main(raw_args):
     parser = get_parser()

@@ -123,11 +123,11 @@ class Analyzer(object):
         output_folder.mkdir(parents=True, exist_ok=True)
         return output_folder
 
-    def get_mapper_colorfunction(self):
+    def get_mapper_colorpair(self):
         if self.labels.years_data is not None:
-            return self.labels.years_data
+            return ("years", self.labels.years_data)
         else:
-            return self.labels.p_sizes
+            return ("psizes", self.labels.p_sizes)
 
 
     def compute_mapper_graph(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
@@ -152,7 +152,10 @@ class Analyzer(object):
 
         if html_output:
             output_fname = output_folder.joinpath(fullname + ".html")
-            self.mapper.visualize(graph, color_function= self.get_mapper_colorfunction(),
+            color_function_name, color_values = self.get_mapper_colorpair()
+            self.mapper.visualize(graph,
+                                  color_function_name = color_function_name,
+                                  color_values = color_values,
                                   path_html = str(output_fname),
                                   title = fullname,
                                   custom_tooltips=np.array(self.data.index))
@@ -171,10 +174,24 @@ class Analyzer(object):
     #     ofile.close()
     #     pass
 
-    def do_flare_csv(self, nxgraph, output_folder, fullname, flare_query_string):
-        output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
-        flare_k = flare_balls.compute_all_summary(nxgraph, entities=self.labels.unique_members,
-                                                  query_data=flare_query_string, verbose=self.verbose, keep_missing=True)
+    # def do_flare_csv(self, nxgraph, output_folder, fullname, flare_query_string):
+    #     output_fname = output_folder.joinpath(fullname + "_flare_stats.csv")
+    #     flare_k = flare_balls.compute_all_summary(nxgraph, entities=self.labels.unique_members,
+    #                                               query_data=flare_query_string, verbose=self.verbose, keep_missing=True)
+    #     flare_k.to_csv(output_fname)
+
+    #     return
+
+    def do_derived_stats_csv(self, nxgraph, output_folder, fullname, flare_query_string):
+        output_fname = output_folder.joinpath(fullname + "_derived_stats.csv")
+        derived_stats = flare_balls.compute_all_summary(nxgraph, entities=self.labels.unique_members,
+                                                        query_data=flare_query_string, verbose=self.verbose, keep_missing=True)
+
+
+
+
+
+
         flare_k.to_csv(output_fname)
 
         return
