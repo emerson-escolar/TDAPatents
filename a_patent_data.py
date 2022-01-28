@@ -66,15 +66,18 @@ class PatentData(object):
         name_func = lambda item : str_truncate((item[0] + "_" + item[1].replace(" ", "_")), char_limit)
         self.class_translator = collections.OrderedDict([(int(item[0]), name_func(item)) for item in dict_data])
 
+        # no colors defined for patents
         raw_colors = {}
         for item in dict_data:
             raw_colors[name_func(item)] = (0,0,0)
         self.patent_raw_colors = raw_colors
 
+
+
     def generate_firm_translator(self, fname, func=(lambda x:int(x)), char_limit=None):
         ## assume names (firm_rank_name_industry.csv) are given in the ff format:
         ##
-        ## rank_tgt_unique | firm_name | industry | computer | pharma
+        ## rank_tgt_unique | firm_name | it       | drug     | medical devices
         ## 1               | Name One  |          |    1     |
         ## 2               | Name 2    |          |          |   1
         ## ...             | ...       |          |          |
@@ -82,22 +85,32 @@ class PatentData(object):
         ## and that the column 0 entry transformed as func(item[0]) are the labels used in the main data.
         ## industry column is currently ignored.
 
-        dict_data = pandas.read_csv(fname,dtype=str).values
-        # print(dict_data)
-        name_func = lambda item : str_truncate(item[1].replace(" ", "_"), char_limit)
-        translator = collections.OrderedDict([(func(item[0]), name_func(item))  for item in dict_data])
+        ## columns "it", "drug", and "medical devices" are used to determine firm rgb colors
+
+        translator_pd = pandas.read_csv(fname, dtype=str)
+        translator_np = translator_pd.to_numpy()
+
+        name_func = lambda name : str_truncate(name.replace(" ", "_"), char_limit)
+        translator = collections.OrderedDict([(func(item[0]), name_func(item[1]))  for item in translator_np])
 
         raw_colors = {}
-        for item in dict_data:
+        for item in translator_np:
             if item[3] == "1":
-                raw_colors[name_func(item)] = (255,0,0)
+                raw_colors[name_func(item[1])] = (255,0,0)
             elif item[4] == "1":
-                raw_colors[name_func(item)] = (0,255,0)
+                raw_colors[name_func(item[1])] = (0,255,0)
             else:
-                raw_colors[name_func(item)] = (0,0,255)
+                raw_colors[name_func(item[1])] = (0,0,255)
 
         self.firm_translator = translator
         self.firm_raw_colors = raw_colors
+
+        translator_pd.set_index("firm_name", drop=False, inplace=True)
+        print(translator_pd)
+        translator_pd.index = translator_pd.index.map(name_func)
+        self.firm_raw_sectors = translator_pd.iloc[:,9:]
+
+        print(self.firm_raw_sectors)
 
 
     def get_transform(self, year):
@@ -170,11 +183,13 @@ class PatentData(object):
             labels.transforms_name = "sumone" + labels.transforms_name
             data = data.div(data.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
-        # rgb colors
+        # rgb colors and sectors
         if do_transpose:
             labels.rgb_colors = [self.patent_raw_colors[x] for x in list(data.index)]
+            labels.sectors_data = None
         else:
             labels.rgb_colors = [self.firm_raw_colors[x] for x in list(data.index)]
+            labels.sectors_data = self.firm_raw_sectors.loc[data.index]
 
         # report
         if drop_zero:
@@ -213,7 +228,7 @@ class PatentData(object):
         if do_transpose:
             labels.transforms_name = "TENCHI" + labels.transforms_name
 
-        labels.p_sizes = sum_columns(ans)
+        labels.p_sizes = sum_columns(ans).reshape(-1)
         if (do_log):
             labels.transforms_name = "log" + labels.transforms_name
             ans = np.log(ans + 1)
@@ -224,9 +239,11 @@ class PatentData(object):
             ans = ans.div(ans.sum(axis=1).replace(to_replace=0, value=1), axis=0)
 
         if do_transpose:
-            labels.rgb_colors = [self.patent_raw_colors[x] for x in list(ans.index)]
+            labels.rgb_colors = np.array([self.patent_raw_colors[x] for x in list(ans.index)])
+            labels.sectors_data = None
         else:
-            labels.rgb_colors = [self.firm_raw_colors[x] for x in list(ans.index)]
+            labels.rgb_colors = np.array([self.firm_raw_colors[x] for x in list(ans.index)])
+            labels.sectors_data = self.firm_raw_sectors.loc[ans.index]
 
         labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
         labels.years_data = np.repeat(from_year, ans.shape[0])
@@ -268,6 +285,8 @@ class PatentData(object):
         p_sizes_all = np.array([])
         rgb_colors_all = np.zeros((0,3))
 
+        sectors_data = pandas.DataFrame()
+
         # compute:
         for year in range(from_year, to_year+1, window_shift):
             if year + accum_window-1 > to_year:
@@ -278,13 +297,20 @@ class PatentData(object):
                                                            do_log=do_log, sum_to_one=sum_to_one)
 
             intemporal_index = intemporal_index.append(data.index)
-            # append indices with year data
-            data.index = data.index.map(lambda x : x + "_y" + str(year))
 
+            ## append indices with year data
+            data.index = data.index.map(lambda x : x + "_y" + str(year))
             # append to outputs
             ans = ans.append(data).fillna(0)
+            # update years
             years_data = np.append(years_data, year_labels.years_data)
 
+            ## do the same for sectors_data
+            if year_labels.sectors_data is not None:
+                year_labels.sectors_data.index = year_labels.sectors_data.index.map(lambda x : x + "_y" + str(year))
+                sectors_data = sectors_data.append(year_labels.sectors_data).fillna(0)
+
+            ## other updates
             p_sizes_all = np.append(p_sizes_all, year_labels.p_sizes)
             rgb_colors_all = np.append(rgb_colors_all, year_labels.rgb_colors, axis=0)
 
@@ -294,6 +320,8 @@ class PatentData(object):
         labels.years_data = years_data
         labels.intemporal_index = intemporal_index
         labels.unique_members = self.get_unique_patents() if do_transpose else self.get_unique_firms()
+
+        labels.sectors_data = sectors_data
 
         return labels, ans
 

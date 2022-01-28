@@ -127,10 +127,28 @@ class Analyzer(object):
         return output_folder
 
     def get_mapper_colorpair(self):
+        # print(self.labels.sectors_data)
+
+        color_function_name = []
+        color_function_values = np.array([])
+
         if self.labels.years_data is not None:
-            return (["years","psizes"], np.array([self.labels.years_data, self.labels.p_sizes]).T)
+            color_function_name = ["years","psizes"]
+            color_function_values = np.array([list(self.labels.years_data), list(self.labels.p_sizes)]).T
         else:
-            return ("psizes", self.labels.p_sizes)
+            color_function_name = ["psizes"]
+            color_function_values = self.labels.p_sizes.reshape(-1,1)
+
+        if self.labels.sectors_data is not None:
+            sectors_data = self.labels.sectors_data
+            for col in sectors_data.columns:
+                color_function_name.append(col)
+
+                color_function_values = np.concatenate(
+                    (color_function_values, sectors_data.loc[:,col].to_numpy().reshape(-1,1)),
+                                axis=1 )
+
+        return color_function_name, color_function_values
 
 
     def compute_mapper_graph(self, n_cubes, overlap, clusterer_dict, html_output=True):
@@ -162,7 +180,6 @@ class Analyzer(object):
         if html_output:
             output_fname = output_folder.joinpath(fullname + ".html")
             color_function_name, color_values = self.get_mapper_colorpair()
-            print(color_values)
             self.mapper.visualize(graph,
                                   color_function_name = color_function_name,
                                   color_values = color_values,

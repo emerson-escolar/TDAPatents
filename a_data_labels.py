@@ -16,6 +16,10 @@ class DataLabels(object):
         self.years_data = None   # numpy.array or None
         self.intemporal_index = None  # pandas.Index or None
 
+        self.sectors_data = None   # numpy.array or None
+
+
+
     def to_json_fname(self, fname):
         with open(fname, "w") as outfile:
             self.to_json(outfile)
@@ -48,6 +52,8 @@ def decode_data_labels(dct):
 
         ans.unique_members = dct["unique_members"]
         ans.intemporal_index = None if dct["intemporal_index"] is None else pandas.Index(dct["intemporal_index"])
+
+        ans.sectors_data = to_array(dct["sectors_data"])
         return ans
 
     return dct
@@ -66,6 +72,7 @@ class DataLabelsEncoder(json.JSONEncoder):
             data["unique_members"] = self._member_to_maybe_list(labels.unique_members)
             data["years_data"] = self._member_to_maybe_list(labels.years_data)
             data["intemporal_index"] = self._member_to_maybe_list(labels.intemporal_index)
+            data["sectors_data"] = self._member_to_maybe_list(labels.sectors_data)
             return data
 
     @staticmethod
