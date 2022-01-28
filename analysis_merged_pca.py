@@ -46,7 +46,9 @@ def get_common_parser():
 
     group_mapper_params.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
     group_mapper_params.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
-    group_mapper_params.add_argument("--heuristic", help="gap heuristic method.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
+
+    group_mapper_params.add_argument("--clusterer", help="clustering method.", type=str, default='HC_single', choices=['HC_single', 'HC_complete', 'HC_average', 'HC_weighted', 'OPTICS'])
+    group_mapper_params.add_argument("--heuristic", help="gap heuristic method, for hierarchical clustering (HC) type clustering methods only.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
 
     # output choices
     group_output = common_parser.add_argument_group("Output options")
@@ -220,21 +222,33 @@ def do_mapper(args, labels, data, verbosity):
             more_data[col] = kClusters[col].to_list()
     # end additional data
 
+    # process clustering options
+    clusterer_dict = {"clusterer_arg": args.clusterer, "clusterer_HC_heuristic" : args.heuristic}
+
+    if args.clusterer[:3] == "HC_":
+        clusterer_dict["clusterer_name"] = args.clusterer + "_" + args.heuristic
+    else:
+        clusterer_dict["clusterer_name"] = args.clusterer
+
+    # end process clustering options
+
+
     # do mapper analysis
     for n_cubes in args.numbers:
         for overlap in args.overlaps:
             if overlap <= 0 or overlap >= 1:
                 print("Overlap: {} invalid; skipping.".format(overlap),file=sys.stderr)
                 continue
-            graph = proc.compute_mapper_graph(n_cubes, overlap, args.heuristic)
+            graph = proc.compute_mapper_graph(n_cubes, overlap, clusterer_dict)
 
             nxgraph = tdump.kmapper_to_nxmapper(graph,
                                                 more_data, more_data,
                                                 more_transforms, more_transforms,
                                                 counts=True, weights=True,
                                                 cen_flares=False)
-            output_folder = proc.get_output_folder(n_cubes, overlap, args.heuristic)
-            fullname = proc.get_fullname(n_cubes, overlap, args.heuristic)
+
+            output_folder = proc.get_output_folder(n_cubes, overlap, clusterer_dict["clusterer_name"])
+            fullname = proc.get_fullname(n_cubes, overlap, clusterer_dict["clusterer_name"])
 
             # Output cyjs
             output_fname = output_folder.joinpath(fullname + ".cyjs")

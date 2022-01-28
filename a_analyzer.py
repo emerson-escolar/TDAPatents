@@ -20,6 +20,8 @@ import pandas
 import scipy.spatial.distance
 import scipy.cluster.hierarchy
 
+import sklearn.cluster as skc
+
 # pl_jet = [[0.0, 'rgb(0, 0, 127)'],
 #           [0.1, 'rgb(0, 0, 241)'],
 #           [0.2, 'rgb(0, 76, 255)'],
@@ -109,51 +111,58 @@ class Analyzer(object):
                                        self.labels.data_name)
 
 
-    def get_fullname(self, cubes, overlap, heuristic=None):
+    def get_fullname(self, cubes, overlap, clusterer_name=None):
         part1 = self.get_data_fullname()
 
         mapper_choices = "_n{:s}_o{:.2f}".format(str(cubes), overlap)
-        if heuristic: mapper_choices += ("_" + heuristic)
+        if clusterer_name: mapper_choices += ("_" + clusterer_name)
 
         return part1 + mapper_choices
 
 
-    def get_output_folder(self, n_cubes, overlap, heuristic):
-        # from main_folder, separate by n_cubes and overlaps and heuristic
-        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap)+ "_" + heuristic)
+    def get_output_folder(self, n_cubes, overlap, clusterer_name):
+        # from main_folder, separate by n_cubes and overlaps and clusterer_name
+        output_folder = self.get_main_folder().joinpath("n"+str(n_cubes)+"_o" + str(overlap)+ "_" + clusterer_name)
         output_folder.mkdir(parents=True, exist_ok=True)
         return output_folder
 
     def get_mapper_colorpair(self):
         if self.labels.years_data is not None:
-            return ("years", self.labels.years_data)
+            return (["years","psizes"], np.array([self.labels.years_data, self.labels.p_sizes]).T)
         else:
             return ("psizes", self.labels.p_sizes)
 
 
-    def compute_mapper_graph(self, n_cubes, overlap, heuristic='firstgap', html_output=True):
+    def compute_mapper_graph(self, n_cubes, overlap, clusterer_dict, html_output=True):
+        clusterer = None
+        if clusterer_dict["clusterer_arg"][:3] == "HC_":
+            clusterer = lk.HeuristicHierarchical(metric = self.metric,
+                                                 method = clusterer_dict["clusterer_arg"][3:],
+                                                 heuristic = clusterer_dict["clusterer_HC_heuristic"],
+                                                 verbose=self.verbose,
+                                                 bins="doane")
+        elif clusterer_dict["clusterer_arg"] == "OPTICS":
+            print("Clustering using: sklearn OPTICS")
+            clusterer = skc.OPTICS(metric = self.metric)
+
+
         if self.metric == "precomputed":
             graph = self.mapper.map(self.lens, X = self.distance_matrix,
                                     precomputed = True,
-                                    clusterer = lk.HeuristicHierarchical(metric=self.metric,
-                                                                         heuristic=heuristic,
-                                                                         verbose=self.verbose,
-                                                                         bins="doane"),
+                                    clusterer = clusterer,
                                     cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
         else:
             graph = self.mapper.map(self.lens, self.data.values,
-                                    clusterer = lk.HeuristicHierarchical(metric=self.metric,
-                                                                         heuristic=heuristic,
-                                                                         verbose=self.verbose,
-                                                                         bins="doane"),
+                                    clusterer = clusterer,
                                     cover=km.Cover(n_cubes=n_cubes, perc_overlap=overlap))
 
-        output_folder = self.get_output_folder(n_cubes,overlap,heuristic)
-        fullname = self.get_fullname(n_cubes, overlap, heuristic)
+        output_folder = self.get_output_folder(n_cubes, overlap, clusterer_dict["clusterer_name"])
+        fullname = self.get_fullname(n_cubes, overlap, clusterer_dict["clusterer_name"])
 
         if html_output:
             output_fname = output_folder.joinpath(fullname + ".html")
             color_function_name, color_values = self.get_mapper_colorpair()
+            print(color_values)
             self.mapper.visualize(graph,
                                   color_function_name = color_function_name,
                                   color_values = color_values,
