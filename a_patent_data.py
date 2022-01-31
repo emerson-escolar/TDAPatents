@@ -106,11 +106,11 @@ class PatentData(object):
         self.firm_raw_colors = raw_colors
 
         translator_pd.set_index("firm_name", drop=False, inplace=True)
-        print(translator_pd)
+        # print(translator_pd)
         translator_pd.index = translator_pd.index.map(name_func)
         self.firm_raw_sectors = translator_pd.iloc[:,9:]
 
-        print(self.firm_raw_sectors)
+        # print(self.firm_raw_sectors)
 
 
     def get_transform(self, year):
