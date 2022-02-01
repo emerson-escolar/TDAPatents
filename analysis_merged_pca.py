@@ -48,7 +48,7 @@ def get_common_parser():
     group_mapper_params.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
 
     group_mapper_params.add_argument("--clusterer", help="clustering method.", type=str, default='HC_single', choices=['HC_single', 'HC_complete', 'HC_average', 'HC_weighted', 'OPTICS'])
-    group_mapper_params.add_argument("--heuristic", help="gap heuristic method, for hierarchical clustering (HC) type clustering methods only.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'db', 'sil'])
+    group_mapper_params.add_argument("--heuristic", help="gap heuristic method, for hierarchical clustering (HC) type clustering methods only.", type=str, default='firstgap', choices=['firstgap', 'midgap', 'lastgap', 'sil'])
 
     # output choices
     group_output = common_parser.add_argument_group("Output options")
