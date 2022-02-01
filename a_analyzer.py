@@ -43,6 +43,20 @@ for i in np.linspace(0,1, num=11, endpoint=True):
 km.kmapper.colorscale_default = pl_turbo
 km.visuals.colorscale_default = pl_turbo
 
+# change the sizes of nodes and edges
+def _my_size_node(member_ids):
+    return 5 * int(np.log(len(member_ids) + 1) + 1)
+km.visuals._size_node = _my_size_node
+
+# current bug in kmapper makes the following pointless:
+# TODO: file a bug report to kmapper
+def _my_size_link_width(graph, node_id, linked_node_id):
+    return 1
+km.visuals._size_link_width = _my_size_link_width
+
+
+
+
 class Analyzer(object):
     """
     Class to handle parameter choices and outputs for various analyses.
@@ -183,6 +197,7 @@ class Analyzer(object):
             self.mapper.visualize(graph,
                                   color_function_name = color_function_name,
                                   color_values = color_values,
+                                  include_searchbar = True,
                                   path_html = str(output_fname),
                                   title = fullname,
                                   custom_tooltips=np.array(self.data.index))
