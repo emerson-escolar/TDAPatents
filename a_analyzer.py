@@ -256,13 +256,16 @@ class Analyzer(object):
             # write_data(f, "Small-world omega: ", nxa.smallworld.omega(nxgraph))
 
 
-
         with open(output_fname, 'a') as f:
-            f.write("\n\nEntity-based stats:\n")
+            f.write("\n\n" + "#" * 70 + "\n")
+            f.write("Entity-based stats:\n(entity = firms in firm_rank_name_industry.csv; or patent classes)\n")
+            f.write("\n")
+
+            write_data(f, "Number of entities (inc. all-zero data): ", len(self.labels.unique_members))
 
             cnode_dist = mfs.containing_node_distribution(nxgraph, self.labels.unique_members, query_string)
             dist_as_string = cnode_dist.to_string(header=True, index=True)
-            write_data(f, "num_containing_nodes (of firms) frequency distribution:\n", dist_as_string, True)
+            write_data(f, "num_containing_nodes (of entities) frequency distribution:\n", dist_as_string, True)
 
         return
 
