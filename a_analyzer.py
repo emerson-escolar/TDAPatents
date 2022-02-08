@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 import networkx as nx
+import networkx.algorithms as nxa
 import networkx.algorithms.centrality as nxc
 
 import pandas
@@ -226,16 +227,45 @@ class Analyzer(object):
 
     #     return
 
-    def do_mapper_stats_csv(self, nxgraph, output_folder, fullname, query_string):
+    def do_mapper_stats_txt(self, nxgraph, output_folder, fullname, query_string):
         """
         query_string is the node attribute key containing 'unique members' (names of entities) of each node.
         """
-        output_fname = output_folder.joinpath(fullname + "_mapper_stats.csv")
+        output_fname = output_folder.joinpath(fullname + "_mapper_stats.txt")
+
+        def write_data(f, desc, data, star=False):
+            if star:
+                f.write("_" * len(desc) + "\n")
+            f.write(desc)
+            f.write(str(data))
+            f.write("\n")
+            if star:
+                f.write("=" * len(desc) + "\n")
+
+        with open(output_fname, 'w') as f:
+            f.write(nx.info(nxgraph))
+            f.write("\n")
+
+            deg_dist = pandas.Series(nx.degree_histogram(nxgraph))
+            dist_as_string = deg_dist.to_string(header=True, index=True)
+            write_data(f, "degree (of nodes) distribution:\n", dist_as_string, True)
+
+            write_data(f, "Number of connected components: ", nx.number_connected_components(nxgraph))
+
+            # write_data(f, "Small-world sigma: ", nxa.smallworld.sigma(nxgraph))
+            # write_data(f, "Small-world omega: ", nxa.smallworld.omega(nxgraph))
 
 
 
+        with open(output_fname, 'a') as f:
+            f.write("\n\nEntity-based stats:\n")
+
+            cnode_dist = mfs.containing_node_distribution(nxgraph, self.labels.unique_members, query_string)
+            dist_as_string = cnode_dist.to_string(header=True, index=True)
+            write_data(f, "num_containing_nodes (of firms) frequency distribution:\n", dist_as_string, True)
 
         return
+
 
 
     def do_derived_stats_csv(self, nxgraph, output_folder, fullname, query_string):
@@ -251,11 +281,20 @@ class Analyzer(object):
         centrality_functions = [nxc.degree_centrality, nxc.harmonic_centrality, nxc.closeness_centrality]
         aggregation_functions = [np.mean, np.min, np.max]
 
-        cen = mfs.compute_centrality_measures(nxgraph, self.labels.unique_members,
-                                              centrality_functions, aggregation_functions,
-                                              query_string)
+        stats = mfs.compute_centrality_measures(nxgraph, self.labels.unique_members,
+                                                centrality_functions, aggregation_functions,
+                                                query_string)
 
-        derived_stats = derived_stats.join(cen, how="outer")
+        derived_stats = derived_stats.join(stats, how="outer")
+
+
+        # containing nodes
+        stats = mfs.compute_entity_membership(nxgraph, self.labels.unique_members, query_string)
+        derived_stats = derived_stats.join(stats, how="outer")
+
+
+
+
         derived_stats.to_csv(output_fname)
 
         return

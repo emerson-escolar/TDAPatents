@@ -211,11 +211,11 @@ def do_mapper(args, labels, data, verbosity):
         more_data['ave_year'] = labels.years_data
         more_transforms['ave_year'] = np.mean
 
-    flare_query_string = "members"
+    firm_query_string = "members"
     if labels.intemporal_index is not None:
         more_data['unique_members'] = list(labels.intemporal_index)
         more_transforms['unique_members'] = (lambda x:list(set(x)))
-        flare_query_string = "unique_members"
+        firm_query_string = "unique_members"
 
     if args.kclusters:
         for col in kClusters.columns:
@@ -250,12 +250,18 @@ def do_mapper(args, labels, data, verbosity):
             output_folder = proc.get_output_folder(n_cubes, overlap, clusterer_dict["clusterer_name"])
             fullname = proc.get_fullname(n_cubes, overlap, clusterer_dict["clusterer_name"])
 
+            nxgraph.graph["name"] = fullname
+
             # Output cyjs
             output_fname = output_folder.joinpath(fullname + ".cyjs")
             tdump.cytoscapejson_dump(nxgraph, output_fname)
 
             # Output flares & other stats for each firm.
-            proc.do_derived_stats_csv(nxgraph, output_folder, fullname, flare_query_string)
+            proc.do_derived_stats_csv(nxgraph, output_folder, fullname, firm_query_string)
+
+            proc.do_mapper_stats_txt(nxgraph, output_folder, fullname, firm_query_string)
+
+
 
 def main(raw_args):
     parser = get_parser()
