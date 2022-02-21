@@ -203,9 +203,11 @@ def do_mapper(args, labels, data, verbosity):
     list_p_sizes = list(labels.p_sizes.flatten())
     more_data = {'members': list(proc.data.index),
                  'color': labels.rgb_colors, 'p_sizes': list_p_sizes,
-                 'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes}
+                 'ave_p_size': list_p_sizes, 'max_p_size': list_p_sizes,
+                 'ave_lensX': proc.lens[:,0], 'ave_lensY': proc.lens[:,1]}
     more_transforms = {'color': color_averager,
-                       'ave_p_size' : np.mean, 'max_p_size' : np.max}
+                       'ave_p_size' : np.mean, 'max_p_size' : np.max,
+                       'ave_lensX': np.mean, 'ave_lensY': np.mean}
 
     if labels.years_data is not None:
         more_data['ave_year'] = labels.years_data
@@ -252,9 +254,14 @@ def do_mapper(args, labels, data, verbosity):
 
             nxgraph.graph["name"] = fullname
 
+            # extract average node positions
+            pos = []
+            for i in nxgraph.nodes:
+                pos.append([nxgraph.nodes[i]["ave_lensX"],nxgraph.nodes[i]["ave_lensY"]])
+
             # Output cyjs
             output_fname = output_folder.joinpath(fullname + ".cyjs")
-            tdump.cytoscapejson_dump(nxgraph, output_fname)
+            tdump.cytoscapejson_dump(nxgraph, output_fname, 80, np.array(pos))
 
             # Output flares & other stats for each firm.
             proc.do_derived_stats_csv(nxgraph, output_folder, fullname, firm_query_string)
