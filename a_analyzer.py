@@ -246,11 +246,11 @@ class Analyzer(object):
             f.write(nx.info(nxgraph))
             f.write("\n")
 
+            write_data(f, "Number of connected components: ", nx.number_connected_components(nxgraph))
+
             deg_dist = pandas.Series(nx.degree_histogram(nxgraph))
             dist_as_string = deg_dist.to_string(header=True, index=True)
             write_data(f, "degree (of nodes) distribution:\n", dist_as_string, True)
-
-            write_data(f, "Number of connected components: ", nx.number_connected_components(nxgraph))
 
             # write_data(f, "Small-world sigma: ", nxa.smallworld.sigma(nxgraph))
             # write_data(f, "Small-world omega: ", nxa.smallworld.omega(nxgraph))
