@@ -281,7 +281,11 @@ class Analyzer(object):
                                                         query_data=query_string, verbose=self.verbose, keep_missing=True)
 
         # centralities
-        centrality_functions = [nxc.degree_centrality, nxc.harmonic_centrality, nxc.closeness_centrality]
+        def eigenvector_centrality(G):
+            return nxc.eigenvector_centrality(G, max_iter=10000)
+
+        centrality_functions = [nxc.degree_centrality, nxc.harmonic_centrality, nxc.closeness_centrality,
+                                eigenvector_centrality, nxc.betweenness_centrality]
         aggregation_functions = [np.mean, np.min, np.max]
 
         stats = mfs.compute_centrality_measures(nxgraph, self.labels.unique_members,
