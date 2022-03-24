@@ -256,8 +256,13 @@ def do_mapper(args, labels, data, verbosity):
 
             # extract average node positions
             pos = []
-            for i in nxgraph.nodes:
-                pos.append([nxgraph.nodes[i]["ave_lensX"],nxgraph.nodes[i]["ave_lensY"]])
+            flip_y = True
+            if flip_y:
+                for i in nxgraph.nodes:
+                    pos.append([nxgraph.nodes[i]["ave_lensX"], -nxgraph.nodes[i]["ave_lensY"]])
+            else:
+                for i in nxgraph.nodes:
+                    pos.append([nxgraph.nodes[i]["ave_lensX"], nxgraph.nodes[i]["ave_lensY"]])
 
             # Output cyjs
             output_fname = output_folder.joinpath(fullname + ".cyjs")
