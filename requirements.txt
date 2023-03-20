@@ -4,3 +4,4 @@ numpy<1.24 # https://stackoverflow.com/questions/74863592/attributeerror-module-
 networkx<3.0
 seaborn
 # pyarrow
+fastparquet
