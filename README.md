@@ -22,18 +22,21 @@ This repository contains code for the topological analysis of patent data, as de
 
 First, the script is in divided into three sub-commands, depending on how it is supposed to treat a time series data.
 
-* accumulate
+* accumulate: Add everything together. 
 
-    Add everything together. 
+* merge: Take the data over different years and consider it as one dataset (each point is a firm-year).
 
-* merge
-
-    Take the data over different years and consider it as one dataset (each point is a firm-year).
-
-* ma (merge-accumulate)
-
-    Accumulate (add) data over a moving time window, then consider the entire panel dataset.
+* ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset.
     **This is the method adopted in the paper**.
+    
+Thus, commands used for the paper starts with
+`python analysis_merged_pca.py ma`.
+In fact, running the previous command should already produce some output in a folder called
+`cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
+(See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
+
+To see further help for the many options to produce the analysis, input:
+`python analysis_merged_pca.py ma --help`
 
 ## Detailed options
 ### Data choice options
@@ -85,7 +88,7 @@ First, the script is in divided into three sub-commands, depending on how it is 
     
 * --mds
 
-    With this option enabled, use MDS instead of PCA  as filter function.
+    With this option enabled, use MDS instead of PCA  as filter (lens) function.
     
     
 * --dimension DIM
@@ -111,16 +114,35 @@ First, the script is in divided into three sub-commands, depending on how it is 
     (choose one from 'firstgap', 'midgap', 'lastgap', 'sil') (default='firstgap')
 
 ### output choices
-    group_output = common_parser.add_argument_group("Output options")
-    group_output.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
-    group_output.add_argument("--clustermap", action="store_true", help="Do clustermap.")
-    group_output.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
-    group_output.add_argument("--kclusters", help="number(s) of k-Medoids and k-Means to compute and append to cyjs output. Note that k-Means ignores --metric and always computes with Euclidean distances.", type=int, nargs="+", default=None)
 
-    group_output.add_argument("--char_limit", help="limit chars for firms and patent class names", type=int, default=None)
-    group_output.add_argument("--no_mapper", action="store_true", help="Skip Mapper computation entirely.")
+* --interactive
 
-    group_output.add_argument("--output", "-o", help="output base folder.", type=str)
+    Enable to see an interactive plot of filter function
+    
+* --clustermap
+
+    Do clustermap.
+        
+* --no_dump_raw
+
+    Skip dumping raw data.
+    
+* --kclusters
+
+    number(s) of k-Medoids and k-Means to compute and append to cyjs output. 
+    Note that k-Means ignores --metric and always computes with Euclidean distances. (default=None)
+
+* --char_limit
+
+    limit number of characters for firms and patent class names (default=None)
+    
+* --no_mapper
+
+    Skip Mapper computation entirely.
+
+* --output, -o
+
+    output base folder
 
 
 
