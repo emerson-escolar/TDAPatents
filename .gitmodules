@@ -1,0 +1,3 @@
+[submodule "mappertools"]
+	path = mappertools
+	url = https://github.com/emerson-escolar/mappertools.git
