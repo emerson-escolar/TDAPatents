@@ -301,14 +301,17 @@ class PatentData(object):
             ## append indices with year data
             data.index = data.index.map(lambda x : x + "_y" + str(year))
             # append to outputs
-            ans = ans.append(data).fillna(0)
+            # ans = ans.append(data).fillna(0)
+            ans = pandas.concat([ans, data]).fillna(0)
+
             # update years
             years_data = np.append(years_data, year_labels.years_data)
 
             ## do the same for sectors_data
             if year_labels.sectors_data is not None:
                 year_labels.sectors_data.index = year_labels.sectors_data.index.map(lambda x : x + "_y" + str(year))
-                sectors_data = sectors_data.append(year_labels.sectors_data).fillna(0)
+                # sectors_data = sectors_data.append(year_labels.sectors_data).fillna(0)
+                sectors_data = pandas.concat([sectors_data, year_labels.sectors_data]).fillna(0)
 
             ## other updates
             p_sizes_all = np.append(p_sizes_all, year_labels.p_sizes)
