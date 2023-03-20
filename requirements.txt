@@ -1,6 +1,6 @@
 kmapper
 pandas
-numpy
+numpy<1.24 # https://stackoverflow.com/questions/74863592/attributeerror-module-numpy-has-no-attribute-warnings
 networkx<3.0
 seaborn
 # pyarrow
