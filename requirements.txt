@@ -3,4 +3,4 @@ pandas
 numpy
 networkx<3.0
 seaborn
-pyarrow
+# pyarrow

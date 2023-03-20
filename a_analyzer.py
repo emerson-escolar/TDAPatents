@@ -377,7 +377,8 @@ class Analyzer(object):
                 print("{} exists! Skipping annotated data dump.".format(str(labels_fname)))
                 return
 
-        self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
+        # self.data.to_parquet(str(output_fname), engine='pyarrow',index=True)
+        self.data.to_parquet(str(output_fname), engine='auto',index=True)
         self.labels.to_json_fname(str(labels_fname))
 
 
