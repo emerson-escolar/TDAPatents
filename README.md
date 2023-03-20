@@ -35,7 +35,7 @@ In fact, running the previous command should already produce some output in a fo
 `cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
 
-To see further help for the many options to produce the analysis, input:
+To see help for the many options to produce the analysis, input:
 `python analysis_merged_pca.py ma --help`
 
 ## Detailed options
@@ -70,6 +70,8 @@ To see further help for the many options to produce the analysis, input:
 * --transpose 
 
     Apply transpose as transformation on data. When enabled, consider patent classes instead of firms as entities/points.
+    The effect is to look at each patent class as different and evolving over the years. Enabling this changes the interpretation of the results explained in this document, as the basic entities (points) being considered are now 
+    class(-years), instead of firm(-years).
     **Not relevant to the paper**.
 
 * --log, -l
@@ -82,8 +84,12 @@ To see further help for the many options to produce the analysis, input:
 
 * --metric, -d METRIC
 
-    Choose a metric. 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation')
-
+    Choose a metric. 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (default: 'correlation')
+    
+    Notes: Setting the option `--metric bloom` will use Bloom et al.'s Mahalanobis normed technological closeness, transformed to a dissimilarity measure. However, using `--sum_to_one --metric bloom` more closely corresponds to the use in their paper, as they define this closeness measure on "patent shares".
+    
+    Using `--sum_to_one --metric cosine` gives Jaffe's measure of closeness (normalized uncentered covariance) transformed to a dissimilarity measure. 
+    
 ### Mapper parameters
     
 * --mds
@@ -103,46 +109,47 @@ To see further help for the many options to produce the analysis, input:
 
     overlap(s) of cover elements. Express as decimal between 0 and 1. (default=0.5)
 
-* --clusterer
+* --clusterer CLUSTERING_METHOD
 
     clustering method. Choose one from 'HC_single', 'HC_complete', 'HC_average', 'HC_weighted', 'OPTICS'.
     (default='HC_single')
     
-* --heuristic", 
+* --heuristic HEURISTIC
 
-    gap heuristic method, for hierarchical clustering (HC) type clustering methods only.
+    Choose a gap heuristic method, for hierarchical clustering (HC) type clustering methods only.
     (choose one from 'firstgap', 'midgap', 'lastgap', 'sil') (default='firstgap')
 
 ### output choices
 
 * --interactive
 
-    Enable to see an interactive plot of filter function
+    If enabled (and a compatible matplotlib backend is available), output an interactive plot of filter function.
     
 * --clustermap
 
-    Do clustermap.
+    If enabled, do clustermap.
         
 * --no_dump_raw
-
-    Skip dumping raw data.
+  
+    By default, the script will dump processed raw data (data sent to Mapper) in Apache Parquet format, if the dump does not exist yet. Disable this using this option. Note: "processed raw data" means data after all data choices (start and end year, window, shift) and processing (keep or drop zeros, cosine transform, transpose, log, sum-to-one), but before Mapper analysis. So it is actually not entirely raw.
     
-* --kclusters
+* --kclusters k1 k2 ...
 
-    number(s) of k-Medoids and k-Means to compute and append to cyjs output. 
-    Note that k-Means ignores --metric and always computes with Euclidean distances. (default=None)
+    Perform both k-medoids and k-means clustering on the processed raw data with number of clusters k=k1, k=k2, and so on (independently of each other). The cluster information will be added into the cytoscape output. Note that this computation does not use any information from Mapper. k-Means always ignores --metric and always computes with Euclidean distances. (default=None)
 
-* --char_limit
+* --char_limit LIMIT
 
-    limit number of characters for firms and patent class names (default=None)
+    Limit names for firms and patent classes to LIMIT characters (roughly). 
+    This may be useful for "transpose" analysis, as patent class names are very long.
+    (default=None)
     
 * --no_mapper
 
-    Skip Mapper computation entirely.
+    If enabled, skip Mapper computation entirely.
 
-* --output, -o
+* --output, -o FOLDER
 
-    output base folder
+    Set the base folder for outputs as FOLDER
 
 
 
