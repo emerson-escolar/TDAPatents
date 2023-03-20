@@ -7,3 +7,9 @@
 report*
 *.pdf
 *.png
+
+# testing output
+test_folder
+
+# pex files
+*.pex
