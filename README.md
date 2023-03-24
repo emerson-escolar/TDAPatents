@@ -42,7 +42,7 @@ In fact, running the previous command should already produce some output in a fo
 
 To see help for the many options to produce the analysis, input:
 `python analysis_merged_pca.py ma --help` or 
-`tdapatents.pex -m analysis_merged_pca.py`
+`tdapatents.pex -m analysis_merged_pca.py ma --help`
 
 ## Detailed options
 ### Data choice options
