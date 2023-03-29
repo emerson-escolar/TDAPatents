@@ -352,7 +352,8 @@ class Analyzer(object):
 
         elif self.lens.shape[1] == 3:
             fig = plt.figure()
-            ax = fig.gca(projection='3d')
+            ax = fig.add_subplot(111, projection='3d')
+            # ax = fig.gca(projection='3d')
             # ax.set_aspect("equal")
             ax.scatter(self.lens[:,0], self.lens[:,1], self.lens[:,2], c=rgb_colors)
 
