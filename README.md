@@ -72,10 +72,49 @@ depending on your [installation method](#Installation)
     This should create a folder `cos_pca2d_logmerg\D1m0` which contains the output.
     Inside that folder, one finds the file `**_pca2d.png` which contains the 2d pca dimension reduction result, 
     and folder `n20_o0.5_HC_single_firstgap` containing the Mapper results.
+    Inside the folder are:
     
-    Outputs are placed in folders that describe the options used for its computation.
+    * a html file, containing an interactive visualization of the Mapper graph
+    
+    * a cyjs file, containing the Mapper graph, for use in the network visualization software [Cytoscape](https://cytoscape.org/)
+    
+    * a text file `**_mapper_stats.txt` containing some summary statistics of the Mapper graph. This includes the number of nodes and edges, connected components, degree distribution, and "how many firms are included in only 1 node, 2 nodes, etc".
+    
+    * a csv file `**_derived_stats.csv` containing statistics of firms derived from their locations in the Mapper graph. 
+    
+    Note: the file and folder names of outputs describe the options used for their computation.
     In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in appropriately-named folders.
     
+## Details on the Mapper output - html version
+
+At the top of the page, there is a "COLOR FUNCTION" dropdown. 
+Select the color function to be used:  "years" or "total patent size" or "sector" information.
+
+Click on "[+] CLUSTER DETAILS" to show details about each Mapper node (= a cluster). 
+There is a "MEMBER DISTRIBUTION" histogram that tells us roughly the histogram of colorings of its members.
+
+With the current colormap we are using, it goes:
+$$
+\text{blue (low) - green, yellow (middle), orange  - red (high)}
+$$
+So for example with a sector dummy coloring, 
+nodes containing mostly firms in that sector should show up red,
+while nodes containing no firms in that sector show up blue.
+    
+## Details on "derived_stats"
+
+This file contains firm measures derived from Mapper output.
+Currently, this includes information about flares as defined in the paper [[EHIO]](#EHIO) and 
+various centrality measures (degree centrality, harmonic centrality, and closeness centrality), 
+with choice of processing (aggregation) to go from mapper nodes to firm-years to firms: 
+(as a list of centralities of the nodes containing the firm-years of a firm, mean of that list, min of that list, max of that list)
+In more detail, for each Mapper node $v$, let $C(v)$ be its centrality measure 
+(degree centrality, harmonic centrality, or closeness centrality). 
+For each firm $i$, list above is simply the list 
+$$
+    C(i) = \left[ C(v) \mid i \in v \right].
+$$
+   
 
 ## Detailed options
 ### Data choice options
@@ -153,10 +192,24 @@ depending on your [installation method](#Installation)
     clustering method. Choose one from 'HC_single', 'HC_complete', 'HC_average', 'HC_weighted', 'OPTICS'.
     (default='HC_single')
     
+    The 'HC_' type arguments means to use Hierarchical Clustering, 
+    with the following part ('single', 'complete', 'average', or 'weighted') being the choice of method for determining linkages. 
+    This is passed onto the option `method` in [scipy.cluster.hierarchy.linkage](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html). 
+    See the link [scipy.cluster.hierarchy.linkage](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html) for more information on the different methods.
+    Note that [scipy.cluster.hierarchy.linkage](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html) also supports the methods ‘centroid’, ‘median’, and ‘ward’, but these are only correctly defined for Euclidean metric, so I did not include them.
+    
 * --heuristic HEURISTIC
 
     Choose a gap heuristic method, for hierarchical clustering (HC) type clustering methods only.
     (choose one from 'firstgap', 'midgap', 'lastgap', 'sil') (default='firstgap')
+    
+    Recall that hierarchical clustering returns a dendrogram (tree). 
+    We need to choose a level where to cut the tree to get the number of clusters. 
+    The "first gap heuristic" (`--heuristic firstgap`) 
+    is the method introduced in the original Mapper paper [@singh2007topological].) 
+    Other options here: 'midgap', 'lastgap', 'sil'. 
+    The 'gap' based ones are obvious modifications of the firstgap heuristic. 
+    'sil' means to use the silhouette score (can be quite slow).
 
 ### output choices
 
