@@ -10,11 +10,22 @@ Two options:
 
 1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
 
-    In this case, the main script is called by running  `python tdapatents_script.py`.
+   1. (Optional, but recommended) Set up a virtual environment.
+   
+   2. Run:
+   
+       ```
+       pip install -r requirements.txt
+       ```
+       
+       to install required additional python modules.
+
+    In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
+    If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
 
 2. Use the single-file executable which contains all the needed python modules and scripts. This executable was created using [pyinstaller](https://pyinstaller.org/en/stable/).
 
-    In this case, the main script is called by running  `tdapatents_script`.
+    In this case, the main script is called by running  `tdapatents_script` in the folder where the data is contained.
 
 
 
@@ -47,6 +58,24 @@ In fact, running the previous command should already produce some output in a fo
 To see help for the many options to produce the analysis, input:
 `python tdapatents_script.py ma --help` or 
 `tdapatents_script ma --help`
+
+## Replication
+For the code samples below, replace `SCRIPT` by either 
+`python tdapatents_script.py` or
+`tdapatents_script`
+depending on your [installation method](#Installation)
+
+1. For the "main figure":
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20
+    ```
+    This should create a folder `cos_pca2d_logmerg\D1m0` which contains the output.
+    Inside that folder, find `**_pca2d.png` which contains the 2d pca dimension reduction result, and folder
+    `n20_o0.5_HC_single_firstgap` containing the Mapper results.
+    
+    Note that the outputs are place in folders that describe the options used for its analysis.
+    In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in the appropriately named folders.
+    
 
 ## Detailed options
 ### Data choice options
