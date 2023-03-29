@@ -477,7 +477,10 @@ class Analyzer(object):
         mean_years = (years @ years_agg / total_years)
         mean_years.index = ['MEAN_YEARS']
 
-        agg = agg.append(total_firm_years).append(unique_firms)
+        # agg = agg.append(total_firm_years).append(unique_firms)
+        agg = pandas.concat([agg, total_firm_years.to_frame().T, unique_firms.to_frame().T])
 
-        years_agg = years_agg.append(unique_years).append(mean_years, )
+        # years_agg = years_agg.append(unique_years).append(mean_years, )
+        years_agg = pandas.concat([years_agg, unique_years.to_frame().T, mean_years])
+
         return agg, years_agg, leaders_agg
