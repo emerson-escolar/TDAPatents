@@ -1,47 +1,52 @@
 # TDAPatents
 
 This repository contains code for the topological analysis of patent data, as described in the paper
-"[Mapping Firms' Locations in Technological Space: A Topological Analysis of Patent Statistics](https://arxiv.org/abs/1909.00257)."
+"[Mapping Firms' Locations in Technological Space: A Topological Analysis of Patent Statistics](https://arxiv.org/abs/1909.00257)" [[EHIO]](EHIO).
 
 
 # Installation
 
 Two options:
 
-1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed.
+1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
 
-2. Use the single-file executable which contains all the needed python modules and scripts. This executable is created using [pyinstaller](https://pyinstaller.org/en/stable/)
+    In this case, the main script is called by running  `python tdapatents_script.py`.
+
+2. Use the single-file executable which contains all the needed python modules and scripts. This executable was created using [pyinstaller](https://pyinstaller.org/en/stable/).
+
+    In this case, the main script is called by running  `tdapatents_script`.
 
 
 
 # Usage - The main script
 
-Depending on the [installation method](#Installation),
-the main script is called by either running 
+As noted in [installation method](#Installation), the main script is called by either running 
 
-1. `python analysis_merged_pca.py`
+1. `python tdapatents_script.py` or
 
-2. `analysis_merged_pca`
+2. `tdapatents_script`
 
+Next, the main script contains three sub-commands, 
+depending on how it is supposed to treat the time series patent data.
+For more details on the data, please consult the paper [[EHIO]](EHIO).
 
-Next, the main script contains three sub-commands, depending on how it is supposed to treat the time series data.
+* accumulate: Add the patent counts over all time slices (years). Each firm is represented by a point (vector).
 
-* accumulate: Add everything together. 
+* merge: Take the data over different years and consider it as one dataset. 
+Each combination of a firm & year gives a point.
 
-* merge: Take the data over different years and consider it as one dataset (each point is a firm-year).
-
-* ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset.
-    **This is the method adopted in the paper**.
+* ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset. Each combination of a firm  & year gives a point, but the data for each firm-year is accumulated from the time window. **This is the method adopted in the paper**.
     
-Commands used for the paper starts with `python analysis_merged_pca.py ma` (or 
-`analysis_merged_pca.py ma`).
+For example, commands used for the paper starts with 
+`python tdapatents_script.py ma` or 
+`tdapatents_script ma`, depending on [installation method](#Installation).
 In fact, running the previous command should already produce some output in a folder called
 `cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
 
 To see help for the many options to produce the analysis, input:
-`python analysis_merged_pca.py ma --help` or 
-`analysis_merged_pca.py ma --help`
+`python tdapatents_script.py ma --help` or 
+`tdapatents_script ma --help`
 
 ## Detailed options
 ### Data choice options
@@ -158,14 +163,6 @@ To see help for the many options to produce the analysis, input:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+# References
+<a id="EHIO">[EHIO]</a>
+Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
