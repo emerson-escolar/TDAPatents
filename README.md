@@ -296,7 +296,8 @@ $$
     
 * --kclusters k1 k2 ...
 
-    Perform both k-medoids and k-means clustering on the processed raw data with number of clusters k=k1, k=k2, and so on (independently of each other). The cluster information will be added into the cytoscape output. Note that this computation does not use any information from Mapper. k-Means always ignores --metric and always computes with Euclidean distances. (default=None)
+    Perform both k-medoids and k-means clustering on the processed raw data with number of clusters k=k1, k=k2, and so on (independently of each other). The cluster information will be added into the cytoscape output and also to csv files. This computation does not use any information from Mapper. k-Means always ignores --metric and always computes with Euclidean distances. The implementation contains some randomness, so results may vary per run! (default=None)
+        
 
 * --char_limit LIMIT
 
