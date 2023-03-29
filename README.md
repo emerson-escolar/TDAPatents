@@ -85,6 +85,39 @@ depending on your [installation method](#Installation)
     Note: the file and folder names of outputs describe the options used for their computation.
     In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in appropriately-named folders.
     
+2. For sensitivity to different options
+
+    * Different numbers of cover elements:
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 15 25
+    ```
+    
+    * Different overlap percentages (30% and 70%):
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 -p 0.3 0.7
+    ```
+    
+    * Example with 3D-PCA as filter function:
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 --dimension 3
+    ```
+    
+    * Example with 2D-MDS as filter function:
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 --mds
+    ```
+    
+    * Example changing clustering method used for Mapepr
+    ```
+    python ./tdapatents/tdapatents_script.py ma -l -d cosine -w 5 -s 1 -n 20 --clusterer HC_average
+    ```
+    
+    
+    
+    
+    
+    
+    
 ## Details on the Mapper output - html version
 
 At the top of the page, there is a "COLOR FUNCTION" dropdown. 
@@ -235,14 +268,15 @@ $$
 * --interactive
 
     If enabled (and a compatible matplotlib backend is available), output an interactive plot of filter function.
-    
-* --clustermap
-
-    If enabled, do clustermap.
         
 * --no_dump_raw
   
     By default, the script will dump processed raw data (data sent to Mapper) in Apache Parquet format, if the dump does not exist yet. Disable this using this option. Note: "processed raw data" means data after all data choices (start and end year, window, shift) and processing (keep or drop zeros, cosine transform, transpose, log, sum-to-one), but before Mapper analysis. So it is actually not entirely raw.
+    
+* --clustermap
+
+    If enabled, do [clustermap](https://seaborn.pydata.org/generated/seaborn.clustermap.html) on the 
+    **entire** processed raw data set. This is **not** directly related to the clustering used to compute Mapper, which performs clustering only locally.
     
 * --kclusters k1 k2 ...
 
