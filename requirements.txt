@@ -5,3 +5,4 @@ networkx<3.0
 seaborn
 # pyarrow
 fastparquet
+./mappertools

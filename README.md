@@ -6,21 +6,25 @@ This repository contains code for the topological analysis of patent data, as de
 
 # Installation
 
+Two options:
 
+1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed.
 
-
-
-
-
-
-
-
+2. Use the single-file executable which contains all the needed python modules and scripts. This executable is created using [pyinstaller](https://pyinstaller.org/en/stable/)
 
 
 
 # Usage - The main script
 
-First, the script is in divided into three sub-commands, depending on how it is supposed to treat a time series data.
+Depending on the [installation method](#Installation),
+the main script is called by either running 
+
+1. `python analysis_merged_pca.py`
+
+2. `analysis_merged_pca`
+
+
+Next, the main script contains three sub-commands, depending on how it is supposed to treat the time series data.
 
 * accumulate: Add everything together. 
 
@@ -29,14 +33,15 @@ First, the script is in divided into three sub-commands, depending on how it is 
 * ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset.
     **This is the method adopted in the paper**.
     
-Thus, commands used for the paper starts with
-`python analysis_merged_pca.py ma`.
+Commands used for the paper starts with `python analysis_merged_pca.py ma` (or 
+`analysis_merged_pca.py ma`).
 In fact, running the previous command should already produce some output in a folder called
 `cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
 
 To see help for the many options to produce the analysis, input:
-`python analysis_merged_pca.py ma --help`
+`python analysis_merged_pca.py ma --help` or 
+`analysis_merged_pca.py ma --help`
 
 ## Detailed options
 ### Data choice options

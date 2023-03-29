@@ -107,7 +107,7 @@ def get_labels_and_data(args):
         data_name = "D1"
         base_folder = "200110_csv/"
     else:
-        exit()
+        sys.exit()
 
     class_translator = base_folder + "patent_classes.csv"
     # class_translator = None
@@ -197,7 +197,7 @@ def do_mapper(args, labels, data, verbosity):
 
     # Early end
     if args.no_mapper:
-        exit()
+        sys.exit()
 
     # Additional data
     list_p_sizes = list(labels.p_sizes.flatten())
@@ -281,7 +281,7 @@ def main(raw_args):
 
     if args.procedure == None:
         parser.print_help()
-        exit()
+        sys.exit()
 
     labels, data = get_labels_and_data(args)
     do_mapper(args, labels, data, verbosity=(2 if args.verbose else 0))
