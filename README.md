@@ -123,6 +123,12 @@ depending on your [installation method](#Installation)
     SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 -m 2
     ```
     
+4. With global clustering 
+
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 -kclusters 21
+    ```
+    
 
 
 
