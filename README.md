@@ -206,7 +206,7 @@ $$
     Recall that hierarchical clustering returns a dendrogram (tree). 
     We need to choose a level where to cut the tree to get the number of clusters. 
     The "first gap heuristic" (`--heuristic firstgap`) 
-    is the method introduced in the original Mapper paper [@singh2007topological].) 
+    is the method introduced in the original Mapper paper [[SMC]](#SMC).) 
     Other options here: 'midgap', 'lastgap', 'sil'. 
     The 'gap' based ones are obvious modifications of the firstgap heuristic. 
     'sil' means to use the silhouette score (can be quite slow).
@@ -248,3 +248,6 @@ $$
 # References
 <a id="EHIO">[EHIO]</a> 
 Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
+
+<a id="SMC">[SMC]</a>
+Singh, G., Mémoli, F., & Carlsson, G. E. (2007). Topological methods for the analysis of high dimensional data sets and 3d object recognition. PBG@ Eurographics, 2, 091-100.
