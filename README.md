@@ -78,7 +78,7 @@ depending on your [installation method](#Installation)
     
     * a cyjs file, containing the Mapper graph, for use in the network visualization software [Cytoscape](https://cytoscape.org/)
     
-    * a text file `**_mapper_stats.txt` containing some summary statistics of the Mapper graph. This includes the number of nodes and edges, connected components, degree distribution, and "how many firms are included in only 1 node, 2 nodes, etc".
+    * a text file `**_mapper_stats.txt` containing some summary statistics of the Mapper graph. This includes the number of nodes and edges, connected components, degree distribution, and "how many firms are included in only 1 node, 2 nodes, etc".  Note that there are firms contained in 0 nodes. This is because of two factors: (a) the list of firms is based on "firm\_rank\_name\_industry.csv" that appears to contain firms not in the actual data set and (b) in the actual data set there are firms with all-zero data.
     
     * a csv file `**_derived_stats.csv` containing statistics of firms derived from their locations in the Mapper graph. 
     
@@ -89,6 +89,7 @@ depending on your [installation method](#Installation)
 
 At the top of the page, there is a "COLOR FUNCTION" dropdown. 
 Select the color function to be used:  "years" or "total patent size" or "sector" information.
+See the file `firm_rank_name_industry.csv` in the data to find the sector labels.
 
 Click on "[+] CLUSTER DETAILS" to show details about each Mapper node (= a cluster). 
 There is a "MEMBER DISTRIBUTION" histogram that tells us roughly the histogram of colorings of its members.
@@ -100,6 +101,14 @@ $$
 So for example with a sector dummy coloring, 
 nodes containing mostly firms in that sector should show up red,
 while nodes containing no firms in that sector show up blue.
+
+## Details on the Mapper output - cyjs version
+
+Also contains the following data:
+for each Mapper nodes, the average lens position of its members.
+One can use this information to fix the locations of the mapper nodes, 
+and make it comparable to the filter function (for example 2D PCA).
+
     
 ## Details on "derived_stats"
 
@@ -133,6 +142,16 @@ $$
 * --to_year, -g ENDING_YEAR
 
   ending year (inclusive) to do analysis (default=2005)
+  
+### Additional data choice options for Merge-Accumulate (ma)
+
+* --window, -w WINDOW_SIZE
+
+    window size (default=5)
+    
+* --shift, -s, WINDOW_SHIFT
+
+    window shift/step (default=5)
 
 ### Processing options
 
