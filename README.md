@@ -1,7 +1,7 @@
 # TDAPatents
 
 This repository contains code for the topological analysis of patent data, as described in the paper
-"[Mapping Firms' Locations in Technological Space: A Topological Analysis of Patent Statistics](https://arxiv.org/abs/1909.00257)" [[EHIO]](EHIO).
+"[Mapping Firms' Locations in Technological Space: A Topological Analysis of Patent Statistics](https://arxiv.org/abs/1909.00257)" [[EHIO]](#EHIO).
 
 
 # Installation
@@ -70,11 +70,11 @@ depending on your [installation method](#Installation)
     SCRIPT ma -l -d cosine -w 5 -s 1 -n 20
     ```
     This should create a folder `cos_pca2d_logmerg\D1m0` which contains the output.
-    Inside that folder, find `**_pca2d.png` which contains the 2d pca dimension reduction result, and folder
-    `n20_o0.5_HC_single_firstgap` containing the Mapper results.
+    Inside that folder, one finds the file `**_pca2d.png` which contains the 2d pca dimension reduction result, 
+    and folder `n20_o0.5_HC_single_firstgap` containing the Mapper results.
     
-    Note that the outputs are place in folders that describe the options used for its analysis.
-    In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in the appropriately named folders.
+    Outputs are placed in folders that describe the options used for its computation.
+    In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in appropriately-named folders.
     
 
 ## Detailed options
@@ -193,5 +193,5 @@ depending on your [installation method](#Installation)
 
 
 # References
-<a id="EHIO">[EHIO]</a>
+<a id="EHIO">[EHIO]</a> 
 Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
