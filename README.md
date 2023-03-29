@@ -107,16 +107,16 @@ depending on your [installation method](#Installation)
     SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 --mds
     ```
     
-    * Example changing clustering method used for Mapepr
+    * Example changing clustering method used for Mapper
     ```
-    python ./tdapatents/tdapatents_script.py ma -l -d cosine -w 5 -s 1 -n 20 --clusterer HC_average
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 --clusterer HC_average
     ```
     
-    
-    
-    
-    
-    
+    * Example changing distance used for Mapper
+    ```
+    SCRIPT ma -l -d euclidean -w 5 -s 1 -n 20 
+    ```
+       
     
 ## Details on the Mapper output - html version
 
@@ -128,15 +128,16 @@ Click on "[+] CLUSTER DETAILS" to show details about each Mapper node (= a clust
 There is a "MEMBER DISTRIBUTION" histogram that tells us roughly the histogram of colorings of its members.
 
 With the current colormap we are using, it goes:
-$$
-\text{blue (low) - green, yellow (middle), orange  - red (high)}
-$$
+
+    blue (low) - green, yellow (middle), orange  - red (high)
+
 So for example with a sector dummy coloring, 
 nodes containing mostly firms in that sector should show up red,
 while nodes containing no firms in that sector show up blue.
 
 ## Details on the Mapper output - cyjs version
 
+This file is in a format for use with the software [Cytoscape](https://cytoscape.org/).
 Also contains the following data:
 for each Mapper nodes, the average lens position of its members.
 One can use this information to fix the locations of the mapper nodes, 
@@ -302,5 +303,10 @@ $$
 <a id="EHIO">[EHIO]</a> 
 Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
 
+<a id="CYTOSCAPE">[CYTOSCAPE]</a>
+Shannon, P., Markiel, A., Ozier, O., Baliga, N. S., Wang, J. T., Ramage, D., Amin, N., Schwikowski, B., Ideker, T. (2003). Cytoscape: a software environment for integrated models of biomolecular interaction networks. Genome research, 13(11), 2498-2504.
+
 <a id="SMC">[SMC]</a>
 Singh, G., Mémoli, F., & Carlsson, G. E. (2007). Topological methods for the analysis of high dimensional data sets and 3d object recognition. PBG@ Eurographics, 2, 091-100.
+
+
