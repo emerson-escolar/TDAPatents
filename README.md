@@ -116,7 +116,16 @@ depending on your [installation method](#Installation)
     ```
     SCRIPT ma -l -d euclidean -w 5 -s 1 -n 20 
     ```
-       
+    
+3. R&D with M&A Patents
+
+    ```
+    SCRIPT ma -l -d cosine -w 5 -s 1 -n 20 -m 2
+    ```
+    
+
+
+
     
 ## Details on the Mapper output - html version
 
@@ -167,7 +176,7 @@ $$
   
 * --mode, -m {0,1,2} 
 
-  Choose data type to read: 0 or 1 or 2 (both) (default: 0)
+  Choose data type to read: 0 (R&D patents only) or 1 (M&A patents only) or 2 (both) (default: 0)
 
 * --from_year, -f STARTING_YEAR
   
