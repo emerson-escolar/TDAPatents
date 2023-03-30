@@ -4,7 +4,7 @@ This repository contains code for the topological analysis of patent data, as de
 "[Mapping Firms' Locations in Technological Space: A Topological Analysis of Patent Statistics](https://arxiv.org/abs/1909.00257)" [[EHIO]](#EHIO).
 
 
-# Installation
+# Setup
 
 Two options:
 
@@ -12,7 +12,11 @@ Two options:
 
    1. (Optional, but recommended) Set up a virtual environment.
    
-   2. Run:
+   2. Download contents of the repository.
+   
+       * If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
+   
+   3. Run:
    
        ```
        pip install -r requirements.txt
@@ -31,7 +35,7 @@ Two options:
 
 # Usage - The main script
 
-As noted in [installation method](#Installation), the main script is called by either running 
+As noted [above](#Setup), the main script is called by either running 
 
 1. `python tdapatents_script.py` or
 
@@ -50,7 +54,7 @@ Each combination of a firm & year gives a point.
     
 For example, commands used for the paper starts with 
 `python tdapatents_script.py ma` or 
-`tdapatents_script ma`, depending on [installation method](#Installation).
+`tdapatents_script ma`, depending on your [setup](#Setup).
 In fact, running the previous command should already produce some output in a folder called
 `cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
@@ -63,7 +67,7 @@ To see help for the many options to produce the analysis, input:
 For the code samples below, replace `SCRIPT` by either 
 `python tdapatents_script.py` or
 `tdapatents_script`
-depending on your [installation method](#Installation)
+depending on your [setup](#Setup)
 
 1. For the "main figure":
     ```
