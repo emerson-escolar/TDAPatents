@@ -6,15 +6,21 @@ This repository contains code for the topological analysis of patent data, as de
 
 # Setup
 
-Two options:
+Two options: install into your local python environment, or using a single-file executable.
+Note: the single-file executable, while simpler to setup, may run slower, and may possibly not work on your system. 
+
+(Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
 
 1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
 
-   1. (Optional, but recommended) Set up a virtual environment.
+     
+   1. Download contents of the repository.
    
-   2. Download contents of the repository.
-   
-       * If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
+       * Either from the [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or
+       
+       * By cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
+       
+   2. (Optional, but recommended) Set up a virtual environment.
    
    3. Run:
    
