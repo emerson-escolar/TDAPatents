@@ -26,7 +26,7 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
     In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
     If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
 
-2. Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. The executables were created using [pyinstaller](https://pyinstaller.org/en/stable/). See [here](Technical_details_-_executables) for details.
+2. OPTION 2: Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. The executables were created using [pyinstaller](https://pyinstaller.org/en/stable/). See [here](Technical-details---executables) for details.
 
     In this case, the main script is called by running  `tdapatents_script-SYSTEM` in the folder where the data is contained, where SYSTEM depends on your operating system.
 
@@ -34,15 +34,16 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
 
 # Usage - The main script
 
-As noted [above](#Setup), the main script is called by either running 
+As noted above, the main script is called by either running 
 
 1. `python tdapatents_script.py` or
 
 2. `tdapatents_script-SYSTEM` where SYSTEM depends on your operating system.
 
-Next, the main script contains three sub-commands, 
+The main script contains three sub-commands, 
 depending on how it is supposed to treat the time series patent data.
 For more details on the data, please consult the paper [[EHIO]](EHIO).
+The following are the three sub-commands:
 
 * accumulate: Add the patent counts over all time slices (years). Each firm is represented by a point (vector).
 
@@ -51,11 +52,11 @@ Each combination of a firm & year gives a point.
 
 * ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset. Each combination of a firm  & year gives a point, but the data for each firm-year is accumulated from the time window. **This is the method adopted in the paper**.
     
-For example, commands used for the paper starts with 
+For example, the paper uses "merge-accumulate", and so the command to call starts with 
 `python tdapatents_script.py ma` or 
-`tdapatents_script-SYSTEM ma`, depending on your [setup](#Setup).
-In fact, running the previous command should already produce some output in a folder called
-`cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
+`tdapatents_script-SYSTEM ma` (again depending on your [setup](#Setup)).
+In fact, running the previous command should already produce some output (with the default settings for analysis) in a folder called
+`cos_pca2d_logmerg`.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
 
 
