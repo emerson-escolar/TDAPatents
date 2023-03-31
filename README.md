@@ -138,6 +138,7 @@ For the code samples below, replace `SCRIPT` by the name of the main script, dep
 
 As one of the outputs, an interactive visualization of the Mapper graph is produced (using kmapper).
 
+While the GUI should be mostly self-explanatory, we provide additional explanation of the node coloring here.
 At the top of the page, there is a "COLOR FUNCTION" dropdown. 
 Select the color function to be used:  "years" or "total patent size" or "sector" information.
 See the file `firm_rank_name_industry.csv` in the data to find the sector labels.
@@ -172,8 +173,9 @@ with choice of processing (aggregation) to go from mapper nodes to firm-years to
 In more detail, for each Mapper node $v$, let $C(v)$ be its centrality measure 
 (degree centrality, harmonic centrality, or closeness centrality). 
 For each firm $i$, list above is simply the list 
+
 $$
-    C(i) = \left[ C(v) \mid i \in v \right].
+C(i) = \left[ C(v) \mid i \in v \right].
 $$
    
 
