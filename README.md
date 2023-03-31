@@ -32,7 +32,7 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
 
 2. Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. The executables were created using [pyinstaller](https://pyinstaller.org/en/stable/). See [here](Technical_details_-_executables) for details.
 
-    In this case, the main script is called by running  `tdapatents_script` in the folder where the data is contained.
+    In this case, the main script is called by running  `tdapatents_script-SYSTEM` in the folder where the data is contained, where SYSTEM depends on your operating system.
 
 
 
@@ -42,7 +42,7 @@ As noted [above](#Setup), the main script is called by either running
 
 1. `python tdapatents_script.py` or
 
-2. `tdapatents_script`
+2. `tdapatents_script-SYSTEM` where SYSTEM depends on your operating system.
 
 Next, the main script contains three sub-commands, 
 depending on how it is supposed to treat the time series patent data.
@@ -57,20 +57,19 @@ Each combination of a firm & year gives a point.
     
 For example, commands used for the paper starts with 
 `python tdapatents_script.py ma` or 
-`tdapatents_script ma`, depending on your [setup](#Setup).
+`tdapatents_script-SYSTEM ma`, depending on your [setup](#Setup).
 In fact, running the previous command should already produce some output in a folder called
 `cos_pca2d_logmerg` corresponding to the topological analysis with the default settings.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
 
-To see help for the many options to produce the analysis, input:
-`python tdapatents_script.py ma --help` or 
-`tdapatents_script ma --help`
 
 ## Replication
-For the code samples below, replace `SCRIPT` by either 
-`python tdapatents_script.py` or
-`tdapatents_script`
-depending on your [setup](#Setup)
+For the code samples below, replace `SCRIPT` by the name of the main script, depending on your [setup](#Setup)
+
+0. To see help for options:
+   ```
+   SCRIPT ma --help
+   ```
 
 1. For the "main figure":
     ```
