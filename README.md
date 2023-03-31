@@ -169,10 +169,11 @@ This file contains firm measures derived from Mapper output.
 Currently, this includes information about flares as defined in the paper [[EHIO]](#EHIO) and 
 various centrality measures (degree centrality, harmonic centrality, and closeness centrality), 
 with choice of processing (aggregation) to go from mapper nodes to firm-years to firms: 
-(as a list of centralities of the nodes containing the firm-years of a firm, mean of that list, min of that list, max of that list)
+(as a list of centralities of the nodes containing the firm-years of a firm, mean of that list, min of that list, max of that list).
+
 In more detail, for each Mapper node $v$, let $C(v)$ be its centrality measure 
 (degree centrality, harmonic centrality, or closeness centrality). 
-For each firm $i$, list above is simply the list 
+For each firm $i$, the list mentioned above is simply the list 
 
 $$
 C(i) = \left[ C(v) \mid i \in v \right].
