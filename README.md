@@ -61,7 +61,7 @@ In fact, running the previous command should already produce some output (with t
 
 
 ## Replication
-For the code samples below, replace `SCRIPT` by the name of the main script, depending on your [setup](#Setup)
+For the code samples below, replace `SCRIPT` by the name of the main script, depending on your [setup](#Setup).
 
 0. To see help for options:
    ```
@@ -73,20 +73,20 @@ For the code samples below, replace `SCRIPT` by the name of the main script, dep
     SCRIPT ma -l -d cosine -w 5 -s 1 -n 20
     ```
     This should create a folder `cos_pca2d_logmerg\D1m0` which contains the output.
-    Inside that folder, one finds the file `**_pca2d.png` which contains the 2d pca dimension reduction result, 
-    and folder `n20_o0.5_HC_single_firstgap` containing the Mapper results.
-    Inside the folder are:
+    Inside that folder, one finds a file `**_pca2d.png` containing the 2d pca dimension reduction result, 
+    and a folder `n20_o0.5_HC_single_firstgap` containing the Mapper results.
+    Inside that folder are the following:
     
-    * a html file, containing an interactive visualization of the Mapper graph
+    * a html file, containing an interactive visualization of the Mapper graph.
     
-    * a cyjs file, containing the Mapper graph, for use in the network visualization software [Cytoscape](https://cytoscape.org/)
+    * a cyjs file, containing the Mapper graph, for use in the network visualization software [Cytoscape](https://cytoscape.org/).
     
     * a text file `**_mapper_stats.txt` containing some summary statistics of the Mapper graph. This includes the number of nodes and edges, connected components, degree distribution, and "how many firms are included in only 1 node, 2 nodes, etc".  Note that there are firms contained in 0 nodes. This is because of two factors: (a) the list of firms is based on "firm\_rank\_name\_industry.csv" that appears to contain firms not in the actual data set and (b) in the actual data set there are firms with all-zero data.
     
     * a csv file `**_derived_stats.csv` containing statistics of firms derived from their locations in the Mapper graph. 
     
     Note: the file and folder names of outputs describe the options used for their computation.
-    In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving `D1m0`. For the mapper results, we are using n = 20, overlap 50%, hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in appropriately-named folders.
+    In this case, we used "cosine distance", "pca" for the filter function, and "log" preprocessing, under merge-accumulate mode, so the base folder is `cos_pca2d_logmerg`. Next, we are using data set 1 and mode 0, giving the folder name `D1m0`. For the mapper results, this analysis uses n = 20, overlap = 50%, and hierarchical clustering (HC) with single linkage rule and firstgap heuristic, giving the folder name `n20_o0.5_HC_single_firstgap`. Using different options will place outputs in appropriately-named folders.
     
 2. For sensitivity to different options
 
@@ -133,10 +133,10 @@ For the code samples below, replace `SCRIPT` by the name of the main script, dep
     ```
     
 
+   
+## Mapper output - html version
 
-
-    
-## Details on the Mapper output - html version
+As one of the outputs, an interactive visualization of the Mapper graph is produced (using kmapper).
 
 At the top of the page, there is a "COLOR FUNCTION" dropdown. 
 Select the color function to be used:  "years" or "total patent size" or "sector" information.
@@ -149,15 +149,15 @@ With the current colormap we are using, it goes:
 
     blue (low) - green, yellow (middle), orange  - red (high)
 
-So for example with a sector dummy coloring, 
-nodes containing mostly firms in that sector should show up red,
+So for example with a sector-based coloring, nodes containing mostly firms in that sector should show up red,
 while nodes containing no firms in that sector show up blue.
 
-## Details on the Mapper output - cyjs version
+## Mapper output - cyjs version
 
-This file is in a format for use with the software [Cytoscape](https://cytoscape.org/).
-Also contains the following data:
-for each Mapper nodes, the average lens position of its members.
+As one of the outputs, the Mapper graph is also saved in a cyjs file format.
+This file format is for use with the software [Cytoscape](https://cytoscape.org/).
+
+It also contains the following data: for each Mapper nodes, the average lens position of its members.
 One can use this information to fix the locations of the mapper nodes, 
 and make it comparable to the filter function (for example 2D PCA).
 
