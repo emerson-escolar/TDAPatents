@@ -9,9 +9,7 @@ This repository contains code for the topological analysis of patent data, as de
 Two options: install into your local python environment, or using a single-file executable.
 Note: the single-file executable, while simpler to setup, may run slower, and may possibly not work on your system. 
 
-(Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
-
-1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
+1. OPTION 1: Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
 
      
    1. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or 
@@ -20,11 +18,9 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
    2. (Optional, but recommended) Set up a virtual environment.
    
    3. Run:
-   
        ```
        pip install -r requirements.txt
        ```
-       
        to install required additional python modules.
 
     In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
@@ -34,7 +30,7 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
 
     In this case, the main script is called by running  `tdapatents_script-SYSTEM` in the folder where the data is contained, where SYSTEM depends on your operating system.
 
-
+(Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
 
 # Usage - The main script
 
