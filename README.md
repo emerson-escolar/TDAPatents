@@ -289,9 +289,10 @@ $$
 
     If enabled (and a compatible matplotlib backend is available), output an interactive plot of filter function.
         
-* --no_dump_raw
+* --dump_raw
   
-    By default, the script will dump processed raw data (data sent to Mapper) in Apache Parquet format, if the dump does not exist yet. Disable this using this option. Note: "processed raw data" means data after all data choices (start and end year, window, shift) and processing (keep or drop zeros, cosine transform, transpose, log, sum-to-one), but before Mapper analysis. So it is actually not entirely raw.
+    If enabled, the script will dump processed raw data (data sent to Mapper) in Apache Parquet format, if the dump does not exist yet.
+    Note: "processed raw data" means data after all data choices (start and end year, window, shift) and processing (keep or drop zeros, cosine transform, transpose, log, sum-to-one), but before Mapper analysis. So it is actually not entirely raw.
     
 * --clustermap
 

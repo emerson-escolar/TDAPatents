@@ -54,7 +54,7 @@ def get_common_parser():
     group_output = common_parser.add_argument_group("Output options")
     group_output.add_argument("--interactive", action="store_true", help="interactive plot of lens.")
     group_output.add_argument("--clustermap", action="store_true", help="Do clustermap.")
-    group_output.add_argument("--no_dump_raw", action="store_true", help="Skip dumping raw data.")
+    group_output.add_argument("--dump_raw", action="store_true", help="Dump raw data.")
     group_output.add_argument("--kclusters", help="number(s) of k-Medoids and k-Means to compute and append to cyjs output. Note that k-Means ignores --metric and always computes with Euclidean distances.", type=int, nargs="+", default=None)
 
     group_output.add_argument("--char_limit", help="limit chars for firms and patent class names", type=int, default=None)
@@ -190,7 +190,7 @@ def do_mapper(args, labels, data, verbosity):
     # Other outputs
     if True: proc.plot_lens(np.array(labels.rgb_colors)/255., show=args.interactive)
     if args.clustermap: proc.do_clustermap()
-    if not args.no_dump_raw: proc.dump_data()
+    if args.dump_raw: proc.dump_data()
 
     if args.kclusters:
         kClusters = proc.dataframe_kClusters(args.kclusters, dump_summary=True, dump_aggregates=True)
