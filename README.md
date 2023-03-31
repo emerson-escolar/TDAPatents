@@ -14,11 +14,8 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
 1. Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
 
      
-   1. Download contents of the repository.
-   
-       * Either from the [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or
-       
-       * By cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
+   1. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or 
+   by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
        
    2. (Optional, but recommended) Set up a virtual environment.
    
@@ -33,7 +30,7 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
     In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
     If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
 
-2. Use the single-file executable which contains all the needed python modules and scripts. This executable was created using [pyinstaller](https://pyinstaller.org/en/stable/).
+2. Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. This executable was created using [pyinstaller](https://pyinstaller.org/en/stable/).
 
     In this case, the main script is called by running  `tdapatents_script` in the folder where the data is contained.
 
