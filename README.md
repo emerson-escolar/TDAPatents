@@ -30,7 +30,7 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
     In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
     If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
 
-2. Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. This executable was created using [pyinstaller](https://pyinstaller.org/en/stable/).
+2. Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. The executables were created using [pyinstaller](https://pyinstaller.org/en/stable/). See [here](Technical_details_-_executables) for details.
 
     In this case, the main script is called by running  `tdapatents_script` in the folder where the data is contained.
 
@@ -321,6 +321,27 @@ $$
 
     Set the base folder for outputs as FOLDER
 
+
+# Technical details - executables
+
+The single-file executables were created by doing the following:
+1. create a fresh virtualenv
+2. install the requirements in requirements.txt
+3. Run the following 
+   * (linux-x86_64):
+   ```
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-linux-x86_64 --collect-data kmapper ./tdapatents/tdapatents_script.py
+   ```
+   
+   * (Windows 10):
+   ```
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-win --collect-data kmapper ./tdapatents/tdapatents_script.py
+   ```
+   
+   * (macOS apple silicon arm64)
+   ```
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-mac-arm64 --collect-data kmapper ./tdapatents/tdapatents_script.py
+   ```
 
 
 # References
