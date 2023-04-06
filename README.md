@@ -329,18 +329,20 @@ The single-file executables were created by doing the following:
 3. Run the following 
    * (linux-x86_64):
    ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-linux-x86_64 --collect-data kmapper ./tdapatents/tdapatents_script.py
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-linux-x86_64 --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
    ```
    
    * (Windows 10):
    ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-win --collect-data kmapper ./tdapatents/tdapatents_script.py
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-win --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
    ```
    
    * (macOS apple silicon arm64)
    ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-mac-arm64 --collect-data kmapper ./tdapatents/tdapatents_script.py
+   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-mac-arm64 --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
    ```
+
+
 
 
 # References
