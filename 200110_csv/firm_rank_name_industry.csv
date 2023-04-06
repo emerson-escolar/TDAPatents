@@ -1,0 +1,363 @@
+rank_tgt_unique,firm_name,,it,drug,medicaldevice,sp1economicsector,spsectorlabel,sic,sector1,sector2,sector3,sector4,sector5,sector6,sector7,sector8,sector9,sector10
+1,Cisco Systems Inc,,1,,,940,Technology,3576,0,0,0,0,0,0,0,1,0,0
+2,GE,,,,,925,Capital Goods,9997,0,1,0,0,0,0,0,0,0,0
+3,IBM,,1,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+4,Medtronic Inc,,,,1,905,Health Care,3845,0,0,0,0,0,0,1,0,0,0
+5,Johnson & Johnson,,,,1,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+6,ITW,,,,,925,Capital Goods,3560,0,1,0,0,0,0,0,0,0,0
+7,Boston Scientific Corp,,,,1,905,Health Care,3845,0,0,0,0,0,0,1,0,0,0
+8,Microsoft Corp,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+9,Tyco International Ltd,,,,,925,Capital Goods,3669,0,1,0,0,0,0,0,0,0,0
+10,Hewlett Packard Co,,1,,,940,Technology,3570,0,0,0,0,0,0,0,1,0,0
+11,Parker Hannifin Corp,,,,,925,Capital Goods,3490,0,1,0,0,0,0,0,0,0,0
+12,Intel Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+13,Danaher Corp,,,,,925,Capital Goods,3826,0,1,0,0,0,0,0,0,0,0
+14,Motorola Inc,,1,,,940,Technology,3663,0,0,0,0,0,0,0,1,0,0
+15,Emerson Electric Co,,,,,925,Capital Goods,3823,0,1,0,0,0,0,0,0,0,0
+16,Oracle Corp,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+17,Pfizer Inc,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+18,3M Co,,,,,925,Capital Goods,2670,0,1,0,0,0,0,0,0,0,0
+19,Broadcom Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+20,L-3 Communications Hldg Inc,,,,,940,Technology,3812,0,0,0,0,0,0,0,1,0,0
+21,Cadence Design Systems Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+22,Siemens AG,,,,,925,Capital Goods,9997,0,1,0,0,0,0,0,0,0,0
+23,Honeywell Inc,,,,,925,Capital Goods,9997,0,1,0,0,0,0,0,0,0,0
+24,Roper Industries Inc,,,,,925,Capital Goods,3561,0,1,0,0,0,0,0,0,0,0
+25,Texas Instruments Inc,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+26,Koninklijke Philips,,,,,925,Capital Goods,3845,0,1,0,0,0,0,0,0,0,0
+27,EMC Corp,,1,,,940,Technology,3572,0,0,0,0,0,0,0,1,0,0
+28,Cooper Industries Inc,,,,,925,Capital Goods,3640,0,1,0,0,0,0,0,0,0,0
+29,CR Bard Inc,,,,1,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+30,Lucent Technologies Inc,,1,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+31,Synopsys Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+32,JDS Uniphase Corp,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+33,Raytheon Co,,,,,940,Technology,3812,0,0,0,0,0,0,0,1,0,0
+34,Cardinal Health Inc,,,,1,978,Consumer Staples,5122,0,0,0,0,1,0,0,0,0,0
+35,America Online Inc,,1,,,978,Consumer Staples,4888,0,0,0,0,1,0,0,0,0,0
+36,Masco Industries Inc,,,,,976,Consumer Cyclicals,3430,0,0,0,1,0,0,0,0,0,0
+37,Abbott Laboratories,,,,1,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+38,Eaton Corp,,,,,925,Capital Goods,3620,0,1,0,0,0,0,0,0,0,0
+39,Textron Inc,,,,,925,Capital Goods,3721,0,1,0,0,0,0,0,0,0,0
+40,IDEX Corp,,,,,925,Capital Goods,3561,0,1,0,0,0,0,0,0,0,0
+41,Trimble Navigation Ltd,,,,,940,Technology,3829,0,0,0,0,0,0,0,1,0,0
+42,Carlisle Cos Inc,,,,,925,Capital Goods,2950,0,1,0,0,0,0,0,0,0,0
+43,Becton Dickinson & Co,,,,1,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+44,Sun Microsystems Inc,,1,,,940,Technology,3571,0,0,0,0,0,0,0,1,0,0
+45,Agilent Technologies Inc,,1,,,940,Technology,3826,0,0,0,0,0,0,0,1,0,0
+46,Symantec Corp,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+47,Computer Assoc Intl Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+48,Leggett & Platt Inc,,,,,976,Consumer Cyclicals,2510,0,0,0,1,0,0,0,0,0,0
+49,International Paper Co,,,,,970,Basic Materials,2631,1,0,0,0,0,0,0,0,0,0
+50,McAfee Inc,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+51,Lockheed Martin Corp,,,,,925,Capital Goods,3760,0,1,0,0,0,0,0,0,0,0
+52,Assa Abloy AB,,,,,976,Consumer Cyclicals,3442,0,0,0,1,0,0,0,0,0,0
+53,Bristol-Myers Squibb Co,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+54,Cirrus Logic Inc,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+55,Dover Corp,,,,,940,Technology,3585,0,0,0,0,0,0,0,1,0,0
+56,AT&T Inc,,1,,,974,Communication Services,4812,0,0,1,0,0,0,0,0,0,0
+57,Genzyme Corp,,,1,,905,Health Care,2836,0,0,0,0,0,0,1,0,0,0
+58,Halma PLC,,,,,925,Capital Goods,3690,0,1,0,0,0,0,0,0,0,0
+59,IMI PLC,,,,,925,Capital Goods,3490,0,1,0,0,0,0,0,0,0,0
+60,ThermoSpectra(Thermo Instr),,,,,940,Technology,3822,0,0,0,0,0,0,0,1,0,0
+61,Eli Lilly & Co,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+62,Applied Materials Inc,,1,,,940,Technology,3559,0,0,0,0,0,0,0,1,0,0
+63,Thomas & Betts Corp,,,,,925,Capital Goods,3640,0,1,0,0,0,0,0,0,0,0
+64,Watts Industries Inc,,,,,925,Capital Goods,3490,0,1,0,0,0,0,0,0,0,0
+65,Citrix Systems Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+66,Smiths Industries PLC,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+67,Intersil Holding Corp,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+68,Eastman Kodak Co,,,,,940,Technology,3577,0,0,0,0,0,0,0,1,0,0
+69,Armor Holdings Inc,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+70,Unilever PLC,,,,,978,Consumer Staples,2840,0,0,0,0,1,0,0,0,0,0
+71,LSI Logic Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+72,Google Inc,,1,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+73,Inverness Med Innovations Inc,,,,,905,Health Care,2835,0,0,0,0,0,0,1,0,0,0
+74,Nokia Oyj,,1,,,940,Technology,3663,0,0,0,0,0,0,0,1,0,0
+75,Electro Scientific Inds Inc,,,,,925,Capital Goods,3690,0,1,0,0,0,0,0,0,0,0
+76,Versata Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+77,AMETEK Inc,,,,,925,Capital Goods,3823,0,1,0,0,0,0,0,0,0,0
+78,Newell Co,,,,,978,Consumer Staples,3990,0,0,0,0,1,0,0,0,0,0
+79,ADC Telecommunications Inc,,,,,940,Technology,3661,0,0,0,0,0,0,0,1,0,0
+80,Baker Hughes Inc,,,,,935,Energy,1381,0,0,0,0,0,1,0,0,0,0
+81,Precision Castparts Corp,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+82,Invitrogen Corp,,,1,,925,Capital Goods,3826,0,1,0,0,0,0,0,0,0,0
+83,Crane Co,,,,,925,Capital Goods,3490,0,1,0,0,0,0,0,0,0,0
+84,Merck & Co Inc,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+85,Baxter Travenol Laboratories,,,,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+86,Cypress Semiconductor Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+87,Dell Inc,,1,,,940,Technology,3571,0,0,0,0,0,0,0,1,0,0
+88,Dynatech Corp,,,,,,,,,,,,,,,,,
+89,Nortek Inc,,,,,970,Basic Materials,2430,1,0,0,0,0,0,0,0,0,0
+90,ITT Industries Inc,,,,,925,Capital Goods,3561,0,1,0,0,0,0,0,0,0,0
+91,Smith & Nephew PLC,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+92,St Jude Medical Inc,,,,1,905,Health Care,3845,0,0,0,0,0,0,1,0,0,0
+93,Harris Corp,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+94,Cordis Corp,,,,,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+95,The Stanley Works,,,,,976,Consumer Cyclicals,3540,0,0,0,1,0,0,0,0,0,0
+96,Elan Corp PLC,,,,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+97,QUALCOMM Inc,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+98,PerkinElmer Inc,,,,,940,Technology,3826,0,0,0,0,0,0,0,1,0,0
+99,Teradyne Inc,,,,,940,Technology,3825,0,0,0,0,0,0,0,1,0,0
+100,DuPont,,,,,970,Basic Materials,2820,1,0,0,0,0,0,0,0,0,0
+101,The Dow Chemical Co,,,,,970,Basic Materials,2821,1,0,0,0,0,0,0,0,0,0
+102,Central Garden & Pet Co,,,,,976,Consumer Cyclicals,5140,0,0,0,1,0,0,0,0,0,0
+103,Airgas Inc,,,,,970,Basic Materials,5084,1,0,0,0,0,0,0,0,0,0
+104,Brady Corp,,,,,925,Capital Goods,3990,0,1,0,0,0,0,0,0,0,0
+105,Federal Signal Corp,,,,,925,Capital Goods,3711,0,1,0,0,0,0,0,0,0,0
+106,Franklin Electric Co Inc,,,,,925,Capital Goods,3621,0,1,0,0,0,0,0,0,0,0
+107,BAE Systems PLC,,,,,925,Capital Goods,3721,0,1,0,0,0,0,0,0,0,0
+108,Wolters Kluwer NV,,,,,976,Consumer Cyclicals,8111,0,0,0,1,0,0,0,0,0,0
+109,Sybase Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+110,Cie de Saint-Gobain SA,,,,,925,Capital Goods,5200,0,1,0,0,0,0,0,0,0,0
+111,Westinghouse Electric Corp,,,,,978,Consumer Staples,4833,0,0,0,0,1,0,0,0,0,0
+112,Monsanto Co,,,1,,970,Basic Materials,100,1,0,0,0,0,0,0,0,0,0
+113,Nortel Networks Corp,,1,,,940,Technology,9995,0,0,0,0,0,0,0,1,0,0
+114,General Dynamics Corp,,,,,925,Capital Goods,3721,0,1,0,0,0,0,0,0,0,0
+115,Schlumberger Ltd,,,,,935,Energy,1389,0,0,0,0,0,1,0,0,0,0
+116,KLA-Tencor Corp,,,,,940,Technology,3827,0,0,0,0,0,0,0,1,0,0
+117,MKS Instruments Inc,,,,,940,Technology,3823,0,0,0,0,0,0,0,1,0,0
+118,Hasbro Inc,,,,,976,Consumer Cyclicals,3944,0,0,0,1,0,0,0,0,0,0
+119,Alcatel SA,,1,,,940,Technology,3661,0,0,0,0,0,0,0,1,0,0
+120,Procter & Gamble Co,,,,,978,Consumer Staples,2840,0,0,0,0,1,0,0,0,0,0
+121,Teleflex Inc,,,,,925,Capital Goods,3841,0,1,0,0,0,0,0,0,0,0
+122,Teledyne Technologies Inc,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+123,BF Goodrich Co,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+124,Microsemi Corp,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+125,Sanmina Corp,,,,,925,Capital Goods,3672,0,1,0,0,0,0,0,0,0,0
+126,GKN PLC,,,,,976,Consumer Cyclicals,3714,0,0,0,1,0,0,0,0,0,0
+127,Integra LifeSciences Corp,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+128,RPM Inc,,,,,970,Basic Materials,2890,1,0,0,0,0,0,0,0,0,0
+129,FLIR Systems Inc,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+130,Rubbermaid Inc,,,,,978,Consumer Staples,3089,0,0,0,0,1,0,0,0,0,0
+131,West Corp,,,,,976,Consumer Cyclicals,7389,0,0,0,1,0,0,0,0,0,0
+132,MagneTek Inc,,,,,925,Capital Goods,3612,0,1,0,0,0,0,0,0,0,0
+133,Flextronics International Ltd,,,,,925,Capital Goods,3672,0,1,0,0,0,0,0,0,0,0
+134,Cookson Group PLC,,,,,925,Capital Goods,3290,0,1,0,0,0,0,0,0,0,0
+135,3Com Corp,,,,,940,Technology,3576,0,0,0,0,0,0,0,1,0,0
+136,Esterline Technologies Corp,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+137,Veeco Instruments Inc,,,,,940,Technology,3559,0,0,0,0,0,0,0,1,0,0
+138,Emhart Corp,,,,,925,Capital Goods,3452,0,1,0,0,0,0,0,0,0,0
+139,Compuware Corp,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+140,Laird PLC,,,,,925,Capital Goods,3663,0,1,0,0,0,0,0,0,0,0
+141,Tektronix Inc,,,,,940,Technology,3825,0,0,0,0,0,0,0,1,0,0
+142,VeriSign Inc,,1,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+143,United Dominion Industries Ltd,,,,,925,Capital Goods,3443,0,1,0,0,0,0,0,0,0,0
+144,Brunswick Corp,,,,,976,Consumer Cyclicals,3510,0,0,0,1,0,0,0,0,0,0
+145,K2 Inc,,,,,976,Consumer Cyclicals,3949,0,0,0,1,0,0,0,0,0,0
+146,Schneider Electric SA,,,,,700,Utilities,3612,0,0,0,0,0,0,0,0,0,1
+147,Alliant Techsystems Inc,,,,,925,Capital Goods,3480,0,1,0,0,0,0,0,0,0,0
+148,ConAgra Inc,,,,,978,Consumer Staples,2000,0,0,0,0,1,0,0,0,0,0
+149,EDO Corp,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+150,Vitesse Semiconductor Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+151,Mentor Graphics Corp,,,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+152,GlaxoSmithKline PLC,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+153,Litton Industries Inc,,,,,940,Technology,3730,0,0,0,0,0,0,0,1,0,0
+154,Pentair Inc,,,,,925,Capital Goods,3561,0,1,0,0,0,0,0,0,0,0
+155,Novell Inc,,,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+156,Bunzl PLC,,,,,970,Basic Materials,5110,1,0,0,0,0,0,0,0,0,0
+157,Endo Pharmaceuticals Holdings,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+158,Guidant Corp,,,,,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+159,ManTech International Corp,,,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+160,Robert Bosch GmbH,,,,,600,Transportation,3714,0,0,0,0,0,0,0,0,1,0
+161,Boeing Co,,,,,925,Capital Goods,3721,0,1,0,0,0,0,0,0,0,0
+162,Gibraltar Steel Corp,,,,,970,Basic Materials,3310,1,0,0,0,0,0,0,0,0,0
+163,Actuant Corp,,,,,976,Consumer Cyclicals,3533,0,0,0,1,0,0,0,0,0,0
+164,CA Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+165,Roche Holding AG,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+166,Halliburton Co,,,,,935,Energy,1389,0,0,0,0,0,1,0,0,0,0
+167,Curtiss-Wright Corp,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+168,Ingersoll-Rand Co,,,,,925,Capital Goods,3585,0,1,0,0,0,0,0,0,0,0
+169,Hubbell Inc,,,,,925,Capital Goods,3640,0,1,0,0,0,0,0,0,0,0
+170,CLARCOR Inc,,,,,925,Capital Goods,3564,0,1,0,0,0,0,0,0,0,0
+171,Coherent Inc,,,,,940,Technology,3826,0,0,0,0,0,0,0,1,0,0
+172,Schering-Plough Corp,,,,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+173,Lucas Industries PLC,,,,,976,Consumer Cyclicals,3714,0,0,0,1,0,0,0,0,0,0
+174,Tenneco Automotive Inc,,,,,976,Consumer Cyclicals,3714,0,0,0,1,0,0,0,0,0,0
+175,Dassault Systemes SA,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+176,Siebe PLC,,,,,,,,,,,,,,,,,
+177,Moog Inc,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+178,Brooks Automation Inc,,,,,940,Technology,3559,0,0,0,0,0,0,0,1,0,0
+179,CIENA Corp,,,,,940,Technology,3661,0,0,0,0,0,0,0,1,0,0
+180,ICI PLC,,,,,970,Basic Materials,2800,1,0,0,0,0,0,0,0,0,0
+181,Equifax Inc,,,,,940,Technology,7323,0,0,0,0,0,0,0,1,0,0
+182,Meggitt PLC,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+183,Astec Industries Inc,,,,,925,Capital Goods,3531,0,1,0,0,0,0,0,0,0,0
+184,Northrop Grumman Corp,,,,,925,Capital Goods,3812,0,1,0,0,0,0,0,0,0,0
+185,Sybron International Corp,,,,,905,Health Care,3843,0,0,0,0,0,0,1,0,0,0
+186,Stryker Corp,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+187,Amgen Inc,,,1,,905,Health Care,2836,0,0,0,0,0,0,1,0,0,0
+188,Finisar Corp,,,,,940,Technology,3577,0,0,0,0,0,0,0,1,0,0
+189,Zebra Technologies Corp,,,,,940,Technology,3577,0,0,0,0,0,0,0,1,0,0
+190,CONMED Corp,,,,,905,Health Care,3845,0,0,0,0,0,0,1,0,0,0
+191,Gilead Sciences Inc,,,1,,905,Health Care,2836,0,0,0,0,0,0,1,0,0,0
+192,Respironics Inc,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+193,Phoenix Technologies Ltd,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+194,Lubrizol Corp,,,,,970,Basic Materials,2990,1,0,0,0,0,0,0,0,0,0
+195,Lippert Components Inc,,,,,976,Consumer Cyclicals,3711,0,0,0,1,0,0,0,0,0,0
+196,Teva Pharmaceutical Industries,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+197,Olin Corp,,,,,970,Basic Materials,2810,1,0,0,0,0,0,0,0,0,0
+198,AlliedSignal Inc,,,,,,,,,,,,,,,,,
+199,Thomson Multimedia SA,,,,,940,Technology,7812,0,0,0,0,0,0,0,1,0,0
+200,Dana Corp,,,,,976,Consumer Cyclicals,3714,0,0,0,1,0,0,0,0,0,0
+201,General Binding Corp,,,,,925,Capital Goods,3579,0,1,0,0,0,0,0,0,0,0
+202,Osmonics Inc,,,,,925,Capital Goods,3569,0,1,0,0,0,0,0,0,0,0
+203,Covidien Ltd,,,,,,,,,,,,,,,,,
+204,Park-Ohio Holdings Corp,,,,,976,Consumer Cyclicals,5072,0,0,0,1,0,0,0,0,0,0
+205,ScanSoft Inc,,,,,,,,,,,,,,,,,
+206,National-Oilwell Inc,,,,,935,Energy,3533,0,0,0,0,0,1,0,0,0,0
+207,Recoton Corp,,,,,925,Capital Goods,3651,0,1,0,0,0,0,0,0,0,0
+208,Hanger Orthopedic Group Inc,,,,,905,Health Care,8093,0,0,0,0,0,0,1,0,0,0
+209,Bausch & Lomb Inc,,,,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+210,Tomkins PLC,,,,,,,,,,,,,,,,,
+211,Corning Inc,,,,,940,Technology,3679,0,0,0,0,0,0,0,1,0,0
+212,Lernout & Hauspie Speech,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+213,eBay Inc,,1,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+214,EMCORE Corp,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+215,Millipore Corp,,,,,925,Capital Goods,3826,0,1,0,0,0,0,0,0,0,0
+216,Pitney Bowes Inc,,,,,925,Capital Goods,3579,0,1,0,0,0,0,0,0,0,0
+217,Autonomy Corp PLC,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+218,Seagate Technology Inc,,1,,,940,Technology,3572,0,0,0,0,0,0,0,1,0,0
+219,Baxter Healthcare-V Mueller,,,,,,,,,,,,,,,,,
+220,International Game Technology,,,,,976,Consumer Cyclicals,7990,0,0,0,1,0,0,0,0,0,0
+221,Cytyc Corp,,,,,970,Basic Materials,2890,1,0,0,0,0,0,0,0,0,0
+222,Molex Inc,,,,,925,Capital Goods,3678,0,1,0,0,0,0,0,0,0,0
+223,Nordson Corp,,,,,925,Capital Goods,3569,0,1,0,0,0,0,0,0,0,0
+224,Mattel Inc,,,,,976,Consumer Cyclicals,3942,0,0,0,1,0,0,0,0,0,0
+225,Sigma-Aldrich Corp,,,,,970,Basic Materials,2833,1,0,0,0,0,0,0,0,0,0
+226,Applied Power Inc,,,,,,,,,,,,,,,,,
+227,NVIDIA Corp,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+228,Ducommun Inc,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+229,Aluminum Co of America,,,,,,,,,,,,,,,,,
+230,CooperSurgical Inc,,,,1,,,,,,,,,,,,,
+231,Ligand Pharmaceuticals Inc,,,1,,905,Health Care,3728,0,0,0,0,0,0,1,0,0,0
+232,The Manitowoc Co Inc,,,,,925,Capital Goods,3530,0,1,0,0,0,0,0,0,0,0
+233,SAIC Inc,,,,,976,Consumer Cyclicals,8700,0,0,0,1,0,0,0,0,0,0
+234,Advanced Energy Inds Inc,,,,,940,Technology,3679,0,0,0,0,0,0,0,1,0,0
+235,Juniper Networks Inc,,1,,,940,Technology,3576,0,0,0,0,0,0,0,1,0,0
+236,TI Group PLC,,,,,925,Capital Goods,3050,0,1,0,0,0,0,0,0,0,0
+237,Adaptec Inc,,,,,,,,,,,,,,,,,
+238,Cobham PLC,,,,,925,Capital Goods,3720,0,1,0,0,0,0,0,0,0,0
+239,Adobe Systems Inc,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+240,Ecolab Inc,,,,,970,Basic Materials,2842,1,0,0,0,0,0,0,0,0,0
+241,McKesson Corp,,,,,978,Consumer Staples,5122,0,0,0,0,1,0,0,0,0,0
+242,Nuance Communications Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+243,Mallinckrodt Inc,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+244,Angiotech Pharmaceuticals Inc,,,,,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+245,Bacou USA Inc,,,,,905,Health Care,3851,0,0,0,0,0,0,1,0,0,0
+246,United States Filter Corp,,,,,,,,,,,,,,,,,
+247,Pall Corp,,,,,925,Capital Goods,3569,0,1,0,0,0,0,0,0,0,0
+248,Sunrise Medical Inc,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+249,Kimberly-Clark Corp,,,,,940,Technology,2621,0,0,0,0,0,0,0,1,0,0
+250,Apple Computer Inc,,1,,,940,Technology,3663,0,0,0,0,0,0,0,1,0,0
+251,Consolidated Graphics Inc,,,,,978,Consumer Staples,2750,0,0,0,0,1,0,0,0,0,0
+252,Sirenza Microdevices Inc,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+253,CAE Inc,,,,,925,Capital Goods,3690,0,1,0,0,0,0,0,0,0,0
+254,Clinical Data Inc,,,,,940,Technology,2836,0,0,0,0,0,0,0,1,0,0
+255,Datum Inc,,,,,940,Technology,3825,0,0,0,0,0,0,0,1,0,0
+256,Zero Corp,,,,,925,Capital Goods,3460,0,1,0,0,0,0,0,0,0,0
+257,Bayer AG,,,,,970,Basic Materials,2800,1,0,0,0,0,0,0,0,0,0
+258,Unisys Corp,,,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+259,Qwest Commun Intl Inc,,,,,974,Communication Services,4813,0,0,1,0,0,0,0,0,0,0
+260,Integrated Device Tech Inc,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+261,ViaSat Inc,,,,,940,Technology,3663,0,0,0,0,0,0,0,1,0,0
+262,Asyst Technologies Inc,,,,,940,Technology,3559,0,0,0,0,0,0,0,1,0,0
+263,Mine Safety Appliance Co,,,,,905,Health Care,3842,0,0,0,0,0,0,1,0,0,0
+264,Remec Inc,,,,,940,Technology,9995,0,0,0,0,0,0,0,1,0,0
+265,BTR PLC,,,,,925,Capital Goods,3714,0,1,0,0,0,0,0,0,0,0
+266,Credence Systems Corp,,,,,940,Technology,3825,0,0,0,0,0,0,0,1,0,0
+267,Perkin-Elmer Corp,,,,,,,,,,,,,,,,,
+268,EG&G Inc,,,,,,,,,,,,,,,,,
+269,Terex Corp,,,,,925,Capital Goods,3530,0,1,0,0,0,0,0,0,0,0
+270,IXYS Corp,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+271,Chiron Corp,,,1,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+272,Creative Technologies Corp,,,,,976,Consumer Cyclicals,5020,0,0,0,1,0,0,0,0,0,0
+273,BMC Software Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+274,Sealed Air Corp,,,,,925,Capital Goods,3081,0,1,0,0,0,0,0,0,0,0
+275,Courtaulds PLC,,,,,970,Basic Materials,2800,1,0,0,0,0,0,0,0,0,0
+276,James River Corp of Virginia,,,,,,,,,,,,,,,,,
+277,Quest Software Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+278,Baldwin Technology Co Inc,,,,,925,Capital Goods,3555,0,1,0,0,0,0,0,0,0,0
+279,Tellabs Inc,,,,,940,Technology,3661,0,0,0,0,0,0,0,1,0,0
+280,SRA International Inc,,,,,940,Technology,7370,0,0,0,0,0,0,0,1,0,0
+281,Sonoco Products Co,,,,,970,Basic Materials,2650,1,0,0,0,0,0,0,0,0,0
+282,TIBCO Software Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+283,Fluke Networks Inc,,,,,940,Technology,3825,0,0,0,0,0,0,0,1,0,0
+284,US Office Products Co,,,,,970,Basic Materials,5110,1,0,0,0,0,0,0,0,0,0
+285,CTB International Corp,,,,,925,Capital Goods,3523,0,1,0,0,0,0,0,0,0,0
+286,AMP Inc,,,,,925,Capital Goods,3678,0,1,0,0,0,0,0,0,0,0
+287,Vitec Group PLC,,,,,925,Capital Goods,3861,0,1,0,0,0,0,0,0,0,0
+288,HBO & Co,,,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+289,TDK Corp,,1,,,925,Capital Goods,3670,0,1,0,0,0,0,0,0,0,0
+290,TRW Inc,,,,,976,Consumer Cyclicals,3714,0,0,0,1,0,0,0,0,0,0
+291,TriQuint Semiconductor Inc,,1,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+292,Jason Inc,,,,,976,Consumer Cyclicals,2200,0,0,0,1,0,0,0,0,0,0
+293,Tandberg Data ASA,,,,,940,Technology,3572,0,0,0,0,0,0,0,1,0,0
+294,Advanced Medical Optics Inc,,,,1,925,Capital Goods,3845,0,1,0,0,0,0,0,0,0,0
+295,Axsys Technologies Inc,,,,,925,Capital Goods,3640,0,1,0,0,0,0,0,0,0,0
+296,Rexam PLC,,,,,925,Capital Goods,3411,0,1,0,0,0,0,0,0,0,0
+297,Greatbatch Inc,,,,,,,,,,,,,,,,,
+298,Premark International Inc,,,,,925,Capital Goods,3580,0,1,0,0,0,0,0,0,0,0
+299,The Cooper Cos Inc,,,,,905,Health Care,3851,0,0,0,0,0,0,1,0,0,0
+300,Silicon Graphics International,,,,,940,Technology,3571,0,0,0,0,0,0,0,1,0,0
+301,Deere & Co,,,,,925,Capital Goods,3523,0,1,0,0,0,0,0,0,0,0
+302,Penn Central Corp,,,,,,,,,,,,,,,,,
+303,Rockwell Collins Inc,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+304,Erie Scientific Co,,,,,,,,,,,,,,,,,
+305,Celgene Corp,,,,,905,Health Care,2834,0,0,0,0,0,0,1,0,0,0
+306,CCL Industries Inc,,,,,978,Consumer Staples,2670,0,0,0,0,1,0,0,0,0,0
+307,Blount Inc,,,,,976,Consumer Cyclicals,3420,0,0,0,1,0,0,0,0,0,0
+308,Cenveo Inc,,,,,970,Basic Materials,2670,1,0,0,0,0,0,0,0,0,0
+309,SAP AG,,1,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+310,Verifone Systems Inc,,,,,940,Technology,3578,0,0,0,0,0,0,0,1,0,0
+311,GTE Corp,,,,,974,Communication Services,4813,0,0,1,0,0,0,0,0,0,0
+312,Global Industrial Technologies,,,,,976,Consumer Cyclicals,3290,0,0,0,1,0,0,0,0,0,0
+313,JAKKS Pacific Inc,,,,,976,Consumer Cyclicals,3942,0,0,0,1,0,0,0,0,0,0
+314,Hi-Rise Recycling Systems Inc,,,,,940,Technology,3559,0,0,0,0,0,0,0,1,0,0
+315,Morgan Crucible Co PLC,,,,,976,Consumer Cyclicals,3290,0,0,0,1,0,0,0,0,0,0
+316,Alcoa Inc,,,,,970,Basic Materials,3720,1,0,0,0,0,0,0,0,0,0
+317,Hologic Inc,,,,,905,Health Care,5812,0,0,0,0,0,0,1,0,0,0
+318,VF Corp,,,,,976,Consumer Cyclicals,3844,0,0,0,1,0,0,0,0,0,0
+319,Carrier Corp,,,,,925,Capital Goods,3585,0,1,0,0,0,0,0,0,0,0
+320,Titan Corp,,,,,940,Technology,7373,0,0,0,0,0,0,0,1,0,0
+321,Russ Berrie & Co Inc,,,,,976,Consumer Cyclicals,3990,0,0,0,1,0,0,0,0,0,0
+322,Bentley Systems Inc,,,,,940,Technology,7372,0,0,0,0,0,0,0,1,0,0
+323,Hillenbrand Industries Inc,,,,,925,Capital Goods,2590,0,1,0,0,0,0,0,0,0,0
+324,Digi International Inc,,,,,940,Technology,3576,0,0,0,0,0,0,0,1,0,0
+325,Power-One Inc,,,,,925,Capital Goods,3679,0,1,0,0,0,0,0,0,0,0
+326,Air Products & Chemicals Inc,,,,,970,Basic Materials,2810,1,0,0,0,0,0,0,0,0,0
+327,Polycom Inc,,,,,940,Technology,3661,0,0,0,0,0,0,0,1,0,0
+328,Bookham Inc,,,,,940,Technology,3674,0,0,0,0,0,0,0,1,0,0
+329,Walt Disney Co,,,,,978,Consumer Staples,4888,0,0,0,0,1,0,0,0,0,0
+330,Nestle SA,,,,,978,Consumer Staples,2000,0,0,0,0,1,0,0,0,0,0
+331,WR Grace & Co,,,,,970,Basic Materials,2810,1,0,0,0,0,0,0,0,0,0
+332,VIASYS Healthcare Inc,,,,,905,Health Care,3841,0,0,0,0,0,0,1,0,0,0
+333,LMI Aerospace Inc,,,,,925,Capital Goods,3728,0,1,0,0,0,0,0,0,0,0
+334,Gooch & Housego PLC,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+335,Newport Corp,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+336,Yahoo! Inc,,1,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+337,Carpenter Technology Corp,,,,,970,Basic Materials,,1,0,0,0,0,0,0,0,0,0
+338,National Semiconductor Corp,,1,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+339,Silicon Laboratories Inc,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+340,VMware Inc,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+341,Vital Signs Inc,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+342,Sandoz AG,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+343,AmerisourceBergen Corp,,,,,978,Consumer Staples,,0,0,0,0,1,0,0,0,0,0
+344,Telefonaktiebolaget LM,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+345,Atlas Copco AB,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+346,Beckman Coulter Inc,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+347,Beecham Group PLC,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+348,Microchip Technology Inc,,1,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+349,Johnson Controls Inc,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+350,Varian Inc,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+351,Solectron Corp,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+352,Henkel AG & Co KGaA,,,,,978,Consumer Staples,,0,0,0,0,1,0,0,0,0,0
+353,General Signal Corp,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+354,PPG Industries Inc,,,,,970,Basic Materials,,1,0,0,0,0,0,0,0,0,0
+355,SPS Technologies Inc,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+356,American Hospital Supply Corp,,,,,905,Health Care,,0,0,0,0,0,0,1,0,0,0
+357,TeleCommunication Systems Inc,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+358,Autodesk Inc,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+359,SPX Corp,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+360,Rockwell Automation Inc,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
+361,Avant! Corp,,,,,940,Technology,,0,0,0,0,0,0,0,1,0,0
+362,Mitsubishi Kasei Corp,,,,,925,Capital Goods,,0,1,0,0,0,0,0,0,0,0
