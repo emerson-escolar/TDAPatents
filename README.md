@@ -330,4 +330,4 @@ Singh, G., Mémoli, F., & Carlsson, G. E. (2007). Topological methods for the an
 GPL-3.0
 
 Note: This Project contains "Turbo Colormap Look-up Table" (turbo_colormap.py) by Anton Mikhailov,
-which is licensed under Apache-2.0. Obtained from [here](https://gist.github.com/mikhailov-work/6a308c20e494d9e0ccc29036b28faa7a).
+which is licensed under Apache-2.0. Obtained from [here](https://gist.github.com/mikhailov-work/ee72ba4191942acecc03fe6da94fc73f).
