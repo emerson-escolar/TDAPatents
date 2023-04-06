@@ -18,9 +18,15 @@ Install the scripts in your local python environment (or virtual environment). F
        pip install -r requirements.txt
        ```
        to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended.
-
-    The main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
-    If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
+       
+The main script is called by running 
+```
+python ./tdapatents/tdapatents_script.py
+```
+in the folder where the data is contained.
+If the data and script files are place in different folders, change 
+`./tdapatents/tdapatents_script.py`
+appropriately to point to the script file.
 
 (Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
 
