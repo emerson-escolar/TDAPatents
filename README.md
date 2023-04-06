@@ -6,11 +6,7 @@ This repository contains code for the topological analysis of patent data, as de
 
 # Setup
 
-Two options: install into your local python environment, or using a single-file executable.
-Note: the single-file executable, while simpler to setup, may run slower, and may possibly not work on your system. 
-
-1. OPTION 1: Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
-
+Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
      
    1. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or 
    by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
@@ -21,24 +17,15 @@ Note: the single-file executable, while simpler to setup, may run slower, and ma
        ```
        pip install -r requirements.txt
        ```
-       to install required additional python modules.
+       to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended.
 
-    In this case, the main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
+    The main script is called by running  `python ./tdapatents/tdapatents_script.py` in the folder where the data is contained.
     If the data and script files are place in different folders, change `./tdapatents/tdapatents_script.py` appropriately to point to the script file.
-
-2. OPTION 2: Use the single-file executable also found in [Releases](https://github.com/emerson-escolar/TDAPatents/releases) which contains all the needed python modules and scripts. The executables were created using [pyinstaller](https://pyinstaller.org/en/stable/). See [here](Technical-details---executables) for details.
-
-    In this case, the main script is called by running  `tdapatents_script-SYSTEM` in the folder where the data is contained, where SYSTEM depends on your operating system.
 
 (Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
 
+
 # Usage - The main script
-
-As noted above, the main script is called by either running 
-
-1. `python tdapatents_script.py` or
-
-2. `tdapatents_script-SYSTEM` where SYSTEM depends on your operating system.
 
 The main script contains three sub-commands, 
 depending on how it is supposed to treat the time series patent data.
@@ -53,8 +40,7 @@ Each combination of a firm & year gives a point.
 * ma: "merge-accumulate". Accumulate (add) data over a moving time window, then consider the entire panel dataset. Each combination of a firm  & year gives a point, but the data for each firm-year is accumulated from the time window. **This is the method adopted in the paper**.
     
 For example, the paper uses "merge-accumulate", and so the command to call starts with 
-`python tdapatents_script.py ma` or 
-`tdapatents_script-SYSTEM ma` (again depending on your [setup](#Setup)).
+`python ./tdapatents/tdapatents_script.py ma`.
 In fact, running the previous command should already produce some output (with the default settings for analysis) in a folder called
 `cos_pca2d_logmerg`.
 (See [here](#Detailed-options) for information about the settings one can tweak for the analysis.)
@@ -321,35 +307,13 @@ $$
     Set the base folder for outputs as FOLDER
 
 
-# Technical details - executables
-
-The single-file executables were created by doing the following:
-1. create a fresh virtualenv
-2. install the requirements in requirements.txt
-3. Run the following 
-   * (linux-x86_64):
-   ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-linux-x86_64 --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
-   ```
-   
-   * (Windows 10):
-   ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-win --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
-   ```
-   
-   * (macOS apple silicon arm64)
-   ```
-   pyinstaller --hiddenimport fastparquet -F -n tdapatents_script-mac-arm64 --collect-data kmapper --collect-all pyclustering ./tdapatents/tdapatents_script.py
-   ```
-
-
 
 
 # References
 <a id="EHIO">[EHIO]</a> 
 Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
 
-<a id="CYTOSCAPE">[CYTOSCAPE]</a>
+<a id="CYTOSCAPE">[Cytoscape]</a>
 Shannon, P., Markiel, A., Ozier, O., Baliga, N. S., Wang, J. T., Ramage, D., Amin, N., Schwikowski, B., Ideker, T. (2003). Cytoscape: a software environment for integrated models of biomolecular interaction networks. Genome research, 13(11), 2498-2504.
 
 <a id="SMC">[SMC]</a>
