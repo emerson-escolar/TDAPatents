@@ -18,10 +18,13 @@ Install the scripts in your local python environment (or virtual environment). F
    If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules (this is not needed for the zip file). 
 
    3. Navigate into the base folder of this project and run:
-       ```
-       pip install -r requirements.txt
-       ```
-       to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended so that it won't affect your existing environment.
+      ```
+      pip install -U setuptools wheel
+      ```
+      ```
+      pip install -r requirements.txt
+      ```
+      to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended so that it won't affect your existing environment.
        
 The main script is called by running 
 ```
