@@ -12,23 +12,24 @@ Install the scripts in your local python environment (or virtual environment). F
    by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
        
    2. (Optional, but recommended) Set up a virtual environment.
+      One option is to use the python module venv.
+      See [here](https://docs.python.org/3/library/venv.html) for specific instructions. 
+      Do not forget to activate the virtual environment before proceeding to the next step! Refer [here](https://docs.python.org/3/library/venv.html#how-venvs-work) for the corresponding activation script to call.
    
    3. Run:
        ```
        pip install -r requirements.txt
        ```
-       to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended.
+       to install required additional python modules. Note: this installs older versions of networkx and numpy, so setting up a virtual environment is recommended so that it won't affect your existing environment.
        
 The main script is called by running 
 ```
 python ./tdapatents/tdapatents_script.py
 ```
-in the folder where the data is contained.
-If the data and script files are place in different folders, change 
+in the base folder (which contains the data folders `180901_csv` and `200110_csv`).
+If the data and script files are placed in different folders, change 
 `./tdapatents/tdapatents_script.py`
 appropriately to point to the script file.
-
-(Disclaimer) This software distributed in the hope that they will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Should the program prove defective, you assume the cost of all necessary servicing, repair or correction.
 
 
 # Usage - The main script
