@@ -1,7 +1,7 @@
 # "Jaffe measures"
-The script `b_jaffe_measures.py` is for computing the "Jaffe measures", as described in Appendix G of the paper.
-This script is structured similary as `analysis_merged_pca.py` 
-except that it fixes several parameters that can be modified in `analysis_merged_pca.py`
+The script `./tdapatents/b_jaffe_measures.py` is for computing the "Jaffe measures", as described in Appendix G of the paper [EHIO]](#EHIO).
+This script is structured similary as `./tdapatents/tdapatents_script.py` 
+except that it fixes several parameters that can be modified in `./tdapatents/tdapatents_script.py`
 
 * transpose = False
 * log = False
@@ -9,7 +9,7 @@ except that it fixes several parameters that can be modified in `analysis_merged
 * metric = "cosine"
 
 in order to get the correct Jaffe measure (cosine distance in percentage-share version of data) for firms.
-With such choices, the output will go into (a subfolder of) `cos_pca2d_sumonemerg` (this is shared with the results for `analysis_merged_pca.py`). 
+With such choices, the output will go into (a subfolder of) `cos_pca2d_sumonemerg` (this is shared with the results for `./tdapatents/tdapatents_script.py`). 
 
 Side-note: the original Jaffe paper considers cosine **proximity** (cosine, as-is). Here, we are computing cosine **dissimilarity** = 1 - proximity.
 
@@ -18,11 +18,11 @@ Usage example:
 python b_jaffe_measures.py ma --data 1 --mode 0 --from_year 1976 --to_year 2005 -o outputfolder -w 5 -s 1
 ```
 for a 5 year moving window shifted 1 year at a time.
-Note: `-o` is also an option in `analysis_merged_pca.py` to specify the main folder into which to output the results. This may help in organizing the output results.
+Note: `-o` is also an option in `./tdapatents/tdapatents_script.py` to specify the main folder into which to output the results. This may help in organizing the output results.
 
 ## Main output
 
-`b_jaffe_measures.py` does not perform any Mapper analysis. Instead, the main output is a file `..._jaffemeasures.csv` which summarizes the "Jaffe measures" of firms.
+`./tdapatents/b_jaffe_measures.py` does not perform any Mapper analysis. Instead, the main output is a file `..._jaffemeasures.csv` which summarizes the "Jaffe measures" of firms.
 
 This output is a csv with the following columns in addition to the column of firms:
 "yfinal--yfinal_neighbor", "yfinal--yfinal_neighborname", "yfinal--yfinal_popmean",
@@ -80,3 +80,7 @@ This is different from first taking the raw data mean location and then normaliz
 * `..._finalyeardistances.csv`: Jaffe measures for firms, using the final year data.
 
 * `..._firmmeansdistances.csv`: Jaffe measures for firms, using the "ymean" data.
+
+# References
+<a id="EHIO">[EHIO]</a> 
+Escolar, E. G., Hiraoka, Y., Igami, M., & Ozcan, Y. (2019). Mapping firms' locations in technological space: A topological analysis of patent statistics. arXiv preprint arXiv:1909.00257.
