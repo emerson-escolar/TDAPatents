@@ -1,5 +1,5 @@
 # "Jaffe measures"
-The script `./tdapatents/b_jaffe_measures.py` is for computing the "Jaffe measures", as described in Appendix G of the paper [EHIO]](#EHIO).
+The script `./tdapatents/b_jaffe_measures.py` is for computing the "Jaffe measures", as described in Appendix G of the paper [[EHIO]](#EHIO).
 This script is structured similary as `./tdapatents/tdapatents_script.py` 
 except that it fixes several parameters that can be modified in `./tdapatents/tdapatents_script.py`
 
