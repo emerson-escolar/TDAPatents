@@ -9,14 +9,14 @@ This repository contains code for the topological analysis of patent data, as de
 Install the scripts in your local python environment (or virtual environment). For this, installation of additional python modules is needed. 
      
    1. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) or 
-   by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules.
+   by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules. If you downloaded the zip file from Releases, extract it somwhere.
        
    2. (Optional, but recommended) Set up a virtual environment.
       One option is to use the python module venv.
       See [here](https://docs.python.org/3/library/venv.html) for specific instructions. 
       Do not forget to activate the virtual environment before proceeding to the next step! Refer [here](https://docs.python.org/3/library/venv.html#how-venvs-work) for the corresponding activation script to call.
    
-   3. Run:
+   3. Navigate into the base folder of this project and run:
        ```
        pip install -r requirements.txt
        ```
