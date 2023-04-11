@@ -13,8 +13,8 @@ Install the scripts in your local python environment (or virtual environment). F
       See [here](https://docs.python.org/3/library/venv.html) for specific instructions. 
       Do not forget to activate the virtual environment before proceeding to the 3rd step! Refer [here](https://docs.python.org/3/library/venv.html#how-venvs-work) for the corresponding activation script to call.
    
-   2. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) (Under Assets -> file "TDAPatents-v*.*.*.zip") or 
-   by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules. If you downloaded the zip file (TDAPatents-v*.*.*.zip) from Releases, extract it somwhere.
+   2. Download the repository either from [Releases](https://github.com/emerson-escolar/TDAPatents/releases) (Under Assets -> file "TDAPatents-v?.?.?.zip") or 
+   by cloning this repository. If you cloned the repository, do not forget to do `git submodule init` and `git submodule update` to get the submodules. If you downloaded the zip file (TDAPatents-v?.?.?.zip) from Releases, extract it somwhere.
 
    3. Navigate into the base folder of this project and run:
        ```
