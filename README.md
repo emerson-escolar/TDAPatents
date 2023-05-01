@@ -207,7 +207,7 @@ $$
     
 * --shift, -s, WINDOW_SHIFT
 
-    window shift/step (default=5)
+    window shift/step (default=1)
 
 ### Processing options
 

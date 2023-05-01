@@ -88,7 +88,7 @@ def get_parser():
     matching_groups = (g for g in common_parser_copy._action_groups if g.title == 'Data choice')
     group = next(matching_groups, None) or common_parser_copy
     group.add_argument("--window", "-w", type=int, help="window size (default=5)",default=5)
-    group.add_argument("--shift", "-s", type=int, help="window shift (default=5)",default=5)
+    group.add_argument("--shift", "-s", type=int, help="window shift (default=1)",default=1)
 
     merge_accum_parser = subparsers.add_parser("ma",
                                                help="accumulate over window, then merge across shifted windows.",
