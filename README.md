@@ -256,7 +256,7 @@ $$
 
 * --numbers, -n LIST_OF_NUMBERS 
 
-    number(s) of cover elements in each axis (default=5,10,15,20)
+    number(s) of cover elements in each axis (default=20)
 
 * --overlaps, -p LIST_OF_NUMBERS
 

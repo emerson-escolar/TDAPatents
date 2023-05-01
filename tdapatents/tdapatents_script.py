@@ -44,7 +44,7 @@ def get_common_parser():
     group_mapper_params.add_argument("--mds", help="use MDS instead, as filter function.", action="store_true")
     group_mapper_params.add_argument("--dimension", help="dimension for filter: positive integer (default: 2).", type=int, default=2)
 
-    group_mapper_params.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[5,10,15,20])
+    group_mapper_params.add_argument("--numbers", "-n", help="number(s) of cover elements in each axis.", type=int, nargs="+", default=[20])
     group_mapper_params.add_argument("--overlaps", "-p", help="overlap(s) of cover elements. Express as decimal between 0 and 1.", type=float, nargs="+", default=[0.5])
 
     group_mapper_params.add_argument("--clusterer", help="clustering method.", type=str, default='HC_single', choices=['HC_single', 'HC_complete', 'HC_average', 'HC_weighted', 'OPTICS'])
