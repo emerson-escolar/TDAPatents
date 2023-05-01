@@ -58,7 +58,11 @@ In fact, running the previous command should already produce some output (with t
 
 
 ## Replication
-For the code samples below, replace `SCRIPT` by the name of the main script, depending on your [setup](#Setup).
+For the code samples below, replace `SCRIPT` by the following expression:
+```
+python ./tdapatents/tdapatents_script.py
+```
+(or whatever is appropiate depending on your [setup](#Setup)).
 
 0. To see help for options:
    ```
