@@ -237,7 +237,7 @@ $$
 
 * --metric, -d METRIC
 
-    Choose a metric. 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (default: 'correlation')
+    Choose a metric. 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (default: 'cosine)
     
     Notes: Setting the option `--metric bloom` will use Bloom et al.'s Mahalanobis normed technological closeness, transformed to a dissimilarity measure. However, using `--sum_to_one --metric bloom` more closely corresponds to the use in their paper, as they define this closeness measure on "patent shares".
     

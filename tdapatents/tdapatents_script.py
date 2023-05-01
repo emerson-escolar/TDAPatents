@@ -37,7 +37,7 @@ def get_common_parser():
     group_processing.add_argument("--log", "-l", action="store_true", help="do log.")
     group_processing.add_argument("--sum_to_one", action="store_true", help="normalize data, after other transformations, to sum to one.")
 
-    group_processing.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'correlation').", type=str, default='correlation', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
+    group_processing.add_argument("--metric", "-d", help="metric choice: 'euclidean' or 'correlation' or 'cityblock' or 'cosine' or 'bloom' (Bloom et al.'s Mahalanobis normed tech closeness) (default: 'cosine').", type=str, default='cosine', choices=['euclidean', 'correlation', 'cityblock', 'cosine', 'bloom'])
 
     # Mapper parameters
     group_mapper_params = common_parser.add_argument_group("Mapper parameters")
